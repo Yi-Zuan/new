@@ -11,10 +11,9 @@ const app = express();
 // Lấy Port từ .env, nếu không có thì dùng 3000
 const PORT = process.env.PORT || 3000;
 
-
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__hotel-api-server));
+app.use(express.static(__dirname));
 
 // --- KẾT NỐI DATABASE BẰNG BIẾN MÔI TRƯỜNG ---
 const dbConnection = mysql.createConnection({
