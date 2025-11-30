@@ -48,6 +48,30 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // --- 2. XEM CHI TIẾT ---
+    window.openDetail = function(id) {
+        window.openModalById('hotel-modal');
+        document.getElementById('modal-body').innerHTML = '<p style="text-align:center; padding:20px">Đang tải...</p>';
+        
+        fetch(`/api/hotels/${id}`)
+            .then(res => res.json())
+            .then(hotel => {
+                const img = hotel.image_url || DEFAULT_IMG;
+                const amenities = hotel.amenities ? hotel.amenities.split(',').map(a => `<span class="amenity-tag">✓ ${a}</span>`).join(' ') : '';
+                
+                document.getElementById('modal-body').innerHTML = `
+                    <div class="modal-grid">
+                        <div class="modal-left"><img src="${img}" class="modal-img-large"></div>
+                        <div class="modal-right">
+                            <h2>${hotel.name}</h2>
+                            <p>${hotel.description || ''}</p>
+                            <div class="amenity-list">${amenities}</div>
+                            <button class="btn-book-large" onclick="openBookingForm(${hotel.hotel_id}, '${hotel.name}')">ĐẶT PHÒNG NGAY</button>
+                        </div>
+                    </div>`;
+            });
+    }
+
     // --- 3. ĐĂNG KÝ ---
     window.handleRegister = function() {
         const data = {
@@ -117,6 +141,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>`;
             });
         });
+    }
+
+    // --- 7. ĐẶT PHÒNG ---
+    window.openBookingForm = function(id, name) {
+        window.closeModal('hotel-modal');
+        window.openModalById('booking-modal');
+        document.getElementById('booking-hotel-name').innerText = name;
+        document.getElementById('booking-hotel-id').value = id;
+    }
+
+    window.submitBooking = function() {
+        const data = {
+            hotelId: document.getElementById('booking-hotel-id').value,
+            name: document.getElementById('book-name').value,
+            phone: document.getElementById('book-phone').value,
+            dateStart: document.getElementById('book-start').value,
+            dateEnd: document.getElementById('book-end').value
+        };
+        fetch('/api/bookings', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(d => {
+            alert(d.message);
+            if(d.success) window.closeModal('booking-modal');
+        });
+    }
+
+    if(searchButton) {
+        searchButton.addEventListener('click', (e) => { e.preventDefault(); performSearch(); });
     }
 
     // --- HÀM CHUYỂN CẢNH (SPA) ---
