@@ -12,9 +12,9 @@
 
     <nav class="navbar">
         <div class="container nav-container">
-            <div class="logo"><a href="/" style="text-decoration:none; color:inherit">MELIÁ <span class="logo-sub">HOTELS</span></a></div>
+            <div class="logo" onclick="showHome()" style="cursor:pointer"><a href="#">MELIÁ <span class="logo-sub">HOTELS</span></a></div>
             <ul class="nav-links">
-                <li><a href="#" onclick="closeAllModals()">Khách sạn</a></li>
+                <li><a href="#" onclick="showHome()">Khách sạn</a></li>
                 <li><a href="#" onclick="openOffers()">Ưu đãi</a></li>
                 <li><a href="#" onclick="openModalById('register-modal')">Hội viên</a></li>
                 <li><a href="#" onclick="openModalById('contact-modal')">Liên hệ</a></li>
@@ -23,43 +23,103 @@
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Tận hưởng kỳ nghỉ trong mơ</h1>
-            <p>Khám phá vẻ đẹp Việt Nam cùng dịch vụ đẳng cấp.</p>
-        </div>
-    </header>
+    <div id="home-view">
+        <header class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Tận hưởng kỳ nghỉ trong mơ</h1>
+                <p>Khám phá vẻ đẹp Việt Nam cùng dịch vụ đẳng cấp.</p>
+            </div>
+        </header>
 
-    <section class="search-section">
-        <div class="container">
-            <form id="booking-form" class="search-box">
-                <div class="input-group">
-                    <label>Điểm đến</label>
-                    <input type="text" id="destination" placeholder="Bạn muốn đi đâu? (VD: Hà Nội)">
-                </div>
-                <div class="input-group">
-                    <label>Ngày đi</label>
-                    <input type="date" id="check-in">
-                </div>
-                <div class="input-group">
-                    <label>Khách</label>
-                    <input type="number" value="2" min="1">
-                </div>
-                <button type="submit" id="search-button">TÌM KIẾM</button>
-            </form>
-        </div>
-    </section>
+        <section class="search-section">
+            <div class="container">
+                <form id="booking-form" class="search-box">
+                    <div class="input-group">
+                        <label>Điểm đến</label>
+                        <input type="text" id="destination" placeholder="Bạn muốn đi đâu? (VD: Hà Nội)">
+                    </div>
+                    <div class="input-group">
+                        <label>Ngày đi</label>
+                        <input type="date" id="check-in">
+                    </div>
+                    <div class="input-group">
+                        <label>Khách</label>
+                        <input type="number" value="2" min="1">
+                    </div>
+                    <button type="button" id="search-button" onclick="performSearch()">TÌM KIẾM</button>
+                </form>
+            </div>
+        </section>
 
-    <main class="container result-container">
-        <h2 id="result-title">Khách sạn nổi bật</h2>
-        <div id="results" class="hotel-grid"></div>
-    </main>
+        <main class="container result-container">
+            <h2 id="result-title">Khách sạn nổi bật</h2>
+            <div id="results" class="hotel-grid"></div>
+        </main>
+    </div>
 
-    <div id="hotel-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('hotel-modal')">&times;</span>
-            <div id="modal-body"></div>
+    <div id="detail-view" style="display: none;">
+        <div class="container" style="margin-top: 30px;">
+            <a href="#" onclick="showHome()" style="display:inline-block; margin-bottom:20px; color:#333; text-decoration:none; font-weight:bold">
+                <i class="fa-solid fa-arrow-left"></i> Quay lại tìm kiếm
+            </a>
+
+            <div class="main-content">
+                <div class="hotel-info-column">
+                    <div class="hotel-header">
+                        <h1 class="hotel-name" id="detail-name">Loading...</h1>
+                        <p class="hotel-address">
+                            <i class="fa-solid fa-location-dot"></i> <span id="detail-address">...</span>
+                        </p>
+                    </div>
+
+                    <div class="hotel-gallery">
+                        <div class="main-image">
+                            <img id="detail-img" src="" alt="Ảnh chính" style="width:100%; height:400px; object-fit:cover; border-radius:10px;">
+                        </div>
+                    </div>
+
+                    <div class="section description-section">
+                        <h3>Mô Tả</h3>
+                        <p id="detail-desc">...</p>
+                    </div>
+
+                    <div class="section facilities-section">
+                        <h3>Tiện nghi</h3>
+                        <div class="facilities-grid" id="detail-amenities" style="display:flex; flex-wrap:wrap; gap:10px;">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="summary-column">
+                    <div class="summary-box">
+                        <div class="room-header">
+                            <div class="room-icon"><i class="fa-solid fa-bed"></i></div>
+                            <p>Đặt ngay kẻo lỡ!</p>
+                        </div>
+                        
+                        <div class="price-details-box">
+                            <div class="price-item room-price">
+                                <p>Giá phòng</p>
+                                <p id="detail-price" style="font-weight:bold">...</p>
+                            </div>
+                            <hr class="price-separator">
+                            
+                            <input type="hidden" id="current-hotel-id">
+                            
+                            <div style="margin-top:15px">
+                                <input type="text" id="book-name" class="form-input" placeholder="Họ tên">
+                                <input type="text" id="book-phone" class="form-input" placeholder="SĐT">
+                                <div style="display:flex; gap:5px">
+                                    <input type="date" id="book-start" class="form-input">
+                                    <input type="date" id="book-end" class="form-input">
+                                </div>
+                                <button class="btn-book" onclick="submitBooking()">XÁC NHẬN ĐẶT PHÒNG</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -67,11 +127,11 @@
         <div class="modal-content" style="max-width: 400px;">
             <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
             <div class="modal-info">
-                <h2 class="modal-title">Đăng Ký Hội Viên</h2>
+                <h2>Đăng Ký</h2>
                 <input type="text" id="reg-name" placeholder="Họ tên" class="form-input">
                 <input type="email" id="reg-email" placeholder="Email" class="form-input">
                 <input type="password" id="reg-pass" placeholder="Mật khẩu" class="form-input">
-                <button class="btn-book" onclick="handleRegister()">ĐĂNG KÝ NGAY</button>
+                <button class="btn-book" onclick="handleRegister()">ĐĂNG KÝ</button>
             </div>
         </div>
     </div>
@@ -80,7 +140,7 @@
         <div class="modal-content" style="max-width: 400px;">
             <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
             <div class="modal-info">
-                <h2 class="modal-title">Đăng Nhập</h2>
+                <h2>Đăng Nhập</h2>
                 <input type="email" id="login-email" placeholder="Email" class="form-input">
                 <input type="password" id="login-pass" placeholder="Mật khẩu" class="form-input">
                 <button class="btn-book" onclick="handleLogin()">ĐĂNG NHẬP</button>
@@ -92,11 +152,11 @@
         <div class="modal-content" style="max-width: 500px;">
             <span class="close-btn" onclick="closeModal('contact-modal')">&times;</span>
             <div class="modal-info">
-                <h2 class="modal-title">Liên Hệ</h2>
+                <h2>Liên Hệ</h2>
                 <input type="text" id="contact-name" placeholder="Tên" class="form-input">
                 <input type="email" id="contact-email" placeholder="Email" class="form-input">
-                <textarea id="contact-msg" placeholder="Lời nhắn..." class="form-input"></textarea>
-                <button class="btn-book" onclick="handleContact()">GỬI TIN NHẮN</button>
+                <textarea id="contact-msg" placeholder="Lời nhắn..." class="form-input" style="height:100px"></textarea>
+                <button class="btn-book" onclick="handleContact()">GỬI TIN</button>
             </div>
         </div>
     </div>
@@ -105,26 +165,8 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('offers-modal')">&times;</span>
             <div class="modal-info">
-                <h2 class="modal-title">Ưu Đãi Hot</h2>
-                <div id="offers-list" class="hotel-grid"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="booking-modal" class="modal">
-        <div class="modal-content" style="max-width: 450px;">
-            <span class="close-btn" onclick="closeModal('booking-modal')">&times;</span>
-            <div class="modal-info">
-                <h2 class="modal-title">Xác Nhận Đặt Phòng</h2>
-                <p id="booking-hotel-name" style="color:#d82b45; font-weight:bold"></p>
-                <input type="hidden" id="booking-hotel-id">
-                <input type="text" id="book-name" class="form-input" placeholder="Họ tên người đặt">
-                <input type="text" id="book-phone" class="form-input" placeholder="Số điện thoại">
-                <div style="display:flex; gap:10px">
-                    <input type="date" id="book-start" class="form-input">
-                    <input type="date" id="book-end" class="form-input">
-                </div>
-                <button class="btn-book" onclick="submitBooking()">HOÀN TẤT</button>
+                <h2>Ưu Đãi</h2>
+                <div id="offers-list"></div>
             </div>
         </div>
     </div>

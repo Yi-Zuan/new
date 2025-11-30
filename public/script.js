@@ -48,30 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // --- 2. XEM CHI TIẾT ---
-    window.openDetail = function(id) {
-        window.openModalById('hotel-modal');
-        document.getElementById('modal-body').innerHTML = '<p style="text-align:center; padding:20px">Đang tải...</p>';
-        
-        fetch(`/api/hotels/${id}`)
-            .then(res => res.json())
-            .then(hotel => {
-                const img = hotel.image_url || DEFAULT_IMG;
-                const amenities = hotel.amenities ? hotel.amenities.split(',').map(a => `<span class="amenity-tag">✓ ${a}</span>`).join(' ') : '';
-                
-                document.getElementById('modal-body').innerHTML = `
-                    <div class="modal-grid">
-                        <div class="modal-left"><img src="${img}" class="modal-img-large"></div>
-                        <div class="modal-right">
-                            <h2>${hotel.name}</h2>
-                            <p>${hotel.description || ''}</p>
-                            <div class="amenity-list">${amenities}</div>
-                            <button class="btn-book-large" onclick="openBookingForm(${hotel.hotel_id}, '${hotel.name}')">ĐẶT PHÒNG NGAY</button>
-                        </div>
-                    </div>`;
-            });
-    }
-
     // --- 3. ĐĂNG KÝ ---
     window.handleRegister = function() {
         const data = {
@@ -143,17 +119,81 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 7. ĐẶT PHÒNG ---
-    window.openBookingForm = function(id, name) {
-        window.closeModal('hotel-modal');
-        window.openModalById('booking-modal');
-        document.getElementById('booking-hotel-name').innerText = name;
-        document.getElementById('booking-hotel-id').value = id;
+    // --- HÀM CHUYỂN CẢNH (SPA) ---
+function showHome() {
+    document.getElementById('home-view').style.display = 'block';
+    document.getElementById('detail-view').style.display = 'none';
+    window.scrollTo(0, 0);
+}
+
+function showDetail(id) {
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('detail-view').style.display = 'block';
+    window.scrollTo(0, 0);
+    loadHotelDetail(id);
+}
+
+// --- LOGIC GỐC ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Modal helpers
+    window.openModalById = (id) => document.getElementById(id).style.display = 'block';
+    window.closeModal = (id) => document.getElementById(id).style.display = 'none';
+    window.onclick = (e) => { if(e.target.classList.contains('modal')) e.target.style.display = 'none'; };
+
+    // 1. Tìm kiếm
+    window.performSearch = function() {
+        const city = document.getElementById('destination').value;
+        let url = '/api/hotels';
+        if(city) url += `?city=${encodeURIComponent(city)}`;
+        
+        document.getElementById('results').innerHTML = '<p style="text-align:center">Đang tải...</p>';
+        
+        fetch(url).then(res => res.json()).then(data => {
+            const div = document.getElementById('results');
+            div.innerHTML = '';
+            data.forEach(h => {
+                const price = Number(h.price_per_night).toLocaleString();
+                const img = h.image_url || 'https://via.placeholder.com/400';
+                div.innerHTML += `
+                    <div class="hotel-card">
+                        <img src="${img}" class="hotel-img">
+                        <div class="hotel-info">
+                            <h3>${h.name}</h3>
+                            <p>📍 ${h.city}</p>
+                            <p style="color:#d82b45; font-weight:bold">${price} VND</p>
+                            <button class="btn-book" onclick="showDetail(${h.hotel_id})">XEM CHI TIẾT</button>
+                        </div>
+                    </div>`;
+            });
+        });
     }
 
+    // 2. Load Chi tiết
+    window.loadHotelDetail = function(id) {
+        document.getElementById('detail-name').innerText = "Đang tải...";
+        fetch(`/api/hotels/${id}`).then(res => res.json()).then(h => {
+            document.getElementById('detail-name').innerText = h.name;
+            document.getElementById('detail-address').innerText = h.address || h.city;
+            document.getElementById('detail-desc').innerText = h.description;
+            document.getElementById('detail-price').innerText = Number(h.price_per_night).toLocaleString() + ' VND';
+            document.getElementById('detail-img').src = h.image_url;
+            document.getElementById('current-hotel-id').value = h.hotel_id;
+            
+            // Tiện ích
+            const amenitiesDiv = document.getElementById('detail-amenities');
+            amenitiesDiv.innerHTML = '';
+            if(h.amenities) {
+                h.amenities.split(',').forEach(a => {
+                    amenitiesDiv.innerHTML += `<span style="background:#eee; padding:5px 10px; border-radius:20px; font-size:13px; border:1px solid #ddd">${a}</span>`;
+                });
+            }
+        });
+    }
+
+    // 3. Đặt phòng
     window.submitBooking = function() {
         const data = {
-            hotelId: document.getElementById('booking-hotel-id').value,
+            hotelId: document.getElementById('current-hotel-id').value,
             name: document.getElementById('book-name').value,
             phone: document.getElementById('book-phone').value,
             dateStart: document.getElementById('book-start').value,
@@ -164,12 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify(data)
         }).then(res => res.json()).then(d => {
             alert(d.message);
-            if(d.success) window.closeModal('booking-modal');
+            if(d.success) showHome();
         });
     }
-
-    if(searchButton) {
-        searchButton.addEventListener('click', (e) => { e.preventDefault(); performSearch(); });
-    }
+});
     performSearch();
 });
