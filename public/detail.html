@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Khách Sạn</title>
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <div style="max-width: 1200px; margin: 20px auto;">
+        <a href="/" style="text-decoration: none; color: #333; font-weight: bold; font-size: 16px;">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại tìm kiếm
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="hotel-info-column">
+                <div class="hotel-header">
+                    <h1 class="hotel-name"><span id="detail-name">Đang tải...</span> <span class="stars">★★★★★</span></h1>
+                    <p class="hotel-address">
+                        <i class="fa-solid fa-location-dot"></i> <span id="detail-address">...</span>
+                    </p>
+                </div>
+
+                <div class="hotel-gallery">
+                    <div class="main-image">
+                        <img id="detail-img" src="" alt="Ảnh chính">
+                    </div>
+                    <div class="thumbnail-grid">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945" alt="Ảnh 1">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" alt="Ảnh 2">
+                        <div class="view-all-photos">
+                            <i class="fa-solid fa-images"></i>
+                            <span>+ Ảnh khác</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section highlight-section">
+                    <h3>Điểm Nổi Bật</h3>
+                    <div class="highlight-grid">
+                        <div class="highlight-item"><i class="fa-solid fa-wifi"></i><p>Wifi Free</p></div>
+                        <div class="highlight-item"><i class="fa-solid fa-utensils"></i><p>Nhà hàng</p></div>
+                        <div class="highlight-item"><i class="fa-solid fa-person-swimming"></i><p>Bể bơi</p></div>
+                    </div>
+                </div>
+
+                <div class="section description-section">
+                    <h3>Mô Tả</h3>
+                    <p id="detail-desc">...</p>
+                </div>
+
+                <div class="section facilities-section">
+                    <h3>Tiện nghi cụ thể</h3>
+                    <div class="facilities-grid" id="detail-amenities" style="text-align: left; display: flex; flex-wrap: wrap; gap: 10px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-column">
+                <div class="summary-box">
+                    <div class="room-header">
+                        <div class="room-icon" style="margin-right:10px"><i class="fa-solid fa-bed"></i></div>
+                        <p style="font-weight:bold">Đặt phòng ngay!</p>
+                    </div>
+
+                    <div class="booking-dates">
+                        <div class="date-item">
+                            <p>Nhận phòng</p>
+                            <input type="date" id="book-start" style="width: 100%; padding: 8px;">
+                        </div>
+                        <div class="date-item check-out">
+                            <p>Trả phòng</p>
+                            <input type="date" id="book-end" style="width: 100%; padding: 8px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-details-box">
+                    <h4>Chi tiết giá</h4>
+                    <div class="price-item room-price">
+                        <p>Giá 1 đêm</p>
+                        <p style="font-weight:bold" id="detail-price">...</p>
+                    </div>
+                    <hr class="price-separator">
+                    
+                    <div style="margin-top: 15px;">
+                        <input type="text" id="book-name" placeholder="Họ tên của bạn" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        <input type="text" id="book-phone" placeholder="Số điện thoại" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        
+                        <input type="hidden" id="current-hotel-id">
+                    </div>
+
+                    <button class="continue-btn" onclick="submitBookingFromDetail()">XÁC NHẬN ĐẶT PHÒNG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Lấy ID từ URL (Ví dụ: detail.html?id=5)
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        // 2. Gọi API lấy dữ liệu
+        if (id) {
+            fetch(`/api/hotels/${id}`)
+                .then(res => res.json())
+                .then(hotel => {
+                    // Điền dữ liệu vào HTML
+                    document.getElementById('detail-name').innerText = hotel.name;
+                    document.getElementById('detail-address').innerText = hotel.address || hotel.city;
+                    document.getElementById('detail-img').src = hotel.image_url;
+                    document.getElementById('detail-desc').innerText = hotel.description;
+                    document.getElementById('detail-price').innerText = Number(hotel.price_per_night).toLocaleString() + ' VND';
+                    document.getElementById('current-hotel-id').value = hotel.hotel_id;
+
+                    // Xử lý tiện ích
+                    if(hotel.amenities) {
+                        const list = hotel.amenities.split(',');
+                        let html = '';
+                        list.forEach(item => {
+                            html += `<span style="background:#eee; padding:5px 10px; border-radius:15px; font-size:13px"><i class="fa-solid fa-check"></i> ${item}</span>`;
+                        });
+                        document.getElementById('detail-amenities').innerHTML = html;
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
+        // 3. Hàm xử lý đặt phòng
+        function submitBookingFromDetail() {
+            const data = {
+                hotelId: document.getElementById('current-hotel-id').value,
+                name: document.getElementById('book-name').value,
+                phone: document.getElementById('book-phone').value,
+                dateStart: document.getElementById('book-start').value,
+                dateEnd: document.getElementById('book-end').value
+            };
+
+            if(!data.name || !data.phone || !data.dateStart) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            fetch('/api/bookings', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }).then(res => res.json()).then(d => {
+                alert(d.message);
+                if(d.success) window.location.href = '/'; // Đặt xong quay về trang chủ
+            });
+        }
+    </script>
+</body>
+</html>
