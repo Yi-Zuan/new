@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Khách Sạn</title>
+    <link rel="stylesheet" href="detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="container" style="box-shadow:none; border:none; margin-bottom:10px; background:transparent">
+        <a href="/" style="text-decoration:none; color:#333; font-weight:bold; font-size:16px;">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại tìm kiếm
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="hotel-info-column">
+                <div class="hotel-header">
+                    <h1 class="hotel-name"><span id="hotel-name">Đang tải...</span> <span class="stars">★★★★★</span></h1>
+                    <p class="hotel-address">
+                        <i class="fa-solid fa-location-dot"></i> <span id="hotel-address">...</span>
+                    </p>
+                </div>
+
+                <div class="hotel-gallery">
+                    <div class="main-image">
+                        <img id="hotel-img" src="" alt="Ảnh chính khách sạn">
+                    </div>
+                    <div class="thumbnail-grid">
+                        <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/629842300.jpg?k=6fdb4fa039ac1cb91b1213184d0cd1baba2870222d5898ae69a06047210ed1cf&o=">
+                        <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/637342452.jpg?k=7de77635ad451b232b5ab22ad09895ba713aa7783e5563827cfde066f9deda9e&o=">
+                        <div class="view-all-photos"><i class="fa-solid fa-images"></i></div>
+                    </div>
+                </div>
+
+                <div class="section description-section">
+                    <h3>Mô Tả Khách Sạn</h3>
+                    <p id="hotel-desc">...</p>
+                </div>
+
+                <div class="section facilities-section">
+                    <h3>Tiện nghi</h3>
+                    <div class="facilities-grid" id="hotel-amenities" style="display:flex; gap:10px; flex-wrap:wrap">
+                        </div>
+                </div>
+            </div>
+
+            <div class="summary-column">
+                <div class="summary-box">
+                    <div class="room-header">
+                        <div class="room-icon"><i class="fa-solid fa-bed"></i></div>
+                        <p>Đặt ngay kẻo lỡ!</p>
+                    </div>
+
+                    <input type="hidden" id="current-hotel-id">
+
+                    <div style="margin-bottom:15px">
+                        <input type="text" id="book-name" placeholder="Họ tên người đặt" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; margin-bottom:5px;">
+                        <input type="text" id="book-phone" placeholder="Số điện thoại" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;">
+                    </div>
+
+                    <div class="booking-dates">
+                        <div class="date-item check-in">
+                            <p class="label">Nhận phòng</p>
+                            <input type="date" id="book-start" style="width:100%; padding:5px;">
+                        </div>
+                        <div class="date-item check-out">
+                            <p class="label">Trả phòng</p>
+                            <input type="date" id="book-end" style="width:100%; padding:5px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-details-box">
+                    <h4>Chi tiết giá</h4>
+                    <div class="price-item room-price">
+                        <p>Giá phòng (1 đêm)</p>
+                        <p id="hotel-price" style="font-weight:bold">...</p>
+                    </div>
+                    <div class="price-item fees">
+                        <p>Thuế và Phí</p>
+                        <p>Đã bao gồm</p>
+                    </div>
+                    <hr class="price-separator">
+                    <div class="price-item total-price">
+                        <p>Tổng cộng</p>
+                        <p id="total-price" style="color:#C5B000">...</p>
+                    </div>
+
+                    <button class="continue-btn" onclick="submitBooking()">Xác nhận đặt phòng</button>
+                    
+                    <p class="policy-note" style="margin-top:10px; font-size:12px">Bằng cách thanh toán, bạn đồng ý với Điều khoản...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="detail.js"></script>
+</body>
+</html>
