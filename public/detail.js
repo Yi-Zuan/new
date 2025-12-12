@@ -1,5 +1,85 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Lấy ID từ URL (Ví dụ: detail.html?id=5)
+    // ==========================================
+    // 1. CÁC HÀM HỖ TRỢ NAVBAR & MODAL
+    // ==========================================
+    window.openModalById = (id) => {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = 'block';
+    };
+
+    window.closeModal = (id) => {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = 'none';
+    };
+
+    window.onclick = (e) => {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    };
+
+    // Kiểm tra và hiển thị tên người dùng nếu đã đăng nhập
+    const updateLoginStatus = () => {
+        const savedUser = localStorage.getItem('user');
+        const navLogin = document.getElementById('nav-login');
+        if(savedUser && navLogin) {
+            const user = JSON.parse(savedUser);
+            navLogin.innerText = user.full_name || 'Tài khoản';
+            // Tự điền tên vào form đặt phòng
+            const nameInput = document.getElementById('book-name');
+            if(nameInput) nameInput.value = user.full_name;
+        }
+    };
+    updateLoginStatus();
+
+    // ==========================================
+    // 2. XỬ LÝ ĐĂNG NHẬP / ĐĂNG KÝ
+    // ==========================================
+    window.handleLogin = function() {
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-pass').value;
+
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ email: email, password: pass })
+        })
+        .then(res => res.json())
+        .then(d => {
+            if (d.success) {
+                alert('Chào mừng ' + d.user.full_name);
+                localStorage.setItem('user', JSON.stringify(d.user));
+                window.closeModal('login-modal');
+                updateLoginStatus();
+            } else {
+                alert(d.message);
+            }
+        })
+        .catch(err => alert('Lỗi đăng nhập: ' + err));
+    };
+
+    window.handleRegister = function() {
+        const data = {
+            fullName: document.getElementById('reg-name').value,
+            email: document.getElementById('reg-email').value,
+            password: document.getElementById('reg-pass').value
+        };
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(d => {
+            alert(d.message);
+            if (d.success) window.closeModal('register-modal');
+        })
+        .catch(err => alert('Lỗi đăng ký: ' + err));
+    };
+
+    // ==========================================
+    // 3. LOGIC TRANG CHI TIẾT
+    // ==========================================
     const params = new URLSearchParams(window.location.search);
     const hotelId = params.get('id');
     const DEFAULT_IMG = 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
@@ -10,23 +90,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 2. Gọi API lấy dữ liệu
+    // Gọi API lấy dữ liệu khách sạn
     fetch(`/api/hotels/${hotelId}`)
         .then(res => res.json())
         .then(hotel => {
-            // Điền dữ liệu vào HTML
             document.getElementById('hotel-name').innerText = hotel.name;
             document.getElementById('hotel-address').innerText = hotel.address || hotel.city;
             document.getElementById('hotel-desc').innerText = hotel.description || 'Chưa có mô tả chi tiết.';
             
             const price = Number(hotel.price_per_night).toLocaleString('vi-VN') + ' VND';
             document.getElementById('hotel-price').innerText = price;
-            document.getElementById('total-price').innerText = price; // Tạm tính 1 đêm
+            document.getElementById('total-price').innerText = price; 
             
             document.getElementById('hotel-img').src = hotel.image_url || DEFAULT_IMG;
             document.getElementById('current-hotel-id').value = hotel.hotel_id;
 
-            // Xử lý tiện ích (Nếu có)
             const amenitiesDiv = document.getElementById('hotel-amenities');
             amenitiesDiv.innerHTML = '';
             if (hotel.amenities) {
@@ -37,27 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>`;
                 });
             }
-            
-            // Tự động điền tên người đặt nếu đã đăng nhập
-            const savedUser = localStorage.getItem('user');
-            if(savedUser) {
-                const user = JSON.parse(savedUser);
-                if(user.full_name) document.getElementById('book-name').value = user.full_name;
-            }
         })
         .catch(err => {
             console.error(err);
             alert("Lỗi tải dữ liệu khách sạn!");
         });
 
-    // 3. Hàm xử lý đặt phòng
+    // Hàm đặt phòng
     window.submitBooking = function() {
-        // Kiểm tra đăng nhập qua localStorage
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
-            alert('Bạn cần đăng nhập để đặt phòng!');
-            // Có thể chuyển hướng về trang chủ để đăng nhập
-            // window.location.href = '/'; 
+            alert('Vui lòng đăng nhập để đặt phòng!');
+            window.openModalById('login-modal'); // Mở modal đăng nhập ngay
             return;
         }
 
@@ -70,11 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (!data.name || !data.phone || !data.dateStart || !data.dateEnd) {
-            alert("Vui lòng điền đầy đủ thông tin: Tên, SĐT, Ngày nhận và trả phòng!");
+            alert("Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
-        // Logic kiểm tra ngày đơn giản
         if (new Date(data.dateStart) >= new Date(data.dateEnd)) {
             alert("Ngày trả phòng phải sau ngày nhận phòng!");
             return;
@@ -88,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => res.json())
         .then(d => {
             alert(d.message);
-            if (d.success) window.location.href = '/'; // Thành công thì về trang chủ
+            if (d.success) window.location.href = '/'; 
         })
         .catch(err => alert("Lỗi kết nối server: " + err));
     }
