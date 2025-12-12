@@ -1,9 +1,13 @@
-/* --- CẤU HÌNH CHUNG --- */
-:root {
+/* =========================================
+   1. CẤU HÌNH CHUNG (VARIABLES & RESET)
+   ========================================= */
+   :root {
     --primary-color: #212121; /* Đen than chì */
     --accent-color: #d4af37;  /* Vàng kim loại */
+    --danger-color: #d82b45;  /* Đỏ điểm nhấn */
     --text-light: #757575;
     --bg-light: #f9f9f9;
+    --white: #ffffff;
 }
 
 body {
@@ -12,6 +16,7 @@ body {
     padding: 0;
     background-color: var(--bg-light);
     color: var(--primary-color);
+    line-height: 1.6;
 }
 
 .container {
@@ -20,9 +25,11 @@ body {
     padding: 0 20px;
 }
 
-/* --- NAVIGATION --- */
+/* =========================================
+   2. THANH ĐIỀU HƯỚNG (NAVBAR)
+   ========================================= */
 .navbar {
-    background: white;
+    background: var(--white);
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     padding: 15px 0;
     position: sticky;
@@ -54,6 +61,8 @@ body {
     list-style: none;
     display: flex;
     gap: 30px;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links a {
@@ -63,49 +72,69 @@ body {
     transition: color 0.3s;
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover {
     color: var(--accent-color);
 }
 
-/* --- HERO SECTION --- */
+/* =========================================
+   3. HERO SECTION (VIDEO BACKGROUND)
+   ========================================= */
 .hero {
     height: 500px;
-    background: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: white;
+    color: var(--white);
+    overflow: hidden; /* Cắt phần video thừa */
+    background-color: #000;
 }
 
+/* Video nền nằm dưới cùng */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Lớp phủ màu đen mờ giúp chữ rõ hơn */
 .hero-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.4);
+    z-index: 1;
 }
 
+/* Nội dung chữ nổi lên trên */
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .hero-content h1 {
     font-family: 'Playfair Display', serif;
     font-size: 48px;
     margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
-/* --- SEARCH BOX (NỔI BẬT) --- */
+/* =========================================
+   4. KHUNG TÌM KIẾM (SEARCH BOX)
+   ========================================= */
 .search-section {
-    margin-top: -50px; /* Kéo lên đè lên ảnh */
+    margin-top: -50px; /* Kéo lên đè lên video */
     position: relative;
     z-index: 10;
     margin-bottom: 50px;
 }
 
 .search-box {
-    background: white;
+    background: var(--white);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -135,11 +164,12 @@ body {
     border-radius: 4px;
     font-size: 16px;
     outline: none;
+    font-family: inherit;
 }
 
 #search-button {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--white);
     padding: 14px 30px;
     border: none;
     border-radius: 4px;
@@ -153,27 +183,32 @@ body {
     background-color: var(--accent-color);
 }
 
-/* --- KẾT QUẢ (CARDS) --- */
+/* =========================================
+   5. DANH SÁCH KHÁCH SẠN (RESULTS)
+   ========================================= */
 .result-container h2 {
     font-family: 'Playfair Display', serif;
     margin-bottom: 30px;
-    position: relative;
+    border-bottom: 2px solid var(--accent-color);
     display: inline-block;
+    padding-bottom: 5px;
 }
 
 .hotel-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Tự động chia cột */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
     margin-bottom: 50px;
 }
 
 .hotel-card {
-    background: white;
+    background: var(--white);
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .hotel-card:hover {
@@ -189,77 +224,65 @@ body {
 
 .hotel-info {
     padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.hotel-name {
+.hotel-info h3 {
     margin: 0 0 10px;
     font-size: 18px;
     color: var(--primary-color);
 }
 
-.hotel-meta {
-    font-size: 14px;
+.hotel-info p {
+    margin: 5px 0;
     color: var(--text-light);
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
+    font-size: 14px;
 }
 
-.hotel-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
+/* Nút Xem chi tiết */
 .btn-book {
-    display: block;
-    width: 100%;
+    margin-top: auto; /* Đẩy xuống đáy card */
     padding: 10px;
-    margin-top: 15px;
     border: 1px solid var(--primary-color);
     background: transparent;
+    color: var(--primary-color);
     text-align: center;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s;
+    border-radius: 4px;
 }
 
 .btn-book:hover {
     background: var(--primary-color);
-    color: white;
+    color: var(--white);
 }
 
-footer {
-    text-align: center;
-    padding: 40px;
-    background: #e0e0e0;
-    color: #666;
-    margin-top: auto;
-}
-/* --- CSS CHO MODAL (CỬA SỔ BẬT LÊN) --- */
+/* =========================================
+   6. MODAL (POPUP LOGIN, REGISTER, CONTACT)
+   ========================================= */
 .modal {
-    display: none; /* Mặc định ẩn */
+    display: none; 
     position: fixed;
     z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6); /* Màu nền đen mờ */
-    backdrop-filter: blur(5px); /* Làm mờ nền đằng sau */
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--white);
     margin: 5% auto;
     padding: 0;
-    width: 60%; /* Chiều rộng cửa sổ */
-    max-width: 800px;
+    width: 90%;
     border-radius: 12px;
     box-shadow: 0 5px 30px rgba(0,0,0,0.3);
     position: relative;
-    overflow: hidden;
     animation: slideDown 0.4s ease;
+    overflow: hidden;
 }
 
 @keyframes slideDown {
@@ -268,170 +291,54 @@ footer {
 }
 
 .close-btn {
-    color: white;
+    color: #999;
     position: absolute;
     top: 15px;
-    right: 25px;
-    font-size: 35px;
+    right: 20px;
+    font-size: 30px;
     font-weight: bold;
     cursor: pointer;
     z-index: 10;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    line-height: 1;
 }
 
-.close-btn:hover { color: #d4af37; }
-
-/* Trang trí nội dung bên trong Modal */
-.modal-img {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-}
+.close-btn:hover { color: var(--danger-color); }
 
 .modal-info { padding: 30px; }
-.modal-title { color: #212121; margin-top: 0; font-family: 'Playfair Display', serif; font-size: 32px;}
-.modal-amenities { 
-    background: #f9f9f9; 
-    padding: 15px; 
-    border-left: 4px solid #d4af37; 
-    margin: 20px 0;
-    color: #555;
-    font-style: italic;
-}
-.modal-price { color: #d82b45; font-size: 24px; font-weight: bold; }
 
-/* Style cho các ô nhập liệu trong Modal */
+.modal-title {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form input trong modal */
 .form-input {
     width: 100%;
     padding: 12px;
-    margin: 8px 0;
+    margin: 10px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Để padding không làm vỡ khung */
-    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    font-family: inherit;
 }
 
-/* Style cho thẻ ưu đãi */
-.offer-card {
-    border: 1px dashed #d4af37;
-    padding: 15px;
-    background: #fffbf0;
-    border-radius: 8px;
-}
-.offer-code {
-    background: #d4af37;
-    color: white;
-    padding: 5px 10px;
-    font-weight: bold;
-    border-radius: 4px;
-    display: inline-block;
-    margin-top: 5px;
+.form-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }
 
-/* --- CSS MỚI CHO MODAL CHI TIẾT --- */
-
-/* Bố cục chia đôi: Ảnh trái - Thông tin phải */
-.modal-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0; /* Xóa khoảng cách để ảnh tràn viền */
-}
-
-/* Cột Ảnh */
-.modal-left {
-    flex: 1;
-    min-width: 300px;
-    background: #000;
-}
-
-.modal-img-large {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    min-height: 400px; /* Đảm bảo ảnh luôn cao */
-}
-
-/* Cột Thông tin */
-.modal-right {
-    flex: 1.2; /* Cột chữ rộng hơn chút */
+/* =========================================
+   7. FOOTER
+   ========================================= */
+footer {
+    text-align: center;
     padding: 40px;
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-title-large {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    color: #212121;
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.modal-address {
+    background: #e0e0e0;
     color: #666;
-    margin-bottom: 20px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.modal-desc {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #444;
-    margin-bottom: 25px;
-    flex-grow: 1;
-}
-
-/* Danh sách tiện ích đẹp */
-.amenity-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.amenity-tag {
-    background: #f4f4f9;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    color: #555;
-    border: 1px solid #eee;
-}
-
-.amenity-tag i {
-    color: #d4af37; /* Màu vàng kim */
-    margin-right: 5px;
-}
-
-/* Giá và Nút */
-.modal-footer-custom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-
-.modal-price-large {
-    font-size: 28px;
-    font-weight: bold;
-    color: #d82b45;
-}
-
-.btn-book-large {
-    background-color: #212121;
-    color: white;
-    padding: 15px 40px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-book-large:hover {
-    background-color: #d82b45;
+    margin-top: auto;
 }

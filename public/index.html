@@ -7,6 +7,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Đảm bảo phần Hero là khung chứa tương đối */
+        .hero {
+            position: relative;
+            overflow: hidden; /* Cắt phần video thừa nếu có */
+            /* Xóa ảnh nền cũ trong style.css nếu cần, hoặc để video đè lên */
+            background: #000; 
+        }
+
+        /* Video nền */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Giúp video phủ kín khung mà không bị méo */
+            z-index: 0; /* Nằm dưới cùng */
+        }
+
+        /* Lớp phủ màu tối (Overlay) */
+        .hero-overlay {
+            position: absolute; /* Bắt buộc absolute để đè lên video */
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.4); /* Màu đen mờ 40% */
+            z-index: 1; /* Nằm trên video */
+        }
+
+        /* Nội dung chữ */
+        .hero-content {
+            position: relative;
+            z-index: 2; /* Nằm trên cùng */
+        }
+    </style>
 </head>
 <body>
 
@@ -28,6 +66,11 @@
     </nav>
 
     <header class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="video.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video thẻ.
+        </video>
+
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Tận hưởng kỳ nghỉ trong mơ</h1>
