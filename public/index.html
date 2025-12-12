@@ -3,73 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliá Hotels & Resorts - Đặt phòng trực tuyến</title>
+    <title>Meliá Hotels & Resorts</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* CSS cho phần hiển thị chi tiết (được JS sinh ra động) */
-        .modal-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr; /* Ảnh nhỏ hơn, nội dung rộng hơn */
-            gap: 25px;
-        }
-
-        .modal-img-large {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .modal-right h2 {
-            margin-top: 0;
-            color: #333;
-            border-bottom: 2px solid #d4af37;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .amenity-list {
-            margin: 15px 0;
-            line-height: 1.8;
-        }
-
-        .amenity-tag {
-            background-color: #f0f4f8;
-            color: #2c3e50;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            display: inline-block;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            border: 1px solid #dce1e6;
-        }
-
-        .btn-book-large {
-            width: 100%;
-            padding: 15px;
-            background-color: #d82b45;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 20px;
-        }
-        .btn-book-large:hover { background-color: #b01f34; }
-
-        /* Responsive cho Mobile */
-        @media (max-width: 768px) {
-            .modal-grid { grid-template-columns: 1fr; }
-            .modal-img-large { height: 200px; }
-        }
-    </style>
 </head>
 <body>
 
@@ -81,7 +18,7 @@
                 </a>
             </div>
             <ul class="nav-links">
-                <li><a href="#" onclick="event.preventDefault(); window.closeAllModals();">Khách sạn</a></li>
+                <li><a href="/" onclick="event.preventDefault(); window.location.href='/'">Khách sạn</a></li>
                 <li><a href="#" onclick="event.preventDefault(); window.openOffers()">Ưu đãi</a></li>
                 <li><a href="#" onclick="event.preventDefault(); window.openModalById('register-modal')">Hội viên</a></li>
                 <li><a href="#" onclick="event.preventDefault(); window.openModalById('contact-modal')">Liên hệ</a></li>
@@ -123,13 +60,6 @@
         <div id="results" class="hotel-grid">
             </div>
     </main>
-
-    <div id="hotel-modal" class="modal">
-        <div class="modal-content" style="max-width: 800px;"> <span class="close-btn" onclick="closeModal('hotel-modal')">&times;</span>
-            <div id="modal-body">
-                </div>
-        </div>
-    </div>
 
     <div id="register-modal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
@@ -174,43 +104,7 @@
             <span class="close-btn" onclick="closeModal('offers-modal')">&times;</span>
             <div class="modal-info">
                 <h2 class="modal-title">Ưu Đãi Hot</h2>
-                <div id="offers-list" class="hotel-grid">
-                    </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="booking-modal" class="modal">
-        <div class="modal-content" style="max-width: 450px;">
-            <span class="close-btn" onclick="closeModal('booking-modal')">&times;</span>
-            <div class="modal-info">
-                <h2 class="modal-title">Xác Nhận Đặt Phòng</h2>
-                <p id="booking-hotel-name" style="color:#d82b45; font-weight:bold; font-size: 1.2em; margin-bottom: 15px;"></p>
-                
-                <input type="hidden" id="booking-hotel-id">
-                
-                <div class="input-group">
-                    <label style="display:block; text-align:left; margin-bottom:5px">Họ tên người đặt:</label>
-                    <input type="text" id="book-name" class="form-input" placeholder="Nguyễn Văn A">
-                </div>
-                
-                <div class="input-group">
-                    <label style="display:block; text-align:left; margin-bottom:5px">Số điện thoại:</label>
-                    <input type="text" id="book-phone" class="form-input" placeholder="09xxxxxxx">
-                </div>
-                
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top: 10px;">
-                    <div>
-                        <label style="display:block; text-align:left; font-size:0.9em">Ngày nhận:</label>
-                        <input type="date" id="book-start" class="form-input">
-                    </div>
-                    <div>
-                        <label style="display:block; text-align:left; font-size:0.9em">Ngày trả:</label>
-                        <input type="date" id="book-end" class="form-input">
-                    </div>
-                </div>
-
-                <button class="btn-book" style="margin-top: 20px; width: 100%" onclick="submitBooking()">HOÀN TẤT ĐẶT PHÒNG</button>
+                <div id="offers-list" class="hotel-grid"></div>
             </div>
         </div>
     </div>

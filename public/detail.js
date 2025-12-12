@@ -5,8 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_IMG = 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
 
     if (!hotelId) {
-        alert("Không tìm thấy khách sạn!");
+        alert("Không tìm thấy mã khách sạn!");
         window.location.href = "/";
+        return;
     }
 
     // 2. Gọi API lấy dữ liệu
@@ -16,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Điền dữ liệu vào HTML
             document.getElementById('hotel-name').innerText = hotel.name;
             document.getElementById('hotel-address').innerText = hotel.address || hotel.city;
-            document.getElementById('hotel-desc').innerText = hotel.description;
+            document.getElementById('hotel-desc').innerText = hotel.description || 'Chưa có mô tả chi tiết.';
             
-            const price = Number(hotel.price_per_night).toLocaleString() + ' VND';
+            const price = Number(hotel.price_per_night).toLocaleString('vi-VN') + ' VND';
             document.getElementById('hotel-price').innerText = price;
             document.getElementById('total-price').innerText = price; // Tạm tính 1 đêm
             
@@ -31,23 +32,32 @@ document.addEventListener('DOMContentLoaded', () => {
             if (hotel.amenities) {
                 hotel.amenities.split(',').forEach(item => {
                     amenitiesDiv.innerHTML += `
-                        <div style="background:#f4f4f9; padding:5px 10px; border-radius:5px; border:1px solid #eee; font-size:13px">
-                            <i class="fa-solid fa-check" style="color:#C5B000"></i> ${item}
+                        <div style="background:#f4f4f9; padding:8px 15px; border-radius:20px; border:1px solid #eee; font-size:14px; display:flex; align-items:center; gap:5px;">
+                            <i class="fa-solid fa-check" style="color:#C5B000"></i> ${item.trim()}
                         </div>`;
                 });
+            }
+            
+            // Tự động điền tên người đặt nếu đã đăng nhập
+            const savedUser = localStorage.getItem('user');
+            if(savedUser) {
+                const user = JSON.parse(savedUser);
+                if(user.full_name) document.getElementById('book-name').value = user.full_name;
             }
         })
         .catch(err => {
             console.error(err);
-            alert("Lỗi tải dữ liệu!");
+            alert("Lỗi tải dữ liệu khách sạn!");
         });
 
     // 3. Hàm xử lý đặt phòng
     window.submitBooking = function() {
-        // Kiểm tra trạng thái đăng nhập
-        if (!window.isLoggedIn) {
-            alert('Vui lòng đăng nhập để đặt phòng.');
-            window.location.href = '/'; // Quay về trang chủ để đăng nhập
+        // Kiểm tra đăng nhập qua localStorage
+        const savedUser = localStorage.getItem('user');
+        if (!savedUser) {
+            alert('Bạn cần đăng nhập để đặt phòng!');
+            // Có thể chuyển hướng về trang chủ để đăng nhập
+            // window.location.href = '/'; 
             return;
         }
 
@@ -60,7 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (!data.name || !data.phone || !data.dateStart || !data.dateEnd) {
-            alert("Vui lòng điền đầy đủ thông tin nhận phòng!");
+            alert("Vui lòng điền đầy đủ thông tin: Tên, SĐT, Ngày nhận và trả phòng!");
+            return;
+        }
+
+        // Logic kiểm tra ngày đơn giản
+        if (new Date(data.dateStart) >= new Date(data.dateEnd)) {
+            alert("Ngày trả phòng phải sau ngày nhận phòng!");
             return;
         }
 
@@ -74,6 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(d.message);
             if (d.success) window.location.href = '/'; // Thành công thì về trang chủ
         })
-        .catch(err => alert("Lỗi kết nối server"));
+        .catch(err => alert("Lỗi kết nối server: " + err));
     }
 });
