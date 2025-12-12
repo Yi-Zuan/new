@@ -104,6 +104,43 @@ app.get('/api/offers', (req, res) => {
         res.json(results);
     });
 });
+
+// --- API XEM LỊCH SỬ (Check phòng theo SĐT) ---
+app.get('/api/user-bookings', (req, res) => {
+    const phone = req.query.phone;
+    
+    if (!phone) {
+        return res.json([]); // Nếu không có SĐT thì trả về rỗng
+    }
+
+    // Câu lệnh SQL nâng cao: Lấy thông tin đơn hàng KÈM THEO thông tin khách sạn
+    const sql = `
+        SELECT 
+            b.id, 
+            b.user_name, 
+            b.check_in_date, 
+            b.check_out_date, 
+            b.created_at,
+            h.name AS hotel_name,       -- Lấy tên khách sạn
+            h.image_url AS hotel_image, -- Lấy ảnh khách sạn
+            h.price_per_night
+        FROM bookings b
+        JOIN hotels h ON b.hotel_id = h.hotel_id
+        WHERE b.user_phone = ?
+        ORDER BY b.created_at DESC
+    `;
+
+    dbConnection.query(sql, [phone], (err, results) => {
+        if (err) {
+            console.error("Lỗi lấy lịch sử:", err);
+            return res.status(500).json({ error: 'Lỗi server' });
+        }
+        res.json(results); // Trả về danh sách đơn hàng
+    });
+});
+
+
+
 app.listen(PORT, () => {
     console.log(`Server chạy tại cổng ${PORT}`);
 });
