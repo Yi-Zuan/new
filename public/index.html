@@ -56,6 +56,7 @@
                 </a>
             </div>
             <ul class="nav-links">
+                <li><a href="#" onclick="event.preventDefault(); window.openBookings()">Phòng đã đặt</a></li>
                 <li><a href="/" onclick="event.preventDefault(); window.location.href='/'">Khách sạn</a></li>
                 <li><a href="#" onclick="event.preventDefault(); window.openOffers()">Ưu đãi</a></li>
                 <li><a href="#" onclick="event.preventDefault(); window.openModalById('register-modal')">Hội viên</a></li>
@@ -190,6 +191,18 @@
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#"><i class="fa-brands fa-tiktok"></i></a>
                     <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="bookings-modal" class="modal">
+            <div class="modal-content" style="max-width: 700px;">
+                <span class="close-btn" onsclick="closeModal('bookings-modal')">&times;</span>
+                <div class="modal-info">
+                    <h2 class="modal-title">Lịch Sử Đặt Phòng</h2>
+                    <div id="booking-history-list" class="booking-list-container">
+                        <p style="text-align:center">Đang tải dữ liệu...</p>
+                    </div>
                 </div>
             </div>
         </div>

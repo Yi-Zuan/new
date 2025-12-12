@@ -449,3 +449,79 @@ body {
     border-top: 1px solid #333;
     font-size: 13px;
 }
+
+/* =========================================
+   8. BOOKING HISTORY (LỊCH SỬ ĐẶT PHÒNG)
+   ========================================= */
+   .booking-list-container {
+    max-height: 400px;
+    overflow-y: auto; /* Cho phép cuộn nếu danh sách dài */
+    padding: 10px;
+}
+
+.booking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.booking-item:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.booking-info h4 {
+    margin: 0 0 5px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.booking-info p {
+    margin: 3px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.booking-status {
+    text-align: right;
+    min-width: 120px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.status-success { background-color: #28a745; } /* Màu xanh lá */
+.status-pending { background-color: #ffc107; color: #333; } /* Màu vàng */
+.status-cancel { background-color: #dc3545; } /* Màu đỏ */
+
+.booking-price {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+    color: var(--danger-color);
+    font-size: 15px;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 600px) {
+    .booking-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .booking-status {
+        margin-top: 10px;
+        text-align: left;
+    }
+}
