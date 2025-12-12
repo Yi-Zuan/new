@@ -89,11 +89,58 @@ app.post('/api/contact', (req, res) => {
 
 // --- 6. API ĐẶT PHÒNG ---
 app.post('/api/bookings', (req, res) => {
-    const { hotelId, name, phone, dateStart, dateEnd } = req.body;
-    const sql = 'INSERT INTO bookings (hotel_id, user_name, user_phone, check_in_date, check_out_date) VALUES (?, ?, ?, ?, ?)';
-    dbConnection.query(sql, [hotelId, name, phone, dateStart, dateEnd], (err, result) => {
-        if (err) return res.status(500).json({ success: false, message: 'Lỗi đặt phòng' });
-        res.json({ success: true, message: 'Đặt phòng thành công!' });
+    const { hotelId, name, phone, dateStart, dateEnd, email } = req.body;
+    
+    if (!hotelId || !name || !phone || !dateStart || !dateEnd) {
+        return res.status(400).json({ success: false, message: 'Thiếu thông tin đặt phòng' });
+    }
+    
+    // Insert booking với user_email nếu có
+    const sql = email 
+        ? 'INSERT INTO bookings (hotel_id, user_name, user_phone, user_email, check_in_date, check_out_date) VALUES (?, ?, ?, ?, ?, ?)'
+        : 'INSERT INTO bookings (hotel_id, user_name, user_phone, check_in_date, check_out_date) VALUES (?, ?, ?, ?, ?)';
+    
+    const params = email 
+        ? [hotelId, name, phone, email, dateStart, dateEnd]
+        : [hotelId, name, phone, dateStart, dateEnd];
+    
+    dbConnection.query(sql, params, (err, result) => {
+        if (err) {
+            console.error('Lỗi đặt phòng:', err);
+            return res.status(500).json({ success: false, message: 'Lỗi đặt phòng: ' + err.message });
+        }
+        
+        // Lấy thông tin booking vừa tạo để trả về
+        const bookingId = result.insertId;
+        const getBookingSql = `
+            SELECT 
+                b.*, 
+                h.name AS hotelName, 
+                h.price_per_night,
+                h.image_url,
+                h.city,
+                h.address
+            FROM bookings b
+            JOIN hotels h ON b.hotel_id = h.hotel_id
+            WHERE b.booking_id = ?
+        `;
+        
+        dbConnection.query(getBookingSql, [bookingId], (err, bookingResults) => {
+            if (err) {
+                console.error('Lỗi lấy thông tin booking:', err);
+                return res.json({ 
+                    success: true, 
+                    message: 'Đặt phòng thành công!',
+                    bookingId: bookingId
+                });
+            }
+            
+            res.json({ 
+                success: true, 
+                message: 'Đặt phòng thành công!',
+                booking: bookingResults[0]
+            });
+        });
     });
 });
 
@@ -105,31 +152,83 @@ app.get('/api/offers', (req, res) => {
     });
 });
 
-// --- Trong server.js, tại app.get('/api/bookings') ---
+// --- 8. API LẤY DANH SÁCH BOOKING (theo email hoặc tất cả) ---
 app.get('/api/bookings', (req, res) => {
     const userEmail = req.query.email;
     
-    // Câu lệnh JOIN SQL: Lấy thông tin booking và tên khách sạn tương ứng
+    let sql, params;
+    
+    if (userEmail) {
+        // Lấy booking theo email
+        sql = `
+            SELECT 
+                b.*, 
+                h.name AS hotelName, 
+                h.price_per_night,
+                h.image_url,
+                h.city,
+                h.address
+            FROM bookings b
+            JOIN hotels h ON b.hotel_id = h.hotel_id
+            WHERE b.user_email = ? 
+            ORDER BY b.created_at DESC;
+        `;
+        params = [userEmail];
+    } else {
+        // Lấy tất cả bookings (nếu không có email)
+        sql = `
+            SELECT 
+                b.*, 
+                h.name AS hotelName, 
+                h.price_per_night,
+                h.image_url,
+                h.city,
+                h.address
+            FROM bookings b
+            JOIN hotels h ON b.hotel_id = h.hotel_id
+            ORDER BY b.created_at DESC;
+        `;
+        params = [];
+    }
+    
+    dbConnection.query(sql, params, (err, results) => {
+        if (err) {
+            console.error('LỖI TRUY VẤN LỊCH SỬ BOOKING:', err);
+            return res.status(500).json({ success: false, message: 'Lỗi server khi tải dữ liệu.' });
+        }
+        res.json(results);
+    });
+});
+
+// --- 9. API KIỂM TRA BOOKING THEO ID (sau khi đặt phòng) ---
+app.get('/api/bookings/:id', (req, res) => {
+    const bookingId = req.params.id;
+    
     const sql = `
         SELECT 
             b.*, 
             h.name AS hotelName, 
-            h.price_per_night 
+            h.price_per_night,
+            h.image_url,
+            h.city,
+            h.address,
+            h.description
         FROM bookings b
         JOIN hotels h ON b.hotel_id = h.hotel_id
-        WHERE b.user_email = ? 
-        ORDER BY b.created_at DESC;
+        WHERE b.booking_id = ?
     `;
     
-    // Thực thi truy vấn
-    db.query(sql, [userEmail], (err, results) => {
+    dbConnection.query(sql, [bookingId], (err, results) => {
         if (err) {
-            console.error('LỖI TRUY VẤN LỊCH SỬ BOOKING:', err);
-            // Quan trọng: Trả về lỗi server 500 để Frontend hiển thị thông báo lỗi
+            console.error('LỖI TRUY VẤN BOOKING:', err);
             return res.status(500).json({ success: false, message: 'Lỗi server khi tải dữ liệu.' });
         }
-        // Trả về dữ liệu thành công
-        res.json(results);
+        
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: 'Không tìm thấy booking.' });
+        }
+        
+        res.json({ success: true, booking: results[0] });
     });
 });
 
