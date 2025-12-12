@@ -187,19 +187,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const listDiv = document.getElementById('booking-history-list');
         listDiv.innerHTML = '<p style="text-align:center">⏳ Đang tải dữ liệu...</p>';
 
-        // 2. Gọi API lấy danh sách (Giả sử API hỗ trợ lọc theo email)
-        // Nếu backend chưa có filter, code này sẽ lấy tất cả booking
+        // 2. Gọi API lấy danh sách booking theo email
         fetch(`/api/bookings?email=${encodeURIComponent(user.email)}`) 
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
                 listDiv.innerHTML = '';
                 
-                // Lọc booking của user hiện tại (nếu API trả về tất cả)
-                // const myBookings = data.filter(b => b.email === user.email); 
-                // Nếu API đã lọc sẵn thì dùng luôn data:
-                const myBookings = data; 
+                // Kiểm tra nếu data là array
+                const myBookings = Array.isArray(data) ? data : [];
 
-                if (!myBookings || myBookings.length === 0) {
+                if (myBookings.length === 0) {
                     listDiv.innerHTML = `
                         <div style="text-align:center; padding:20px;">
                             <i class="fa-solid fa-calendar-xmark" style="font-size:40px; color:#ddd"></i>
@@ -208,38 +210,60 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Sắp xếp đơn mới nhất lên đầu
-                myBookings.reverse();
-
-                // 3. Render ra HTML
+                // 3. Render ra HTML với đúng tên field từ API
                 myBookings.forEach(booking => {
-                    // Xử lý ngày tháng cho đẹp
-                    const start = new Date(booking.dateStart).toLocaleDateString('vi-VN');
-                    const end = new Date(booking.dateEnd).toLocaleDateString('vi-VN');
+                    // Xử lý ngày tháng - API trả về check_in_date và check_out_date
+                    const checkIn = booking.check_in_date ? new Date(booking.check_in_date).toLocaleDateString('vi-VN') : 'N/A';
+                    const checkOut = booking.check_out_date ? new Date(booking.check_out_date).toLocaleDateString('vi-VN') : 'N/A';
                     
-                    // Giả lập tính giá (Nếu API không trả về tổng tiền, ta tự tính hoặc để trống)
-                    // Ở đây tôi giả định booking có trường hotelName, nếu không có phải fetch thêm
-                    const hotelName = booking.hotelName || booking.name || "Khách sạn Meliá"; 
-                    const statusClass = 'status-success'; // Mặc định xanh
+                    // Tính số đêm
+                    let nights = 0;
+                    if (booking.check_in_date && booking.check_out_date) {
+                        const start = new Date(booking.check_in_date);
+                        const end = new Date(booking.check_out_date);
+                        nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                    }
+                    
+                    // Tính tổng tiền
+                    const pricePerNight = booking.price_per_night || 0;
+                    const totalPrice = nights * pricePerNight;
+                    
+                    // Lấy thông tin từ API response
+                    const hotelName = booking.hotelName || booking.hotel_name || "Khách sạn Meliá";
+                    const userName = booking.user_name || booking.name || "N/A";
+                    const userPhone = booking.user_phone || booking.phone || "N/A";
+                    const bookingId = booking.booking_id || booking.id || "";
+                    
+                    const statusClass = 'status-success';
                     const statusText = 'Đã xác nhận';
 
                     listDiv.innerHTML += `
                         <div class="booking-item">
                             <div class="booking-info">
                                 <h4>🏨 ${hotelName}</h4>
-                                <p><i class="fa-regular fa-calendar"></i> ${start} - ${end}</p>
-                                <p><i class="fa-solid fa-user"></i> ${booking.name} (${booking.phone})</p>
+                                <p><i class="fa-regular fa-calendar"></i> <strong>Nhận phòng:</strong> ${checkIn}</p>
+                                <p><i class="fa-regular fa-calendar"></i> <strong>Trả phòng:</strong> ${checkOut}</p>
+                                <p><i class="fa-solid fa-moon"></i> <strong>Số đêm:</strong> ${nights} đêm</p>
+                                <p><i class="fa-solid fa-user"></i> <strong>Người đặt:</strong> ${userName}</p>
+                                <p><i class="fa-solid fa-phone"></i> <strong>SĐT:</strong> ${userPhone}</p>
+                                ${booking.city ? `<p><i class="fa-solid fa-location-dot"></i> ${booking.city}</p>` : ''}
+                                ${bookingId ? `<p style="font-size: 11px; color: #999;"><i class="fa-solid fa-hashtag"></i> Mã đặt: #${bookingId}</p>` : ''}
                             </div>
                             <div class="booking-status">
                                 <span class="status-badge ${statusClass}">${statusText}</span>
-                                <span class="booking-price">Đã đặt</span>
+                                <span class="booking-price">${totalPrice > 0 ? formatCurrency(totalPrice) : 'Đã đặt'}</span>
                             </div>
                         </div>`;
                 });
             })
             .catch(err => {
-                console.error(err);
-                listDiv.innerHTML = '<p style="text-align:center; color:red">Không thể tải lịch sử đơn hàng.</p>';
+                console.error('Lỗi khi tải booking:', err);
+                listDiv.innerHTML = `
+                    <div style="text-align:center; padding:20px; color:red;">
+                        <i class="fa-solid fa-exclamation-triangle" style="font-size:40px;"></i>
+                        <p style="margin-top:10px;">Không thể tải lịch sử đơn hàng.</p>
+                        <p style="font-size:12px; color:#666;">Vui lòng thử lại sau.</p>
+                    </div>`;
             });
     };
 

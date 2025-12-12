@@ -130,12 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const user = JSON.parse(savedUser);
         const data = {
             hotelId: document.getElementById('current-hotel-id').value,
             name: document.getElementById('book-name').value,
             phone: document.getElementById('book-phone').value,
             dateStart: document.getElementById('book-start').value,
-            dateEnd: document.getElementById('book-end').value
+            dateEnd: document.getElementById('book-end').value,
+            email: user.email // Thêm email để có thể lấy lại booking sau này
         };
 
         if (!data.name || !data.phone || !data.dateStart || !data.dateEnd) {
@@ -156,8 +158,17 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => res.json())
         .then(d => {
             alert(d.message);
-            if (d.success) window.location.href = '/'; 
+            if (d.success) {
+                // Có thể hiển thị thông tin booking nếu cần
+                if (d.booking) {
+                    console.log('Booking created:', d.booking);
+                }
+                window.location.href = '/'; 
+            }
         })
-        .catch(err => alert("Lỗi kết nối server: " + err));
+        .catch(err => {
+            console.error('Booking error:', err);
+            alert("Lỗi kết nối server: " + err);
+        });
     }
 });
