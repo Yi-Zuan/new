@@ -105,6 +105,33 @@ app.get('/api/offers', (req, res) => {
     });
 });
 
+// --- Trong server.js, tại app.get('/api/bookings') ---
+app.get('/api/bookings', (req, res) => {
+    const userEmail = req.query.email;
+    
+    // Câu lệnh JOIN SQL: Lấy thông tin booking và tên khách sạn tương ứng
+    const sql = `
+        SELECT 
+            b.*, 
+            h.name AS hotelName, 
+            h.price_per_night 
+        FROM bookings b
+        JOIN hotels h ON b.hotel_id = h.hotel_id
+        WHERE b.user_email = ? 
+        ORDER BY b.created_at DESC;
+    `;
+    
+    // Thực thi truy vấn
+    db.query(sql, [userEmail], (err, results) => {
+        if (err) {
+            console.error('LỖI TRUY VẤN LỊCH SỬ BOOKING:', err);
+            // Quan trọng: Trả về lỗi server 500 để Frontend hiển thị thông báo lỗi
+            return res.status(500).json({ success: false, message: 'Lỗi server khi tải dữ liệu.' });
+        }
+        // Trả về dữ liệu thành công
+        res.json(results);
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server chạy tại cổng ${PORT}`);
