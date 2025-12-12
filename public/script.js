@@ -243,20 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Trong hàm submitBooking()
-const data = {
-    hotelId: document.getElementById('current-hotel-id').value, // Phải lấy đúng ID
-    name: document.getElementById('book-name').value,
-    phone: document.getElementById('book-phone').value, // Quan trọng: SĐT để check lịch sử
-    dateStart: document.getElementById('book-start').value,
-    dateEnd: document.getElementById('book-end').value
-};
-
-fetch('/api/DataBooking', { // Gọi đúng đường dẫn này
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-})
+    
 
     // Init
     if (dom.searchBtn) dom.searchBtn.addEventListener('click', (e) => { e.preventDefault(); performSearch(); });
