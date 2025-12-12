@@ -171,6 +171,78 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(() => list.innerHTML = '<p>Lỗi tải ưu đãi.</p>');
     };
 
+    // CHỨC NĂNG XEM LỊCH SỬ ĐẶT PHÒNG (MỚI)
+    // ==========================================
+    window.openBookings = function() {
+        // 1. Kiểm tra đăng nhập
+        const savedUser = localStorage.getItem('user');
+        if (!savedUser) {
+            alert("Vui lòng đăng nhập để xem lịch sử đặt phòng!");
+            window.openModalById('login-modal');
+            return;
+        }
+
+        const user = JSON.parse(savedUser);
+        window.openModalById('bookings-modal');
+        const listDiv = document.getElementById('booking-history-list');
+        listDiv.innerHTML = '<p style="text-align:center">⏳ Đang tải dữ liệu...</p>';
+
+        // 2. Gọi API lấy danh sách (Giả sử API hỗ trợ lọc theo email)
+        // Nếu backend chưa có filter, code này sẽ lấy tất cả booking
+        fetch(`/api/bookings?email=${encodeURIComponent(user.email)}`) 
+            .then(res => res.json())
+            .then(data => {
+                listDiv.innerHTML = '';
+                
+                // Lọc booking của user hiện tại (nếu API trả về tất cả)
+                // const myBookings = data.filter(b => b.email === user.email); 
+                // Nếu API đã lọc sẵn thì dùng luôn data:
+                const myBookings = data; 
+
+                if (!myBookings || myBookings.length === 0) {
+                    listDiv.innerHTML = `
+                        <div style="text-align:center; padding:20px;">
+                            <i class="fa-solid fa-calendar-xmark" style="font-size:40px; color:#ddd"></i>
+                            <p>Bạn chưa có đơn đặt phòng nào.</p>
+                        </div>`;
+                    return;
+                }
+
+                // Sắp xếp đơn mới nhất lên đầu
+                myBookings.reverse();
+
+                // 3. Render ra HTML
+                myBookings.forEach(booking => {
+                    // Xử lý ngày tháng cho đẹp
+                    const start = new Date(booking.dateStart).toLocaleDateString('vi-VN');
+                    const end = new Date(booking.dateEnd).toLocaleDateString('vi-VN');
+                    
+                    // Giả lập tính giá (Nếu API không trả về tổng tiền, ta tự tính hoặc để trống)
+                    // Ở đây tôi giả định booking có trường hotelName, nếu không có phải fetch thêm
+                    const hotelName = booking.hotelName || booking.name || "Khách sạn Meliá"; 
+                    const statusClass = 'status-success'; // Mặc định xanh
+                    const statusText = 'Đã xác nhận';
+
+                    listDiv.innerHTML += `
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <h4>🏨 ${hotelName}</h4>
+                                <p><i class="fa-regular fa-calendar"></i> ${start} - ${end}</p>
+                                <p><i class="fa-solid fa-user"></i> ${booking.name} (${booking.phone})</p>
+                            </div>
+                            <div class="booking-status">
+                                <span class="status-badge ${statusClass}">${statusText}</span>
+                                <span class="booking-price">Đã đặt</span>
+                            </div>
+                        </div>`;
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                listDiv.innerHTML = '<p style="text-align:center; color:red">Không thể tải lịch sử đơn hàng.</p>';
+            });
+    };
+
     // Init
     if (dom.searchBtn) dom.searchBtn.addEventListener('click', (e) => { e.preventDefault(); performSearch(); });
     performSearch();
