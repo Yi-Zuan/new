@@ -89,20 +89,15 @@ app.post('/api/contact', (req, res) => {
 
 // --- 6. API ĐẶT PHÒNG ---
 app.post('/api/bookings', (req, res) => {
-    const { hotelId, name, phone, dateStart, dateEnd, email } = req.body;
+    const { hotelId, name, phone, dateStart, dateEnd } = req.body;
     
     if (!hotelId || !name || !phone || !dateStart || !dateEnd) {
         return res.status(400).json({ success: false, message: 'Thiếu thông tin đặt phòng' });
     }
     
-    // Insert booking với user_email nếu có
-    const sql = email 
-        ? 'INSERT INTO bookings (hotel_id, user_name, user_phone, user_email, check_in_date, check_out_date) VALUES (?, ?, ?, ?, ?, ?)'
-        : 'INSERT INTO bookings (hotel_id, user_name, user_phone, check_in_date, check_out_date) VALUES (?, ?, ?, ?, ?)';
-    
-    const params = email 
-        ? [hotelId, name, phone, email, dateStart, dateEnd]
-        : [hotelId, name, phone, dateStart, dateEnd];
+    // Insert booking không cần email
+    const sql = 'INSERT INTO bookings (hotel_id, user_name, user_phone, check_in_date, check_out_date) VALUES (?, ?, ?, ?, ?)';
+    const params = [hotelId, name, phone, dateStart, dateEnd];
     
     dbConnection.query(sql, params, (err, result) => {
         if (err) {
@@ -152,14 +147,15 @@ app.get('/api/offers', (req, res) => {
     });
 });
 
-// --- 8. API LẤY DANH SÁCH BOOKING (theo email hoặc tất cả) ---
+// --- 8. API LẤY DANH SÁCH BOOKING (theo tên và số điện thoại) ---
 app.get('/api/bookings', (req, res) => {
-    const userEmail = req.query.email;
+    const userName = req.query.name;
+    const userPhone = req.query.phone;
     
     let sql, params;
     
-    if (userEmail) {
-        // Lấy booking theo email
+    // Nếu có cả tên và số điện thoại, lọc theo cả hai
+    if (userName && userPhone) {
         sql = `
             SELECT 
                 b.*, 
@@ -170,12 +166,12 @@ app.get('/api/bookings', (req, res) => {
                 h.address
             FROM bookings b
             JOIN hotels h ON b.hotel_id = h.hotel_id
-            WHERE b.user_email = ? 
-            ORDER BY b.created_at DESC;
+            WHERE b.user_name = ? AND b.user_phone = ?
+            ORDER BY b.booking_id DESC;
         `;
-        params = [userEmail];
-    } else {
-        // Lấy tất cả bookings (nếu không có email)
+        params = [userName, userPhone];
+    } else if (userName) {
+        // Chỉ lọc theo tên
         sql = `
             SELECT 
                 b.*, 
@@ -186,7 +182,23 @@ app.get('/api/bookings', (req, res) => {
                 h.address
             FROM bookings b
             JOIN hotels h ON b.hotel_id = h.hotel_id
-            ORDER BY b.created_at DESC;
+            WHERE b.user_name = ?
+            ORDER BY b.booking_id DESC;
+        `;
+        params = [userName];
+    } else {
+        // Lấy tất cả bookings
+        sql = `
+            SELECT 
+                b.*, 
+                h.name AS hotelName, 
+                h.price_per_night,
+                h.image_url,
+                h.city,
+                h.address
+            FROM bookings b
+            JOIN hotels h ON b.hotel_id = h.hotel_id
+            ORDER BY b.booking_id DESC;
         `;
         params = [];
     }
@@ -194,7 +206,7 @@ app.get('/api/bookings', (req, res) => {
     dbConnection.query(sql, params, (err, results) => {
         if (err) {
             console.error('LỖI TRUY VẤN LỊCH SỬ BOOKING:', err);
-            return res.status(500).json({ success: false, message: 'Lỗi server khi tải dữ liệu.' });
+            return res.status(500).json({ success: false, message: 'Lỗi server khi tải dữ liệu: ' + err.message });
         }
         res.json(results);
     });

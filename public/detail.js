@@ -136,8 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: document.getElementById('book-name').value,
             phone: document.getElementById('book-phone').value,
             dateStart: document.getElementById('book-start').value,
-            dateEnd: document.getElementById('book-end').value,
-            email: user.email // Thêm email để có thể lấy lại booking sau này
+            dateEnd: document.getElementById('book-end').value
         };
 
         if (!data.name || !data.phone || !data.dateStart || !data.dateEnd) {

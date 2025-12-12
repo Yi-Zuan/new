@@ -187,8 +187,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const listDiv = document.getElementById('booking-history-list');
         listDiv.innerHTML = '<p style="text-align:center">⏳ Đang tải dữ liệu...</p>';
 
-        // 2. Gọi API lấy danh sách booking theo email
-        fetch(`/api/bookings?email=${encodeURIComponent(user.email)}`) 
+        // 2. Gọi API lấy danh sách booking theo tên người dùng (không dùng email)
+        // Lọc theo tên người dùng từ localStorage
+        const userName = user.full_name || user.name;
+        const apiUrl = userName 
+            ? `/api/bookings?name=${encodeURIComponent(userName)}`
+            : '/api/bookings';
+        
+        fetch(apiUrl) 
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -262,6 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="text-align:center; padding:20px; color:red;">
                         <i class="fa-solid fa-exclamation-triangle" style="font-size:40px;"></i>
                         <p style="margin-top:10px;">Không thể tải lịch sử đơn hàng.</p>
+                        <p style="font-size:12px; color:#666;">Lỗi: ${err.message}</p>
                         <p style="font-size:12px; color:#666;">Vui lòng thử lại sau.</p>
                     </div>`;
             });
