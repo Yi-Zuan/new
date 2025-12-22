@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết khách sạn</title>
+    <link rel="icon" type="jpg" href="../hotel/favicons.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../style.css"> <link rel="stylesheet" href="../hotel/detail.css"> </head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">BOOKING LUXURY <span>HOTEL</span></div>
+            <ul class="nav-links">
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/">Khách sạn</a></li>
+                <li><a href="#" id="nav-login" onclick="openModalById('login-modal')">Đăng nhập</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 20px;">
+        <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</a>
+    </div>
+
+    <div class="container main-detail">
+        
+        <div class="detail-left">
+            <div class="hotel-header">
+                <h1 id="hotel-name">Đang tải tên khách sạn...</h1>
+                <p class="location"><i class="fa-solid fa-location-dot"></i> <span id="hotel-address">...</span></p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-main">
+                    <img id="hotel-img" src="" alt="Ảnh chính" onerror="this.src='https://via.placeholder.com/800x600'">
+                </div>
+                <div class="gallery-sub">
+                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=500&q=60" alt="Ảnh phụ 1">
+                    <div class="more-photos">
+                        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=500&q=60" alt="Ảnh phụ 2">
+                        <div class="overlay">+5 ảnh</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-regular fa-file-lines"></i> Mô tả</h3>
+                <p id="hotel-desc" class="desc-text">...</p>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Tiện nghi nổi bật</h3>
+                <div id="hotel-amenities" class="amenities-list">
+                    </div>
+            </div>
+        </div>
+
+        <div class="detail-right">
+            <div class="booking-card">
+                <div class="price-header">
+                    <p>Giá chỉ từ</p>
+                    <h2 id="hotel-price">...</h2>
+                    <span>/ đêm</span>
+                </div>
+                
+                <hr class="divider">
+
+                <div class="booking-form">
+                    <input type="hidden" id="current-hotel-id">
+                    
+                    <div class="form-group">
+                        <label>Thông tin người đặt</label>
+                        <input type="text" id="book-name" placeholder="Họ và tên">
+                        <input type="text" id="book-phone" placeholder="Số điện thoại" style="margin-top:5px">
+                    </div>
+
+                    <div class="date-row">
+                        <div class="form-group">
+                            <label>Nhận phòng</label>
+                            <input type="date" id="book-start">
+                        </div>
+                        <div class="form-group">
+                            <label>Trả phòng</label>
+                            <input type="date" id="book-end">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label style="font-weight: bold; font-size: 13px; margin-bottom: 5px; display: block;">Mã ưu đãi (4 Mùa)</label>
+                        
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="coupon-code" placeholder="VD: SUMMER20" 
+                                   style="text-transform: uppercase; flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            
+                            <button type="button" onclick="applyCoupon()" 
+                                    style="background: #212121; color: white; border: none; padding: 0 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                                Áp dụng
+                            </button>
+                        </div>
+                        
+                        <p id="coupon-msg" style="font-size: 12px; margin-top: 5px; min-height: 18px; color: #666;"></p>
+                    </div>
+
+                    <div class="total-preview">
+                        <span>Tạm tính:</span>
+                        <span id="total-price" style="font-weight:bold; color:#d82b45">0 VND</span>
+                    </div>
+
+                    <button class="btn-confirm" onclick="submitBooking()">XÁC NHẬN ĐẶT PHÒNG</button>
+                    <p class="note"><i class="fa-solid fa-shield-halved"></i> Đảm bảo hoàn tiền trong 24h</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px; padding:30px;">
+            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+            <h2>Đăng Nhập</h2>
+            <input type="email" id="login-email" class="form-input" placeholder="Email">
+            <input type="password" id="login-pass" class="form-input" placeholder="Mật khẩu">
+            <button class="btn-book" onclick="handleLogin()" style="width:100%; margin-top:10px">ĐĂNG NHẬP</button>
+        </div>
+    </div>
+
+    <script src="../hotel/detail.js"></script>
+</body>
+</html>

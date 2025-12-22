@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels & Resorts</title>
+    <link rel="icon" type="jpg" href="logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="/" style="text-decoration:none; color:inherit">
+                    BOOKING LUXURY<span class="logo-sub">HOTELS</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="openHistoryModal()">Lịch sử</a></li>
+                <li><a href="/" onclick="event.preventDefault(); window.location.href='/'">Khách sạn</a></li>
+                <li><a href="#" onclick="event.preventDefault(); window.openOffers()">Ưu đãi</a></li>
+                <li><a href="#" onclick="event.preventDefault(); window.openModalById('register-modal')">Hội viên</a></li>
+                <li><a href="#" onclick="event.preventDefault(); window.openModalById('contact-modal')">Liên hệ</a></li>
+                <li><a href="#" onclick="handleAuthClick(event)" id="nav-login">Đăng nhập</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="video.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video thẻ.
+        </video>
+
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Tận hưởng kỳ nghỉ trong mơ</h1>
+            <p>Khám phá vẻ đẹp Việt Nam cùng dịch vụ đẳng cấp.</p>
+        </div>
+    </header>
+
+    <div id="floating-search-bar" class="floating-search">
+        <form id="booking-form" class="search-inner" onsubmit="return false;">
+            
+            <div class="search-item">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <div class="search-input-wrapper">
+                    <label>Điểm đến</label>
+                    <input type="text" id="destination" placeholder="Khách sạn, thành phố...">
+                </div>
+            </div>
+
+            <div class="search-item border-left">
+                <i class="fa-regular fa-calendar search-icon"></i>
+                <div class="search-input-wrapper">
+                    <label>Ngày đi - về</label>
+                    <input type="text" id="check-in" placeholder="Thêm ngày" onfocus="(this.type='date')" onblur="(this.type='text')">
+                </div>
+            </div>
+
+            <div class="search-item border-left">
+                <i class="fa-solid fa-user-group search-icon"></i>
+                <div class="search-input-wrapper">
+                    <label>Khách & Phòng</label>
+                    <input type="number" value="2" min="1" placeholder="Số khách">
+                </div>
+            </div>
+
+            <button type="button" id="search-button" onclick="performSearch()">TÌM KIẾM</button>
+        </form>
+    </div>
+
+    <main class="container result-container">
+        <div class="container main-layout">
+        
+            <div class="content-left">
+                <h2 class="section-title">Khách sạn nổi bật</h2>
+                <div id="results" class="hotel-grid">
+                    </div>
+            </div>
+    
+            <aside class="content-right">
+                <div class="sidebar-box">
+                    <h3><i class="fa-solid fa-filter"></i> Lọc kết quả</h3>
+                    
+                    <div class="filter-group">
+                        <label>Mức giá tối đa</label>
+                        <input type="range" id="price-range" min="0" max="10000000" step="500000" value="10000000" oninput="updateFilterLabel()">
+                        <p id="price-label" style="font-size:13px; color:#d82b45; font-weight:bold; margin-top:5px">
+                            10.000.000 VNĐ
+                        </p>
+                    </div>
+    
+                    <div class="filter-group">
+                        <label>Hạng sao</label>
+                        <div class="checkbox-row">
+                            <input type="checkbox" class="star-check" value="5"> 5 sao (Luxury)
+                        </div>
+                        <div class="checkbox-row">
+                            <input type="checkbox" class="star-check" value="4"> 4 sao (Premium)
+                        </div>
+                    </div>
+    
+                    <button class="btn-sidebar" onclick="applyFilters()">Áp dụng ngay</button>
+                </div>
+                
+                <div class="sidebar-box" style="background: #fdfbf0; border-color: #d4af37;">
+                    <h3><i class="fa-solid fa-star"></i> Tại sao chọn dịch vụ của chúng tôi?</h3>
+                    <ul class="benefit-list">
+                        <li><i class="fa-solid fa-check"></i> Đảm bảo giá tốt nhất</li>
+                        <li><i class="fa-solid fa-check"></i> Thanh toán an toàn</li>
+                        <li><i class="fa-solid fa-check"></i> Hỗ trợ 24/7</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    
+        <section class="slider-section">
+            <div class="container">
+                <h2 class="section-title">Gợi ý cho bạn</h2>
+                <div class="scrolling-wrapper" id="recommend-slider">
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content auth-modal">
+            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+            <h2 class="modal-title" style="text-align:center; margin-bottom: 15px;">Tài khoản của bạn</h2>
+
+            <div class="scrolling-wrapper auth-scrolling-wrapper">
+                <section class="auth-card">
+                    <h3 class="auth-card-title"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</h3>
+                    <p class="auth-card-subtitle">Truy cập đặt phòng nhanh chóng và xem lịch sử giao dịch.</p>
+
+                    <input type="email" id="login-email" placeholder="Email" class="form-input">
+                    <div class="password-wrapper">
+                        <input type="password" id="login-pass" placeholder="Mật khẩu" class="form-input">
+                        <i class="fa-regular fa-eye-slash" onclick="togglePassword(this)"></i>
+                    </div>
+
+                    <button class="btn-book" onclick="handleLogin()" style="width: 100%; margin-top: 10px;">ĐĂNG NHẬP</button>
+                </section>
+
+                <section class="auth-card">
+                    <h3 class="auth-card-title"><i class="fa-solid fa-gem"></i> Trở thành hội viên</h3>
+                    <p class="auth-card-subtitle">
+                        Tích điểm, nhận ưu đãi riêng cho hội viên và quản lý tất cả đơn phòng của bạn.
+                    </p>
+                    <ul class="auth-benefit-list">
+                        <li><i class="fa-solid fa-check"></i> Giảm giá đặc biệt cho hội viên</li>
+                        <li><i class="fa-solid fa-check"></i> Ưu đãi sinh nhật & dịp lễ</li>
+                        <li><i class="fa-solid fa-check"></i> Lưu thông tin để đặt phòng 1 chạm</li>
+                    </ul>
+                    <button class="btn-book" style="width: 100%; margin-top: 10px;"
+                            onclick="closeModal('login-modal'); openModalById('register-modal');">
+                        ĐĂNG KÝ HỘI VIÊN
+                    </button>
+                </section>
+            </div>
+
+            <p class="auth-hint">
+                Lướt ngang để xem thêm quyền lợi hội viên.
+            </p>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content" style="max-width: 320px; padding: 30px;">
+            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+            <div class="modal-info">
+                <h2 class="modal-title" style="text-align: center; margin-bottom: 20px;">Đăng Nhập</h2>
+                
+                <input type="email" id="login-email" placeholder="Email" class="form-input">
+                
+                <div class="password-wrapper" style="position: relative; margin-top: 10px;">
+                    <input type="password" id="login-pass" placeholder="Mật khẩu" class="form-input" style="width: 100%; padding-right: 40px;">
+                    
+                    <i class="fa-regular fa-eye-slash"
+                       onclick="togglePassword(this)"
+                       style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;">
+                    </i>
+                </div>
+
+                <button class="btn-book" onclick="handleLogin()" style="width: 100%; margin-top: 20px;">ĐĂNG NHẬP</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close-btn" onclick="closeModal('contact-modal')">&times;</span>
+            <div class="modal-info">
+                <h2 class="modal-title">Liên Hệ</h2>
+                <input type="text" id="contact-name" placeholder="Tên" class="form-input">
+                <input type="email" id="contact-email" placeholder="Email" class="form-input">
+                <textarea id="contact-msg" placeholder="Lời nhắn..." class="form-input" rows="4"></textarea>
+                <button class="btn-book" onclick="handleContact()">GỬI TIN NHẮN</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="offers-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-btn" onclick="closeModal('offers-modal')">&times;</span>
+            <div class="modal-info">
+                <h2 class="modal-title">Ưu Đãi Hot</h2>
+                <div id="offers-list" class="hotel-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="history-modal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close-btn" onclick="closeModal('history-modal')">&times;</span>
+            <div class="modal-info">
+                <h2 style="text-align:center; margin-bottom:20px; font-family:'Playfair Display', serif;">Đơn Phòng Của Bạn</h2>
+    
+                <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:20px">
+                    <input type="text" id="history-phone-input" class="form-input" placeholder="Nhập số điện thoại khi đặt..." style="margin:0">
+                    <button class="btn-book" onclick="viewMyBookings()" style="width:auto; margin:0; padding:0 25px; background:#d4af37; color:white; border:none;">TRA CỨU</button>
+                </div>
+    
+                <div id="logout-modal" class="modal">
+                    <div class="modal-content" style="max-width: 360px;">
+                        <span class="close-btn" onclick="closeModal('logout-modal')">&times;</span>
+                        <div class="modal-info">
+                            <h2 class="modal-title" style="text-align:center; margin-bottom: 10px;">Đăng xuất</h2>
+                            <p style="text-align:center; color:#555; margin-bottom: 20px;">
+                                Bạn có chắc chắn muốn đăng xuất khỏi tài khoản hiện tại không?
+                            </p>
+                            <div style="display:flex; gap:10px;">
+                                <button class="btn-book" style="flex:1;" onclick="confirmLogout()">ĐĂNG XUẤT</button>
+                                <button class="btn-book" style="flex:1; border-color:#999; color:#333;" onclick="closeModal('logout-modal')">
+                                    HỦY
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div id="booking-history-list" style="max-height: 400px; overflow-y: auto;">
+                    <p style="text-align:center; color:#666">Vui lòng nhập SĐT để xem lịch sử.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h3><span class="logo-sub" style="color:#aaa">HOTELS</span></h3>
+                <p>Trải nghiệm dịch vụ đẳng cấp quốc tế tại những điểm đến tuyệt đẹp nhất Việt Nam. Chúng tôi cam kết mang lại kỳ nghỉ đáng nhớ cho bạn và gia đình.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Về dịch vụ của chúng tôi</h4>
+                <ul>
+                    <li><a href="#">Câu chuyện thương hiệu</a></li>
+                    <li><a href="#">Cơ hội nghề nghiệp</a></li>
+                    <li><a href="#">Tin tức & Báo chí</a></li>
+                    <li><a href="#">Phát triển bền vững</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Hỗ trợ khách hàng</h4>
+                <ul>
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Quy chế hoạt động</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Liên hệ</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Ha69CS1</p>
+                <p><i class="fa-solid fa-phone"></i>0965247101</p>
+                <p><i class="fa-solid fa-envelope"></i> huycan01020304@gmail.com</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="bookings-modal" class="modal">
+            <div class="modal-content" style="max-width: 700px;">
+                <span class="close-btn" onsclick="closeModal('bookings-modal')">&times;</span>
+                <div class="modal-info">
+                    <h2 class="modal-title">Lịch Sử Đặt Phòng</h2>
+                    <div id="booking-history-list" class="booking-list-container">
+                        <p style="text-align:center">Đang tải dữ liệu...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="footer-top">
+               </div>
+
+            <div class="project-disclaimer">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i> 
+                    <strong>DISCLAIMER:</strong> This is a personal learning project. 
+                    Hotel names are used for demonstration purposes only. 
+                    Not affiliated with Meliá Hotels International.
+                </p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Booking Hotels International. Thiết kế bởi nhóm bài tập lớn.</p>
+                <div class="payment-icons">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Booking Hotels International. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

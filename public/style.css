@@ -1,0 +1,876 @@
+    /* 1: Theme */
+   :root {
+    --primary-color: #1a1a1a; 
+    --accent-color: #d4af37; 
+    --accent-hover: #b8860b;  
+    --danger-color: #d82b45;  
+    --text-light: #555555;
+    --bg-light: #f9f9f9;  
+    --white: #ffffff;
+    --card-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/*2. NAVBAR */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Kính mờ */
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
+}
+
+.logo-sub {
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-left: 5px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--accent-color); }
+
+.password-wrapper {
+    position: relative;
+    width: 100%;       
+    margin-bottom: 15px; 
+}
+
+.password-wrapper .form-input {
+    width: 100%;
+    padding-right: 45px; 
+    box-sizing: border-box; 
+}
+
+.password-wrapper i {
+    position: absolute;  
+    right: 15px;        
+    top: 50%;          
+    transform: translateY(-50%); 
+    cursor: pointer;     
+    color: #888;         
+    z-index: 2;     
+    font-size: 16px;
+}
+
+.password-wrapper i:hover {
+    color: #d4af37;
+}
+
+/* 3. Hero Section (Video)*/
+.hero {
+    height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--white);
+    background-color: #000;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.7);
+}
+
+.hero-content p {
+    font-size: 20px;
+    font-weight: 300;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 4. Search Box */
+
+/* Khung Thanh Tìm Kiếm */
+.floating-search {
+    position: fixed;
+    bottom: 20px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 95%;
+    max-width: 1100px;
+    z-index: 999;
+    
+    animation: flyUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Hiệu Ứng Bay Lên */
+@keyframes flyUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 100px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Giao Diện Bên Trong */
+.search-inner {
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+/* Từng Ô Một */
+.search-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+}
+
+.border-left {
+    border-left: 1px solid #eee;
+}
+
+.search-icon {
+    font-size: 20px;
+    color: #666;
+}
+
+.search-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.search-input-wrapper label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.search-input-wrapper input {
+    border: none;
+    outline: none;
+    font-size: 15px;
+    color: #555;
+    width: 100%;
+    background: transparent;
+    padding: 0;
+}
+
+/* Nút Bấm */
+#search-button {
+    background-color: #666;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#search-button:hover {
+    background-color: #000;
+}
+
+/* Ẩn Thanh Tìm Kiếm */
+.floating-search.hidden-bar {
+    transform: translate(-50%, 150%); 
+    opacity: 0;
+}
+
+@media (max-width: 768px) {
+    .search-inner {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .search-item { width: 100%; border-left: none; border-bottom: 1px solid #eee; }
+    #search-button { width: 100%; }
+}
+
+/* 5. Hotel Lists */
+.result-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+.result-container h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-color);
+    margin-top: 10px;
+}
+
+.hotel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.hotel-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s ease;
+    border: 1px solid transparent;
+}
+
+.hotel-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+.hotel-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.hotel-card:hover .hotel-img {
+    transform: scale(1.08);
+}
+
+.hotel-info { padding: 25px; }
+
+.hotel-info h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+}
+
+.fav-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    color: #888;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+}
+
+.fav-btn i {
+    pointer-events: none;
+}
+
+.fav-btn:hover {
+    transform: translateY(-1px);
+    color: var(--danger-color);
+}
+
+.fav-btn.fav-active {
+    background: #fff0f3;
+    color: var(--danger-color);
+}
+
+.hotel-info p {
+    color: var(--text-light);
+    font-size: 15px;
+}
+
+.btn-book {
+    display: block;
+    margin-top: 20px;
+    padding: 12px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-radius: 4px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.btn-book:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* 6: Footer */
+.main-footer {
+    background-color: #000000; /* Nền đen tuyền */
+    color: #b0b0b0;
+    padding-top: 80px;
+    margin-top: 80px;
+    font-size: 14px;
+    border-top: 4px solid var(--accent-color);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
+    padding-bottom: 50px;
+}
+
+.footer-col h3 {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.footer-col h4 {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 30px; height: 2px;
+    background: var(--accent-color);
+}
+
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col ul li { margin-bottom: 12px; }
+
+.footer-col ul li a {
+    color: #888;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-col ul li a:hover {
+    color: var(--accent-color);
+    padding-left: 5px;
+}
+
+.footer-col p {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-col i { color: var(--accent-color); width: 20px; }
+
+.social-links { display: flex; gap: 15px; margin-top: 20px; }
+.social-links a {
+    color: #fff; font-size: 18px; transition: 0.3s;
+}
+.social-links a:hover { color: var(--accent-color); }
+
+.footer-bottom {
+    background-color: #0a0a0a;
+    padding: 20px;
+    border-top: 1px solid #222;
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+}
+
+/* 7. MODAL (POPUP) */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 5% auto;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    position: relative;
+    padding: 30px;
+    animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+    from {transform: translateY(-50px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+
+#offers-list {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 10px 10px 10px 10px;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 30px; cursor: pointer; color: #999;
+}
+.close-btn:hover { color: var(--danger-color); }
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* 8: Nút Lăn */
+#scrollTopBtn {
+    display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99;
+    border: none; background-color: var(--accent-color); color: white;
+    cursor: pointer; padding: 15px; border-radius: 50%; font-size: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* 9: Lịch Sử Đặt Phòng */
+.booking-item {
+    display: flex; gap: 15px;
+    background: #fff; border: 1px solid #eee;
+    padding: 10px; margin-bottom: 10px; border-radius: 8px;
+    align-items: center;
+}
+.booking-item img {
+    width: 80px; height: 80px; object-fit: cover; border-radius: 6px;
+}
+.status-badge {
+    font-size: 11px; padding: 3px 8px; border-radius: 10px;
+    background: #e6fffa; color: #00b894; font-weight: bold;
+}
+
+
+/* 10. Bố Cục 2 Cột và Slider*/
+/* Chia Cột */
+.main-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+    align-items: flex-start;
+}
+
+/* Cột Slider Trái */
+.content-left {
+    flex: 3; 
+}
+
+/* Cột Slider Phải*/
+.content-right {
+    flex: 1;
+    min-width: 280px;
+    position: sticky;
+    top: 100px;
+}
+
+/* Tiêu Đề Mục */
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 25px;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 15px;
+    color: var(--primary-color);
+}
+
+/* . Style Slider Right */
+.sidebar-box {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+
+.sidebar-box h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.filter-group { margin-bottom: 15px; }
+.filter-group label { font-weight: bold; font-size: 13px; display: block; margin-bottom: 5px; }
+.checkbox-row { font-size: 14px; margin-bottom: 5px; color: #555; }
+
+.btn-sidebar {
+    width: 100%; padding: 8px; background: #333; color: white; border: none; cursor: pointer;
+}
+.benefit-list { list-style: none; padding: 0; }
+.benefit-list li { font-size: 13px; margin-bottom: 8px; color: #555; }
+.benefit-list i { color: var(--accent-color); margin-right: 5px; }
+
+/* Slider Style */
+.slider-section {
+    background: #f4f4f4;
+    padding: 50px 0;
+    margin-bottom: 0;
+}
+
+.scrolling-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 20px;
+    
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin; 
+}
+
+/* Thẻ Slider */
+.scrolling-wrapper .hotel-card {
+    flex: 0 0 auto;
+    width: 300px;
+}
+
+
+/* Auth scrolling wrapper (login / benefits) */
+.auth-modal {
+    max-width: 540px;
+}
+
+.auth-scrolling-wrapper {
+    padding: 10px 0 5px 0;
+}
+
+.auth-card {
+    flex: 0 0 auto;
+    width: 280px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 18px 18px 16px 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.auth-card + .auth-card {
+    margin-right: 5px;
+}
+
+.auth-card-title {
+    font-size: 18px;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.auth-card-title i {
+    color: var(--accent-color);
+}
+
+.auth-card-subtitle {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 10px 0;
+}
+
+.auth-benefit-list {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 10px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.auth-benefit-list li {
+    margin-bottom: 4px;
+}
+
+.auth-benefit-list i {
+    color: var(--accent-color);
+    margin-right: 6px;
+}
+
+.auth-hint {
+    font-size: 11px;
+    color: #888;
+    text-align: center;
+    margin-top: 8px;
+}
+/* 11: For moblie */
+/* Mobile */
+@media (max-width: 1024px) {
+    .search-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .input-group {
+        min-width: 100%;
+    }
+    
+    #search-button {
+        width: 100%;
+    }
+    
+    .hotel-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Navbar gọn lại thành menu hamburger (nếu sau này bạn thêm) */
+    .nav-links {
+        gap: 15px;
+        font-size: 14px;
+    }
+    
+    .logo {
+        font-size: 20px;
+    }
+    
+    /* Hero text nhỏ lại */
+    .hero-content h1 {
+        font-size: 36px;
+    }
+    .hero-content p {
+        font-size: 16px;
+    }
+    
+    /* Search box trên mobile */
+    .search-section {
+        margin-top: -30px;
+        padding: 0 15px;
+    }
+    
+    .search-box {
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    /* Modal chi tiết khách sạn & ưu đãi */
+    .modal-content {
+        width: 92%;
+        margin: 10% auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal-img {
+        height: 250px;
+    }
+    
+    .modal-info {
+        padding: 20px;
+    }
+    
+    /* Ưu đãi đặc biệt – scroll mượt trên mobile */
+    */
+    #offers-list {
+        max-height: 65vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* scroll mượt trên iOS */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 420px;
+    }
+    
+    .hero-content h1 {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+    
+    .hero-content p {
+        font-size: 15px;
+    }
+    
+    /* Form đăng nhập / đăng ký / liên hệ */
+    .modal-content {
+        width: 95%;
+        margin: 8% auto;
+    }
+    
+    .form-input {
+        padding: 14px;
+        font-size: 16px; /* tránh zoom trên iPhone */
+    }
+    
+    /* Nút đặt phòng trong modal chi tiết */
+    .modal-info .btn-book {
+        padding: 14px;
+        font-size: 16px;
+    }
+    
+    /* Card khách sạn trên điện thoại */
+    .hotel-card {
+        margin: 0 auto;
+    }
+    
+    .hotel-info {
+        padding: 15px;
+    }
+    
+    .hotel-name {
+        font-size: 17px;
+    }
+    
+    .btn-book {
+        padding: 12px;
+        font-size: 15px;
+    }
+    
+    /* Tiêu đề kết quả tìm kiếm */
+    #result-title {
+        font-size: 24px;
+        text-align: center;
+        width: 100%;
+    }
+    
+    /* Footer nhỏ lại  */
+    footer {
+        padding: 25px 15px;
+        font-size: 14px;
+    }
+}
+
+/* Fix for ios */
+@supports (-webkit-touch-callout: none) {
+    .hero {
+        height: 500px;
+        height: 100vh;
+        height: calc(100vh - 0px);
+    }
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;                
+    -webkit-overflow-scrolling: touch;
+}
+
+/* FOR DISCLA */
+   .project-disclaimer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 30px;
+    border-top: 1px solid #333; 
+    border-bottom: 1px solid #333;
+    background-color: #000;
+}
+
+.project-disclaimer p {
+    color: #777;
+    font-size: 13px;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.project-disclaimer strong {
+    color: #d82b45;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.project-disclaimer i {
+    color: #d4af37;
+    margin-right: 5px;
+}
