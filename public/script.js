@@ -176,7 +176,7 @@ window.handleAuthClick = function(event) {
 
     window.confirmLogout = function() {
         localStorage.removeItem('user');
-        closeModal('logout-modal');
+        closeModal('logout-modal'); 
 
         checkLoginState();
 
@@ -192,6 +192,34 @@ window.handleAuthClick = function(event) {
             }
         });
     }
+
+    window.handleLogin = function() {
+    const data = {
+        email: document.getElementById('login-email').value,
+        password: document.getElementById('login-pass').value
+    };
+
+    if(!data.email || !data.password) {
+        alert("Vui lòng nhập email và mật khẩu!");
+        return;
+    }
+
+    postData(CONFIG.API.LOGIN, data)
+        .then(d => {
+            if (d.success) {
+                alert('Chào mừng ' + d.user.full_name);
+
+                localStorage.setItem('user', JSON.stringify(d.user));
+                
+                window.closeModal('login-modal');
+                
+                checkLoginState(); 
+            } else {
+                alert(d.message);
+            }
+        })
+        .catch(err => alert('Lỗi đăng nhập: ' + err));
+};
 
 
 // Xử lý Đăng Ký
