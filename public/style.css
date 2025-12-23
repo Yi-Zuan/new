@@ -8,6 +8,36 @@
     --bg-light: #f9f9f9;  
     --white: #ffffff;
     --card-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    --navbar-bg: rgba(255, 255, 255, 0.95);
+    --navbar-shadow: rgba(0,0,0,0.05);
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #ddd;
+    --modal-bg: #ffffff;
+    --footer-bg: #000000;
+    --footer-text: #b0b0b0;
+    --search-bg: #ffffff;
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+    --primary-color: #f0f0f0;
+    --accent-color: #d4af37;
+    --accent-hover: #f0c850;
+    --danger-color: #ff4757;
+    --text-light: #d0d0d0;
+    --bg-light: #1a1a1a;
+    --white: #2a2a2a;
+    --card-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    --navbar-bg: rgba(26, 26, 26, 0.98);
+    --navbar-shadow: rgba(0,0,0,0.4);
+    --card-bg: #2a2a2a;
+    --input-bg: #333333;
+    --input-border: #555555;
+    --modal-bg: #2a2a2a;
+    --footer-bg: #1a1a1a;
+    --footer-text: #b0b0b0;
+    --search-bg: #333333;
 }
 
 body {
@@ -17,6 +47,7 @@ body {
     background-color: var(--bg-light);
     color: var(--primary-color);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -27,13 +58,14 @@ body {
 
 /*2. NAVBAR */
 .navbar {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--navbar-bg);
     backdrop-filter: blur(10px); /* Kính mờ */
-    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 20px var(--navbar-shadow);
     padding: 15px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .nav-container {
@@ -74,6 +106,39 @@ body {
 }
 
 .nav-links a:hover { color: var(--accent-color); }
+
+/* Dark Mode Toggle Button */
+.theme-toggle {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.theme-toggle:hover {
+    background: var(--accent-color);
+    color: var(--white);
+    transform: scale(1.05);
+}
+
+.theme-toggle i {
+    font-size: 18px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
 
 .password-wrapper {
     position: relative;
@@ -183,13 +248,14 @@ body {
 
 /* Giao Diện Bên Trong */
 .search-inner {
-    background: #ffffff;
+    background: var(--search-bg);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease;
 }
 
 /* Từng Ô Một */
@@ -208,6 +274,11 @@ body {
 .search-icon {
     font-size: 20px;
     color: #666;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .search-icon {
+    color: #b0b0b0;
 }
 
 .search-input-wrapper {
@@ -221,6 +292,11 @@ body {
     font-weight: bold;
     color: #333;
     margin-bottom: 2px;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .search-input-wrapper label {
+    color: var(--primary-color);
 }
 
 .search-input-wrapper input {
@@ -231,6 +307,15 @@ body {
     width: 100%;
     background: transparent;
     padding: 0;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .search-input-wrapper input {
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .search-input-wrapper input::placeholder {
+    color: #888;
 }
 
 /* Nút Bấm */
@@ -249,6 +334,15 @@ body {
 
 #search-button:hover {
     background-color: #000;
+}
+
+[data-theme="dark"] #search-button {
+    background-color: #555;
+}
+
+[data-theme="dark"] #search-button:hover {
+    background-color: var(--accent-color);
+    color: var(--white);
 }
 
 /* Ẩn Thanh Tìm Kiếm */
@@ -273,6 +367,11 @@ body {
     margin-bottom: 40px;
     position: relative;
     display: inline-block;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .result-container h2 {
+    color: var(--primary-color);
 }
 
 .result-container h2::after {
@@ -292,7 +391,7 @@ body {
 }
 
 .hotel-card {
-    background: var(--white);
+    background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--card-shadow);
@@ -324,6 +423,7 @@ body {
     font-size: 20px;
     color: var(--primary-color);
     font-family: 'Playfair Display', serif;
+    transition: color 0.3s ease;
 }
 
 .fav-btn {
@@ -361,6 +461,7 @@ body {
 .hotel-info p {
     color: var(--text-light);
     font-size: 15px;
+    transition: color 0.3s ease;
 }
 
 .btn-book {
@@ -387,12 +488,13 @@ body {
 
 /* 6: Footer */
 .main-footer {
-    background-color: #000000; /* Nền đen tuyền */
-    color: #b0b0b0;
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
     padding-top: 80px;
     margin-top: 80px;
     font-size: 14px;
     border-top: 4px solid var(--accent-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .footer-grid {
@@ -407,6 +509,11 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 24px;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .footer-col h3 {
+    color: var(--primary-color);
 }
 
 .footer-col h4 {
@@ -418,6 +525,11 @@ body {
     letter-spacing: 1px;
     position: relative;
     padding-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .footer-col h4 {
+    color: var(--primary-color);
 }
 
 .footer-col h4::after {
@@ -437,6 +549,10 @@ body {
     transition: 0.3s;
 }
 
+[data-theme="dark"] .footer-col ul li a {
+    color: var(--text-light);
+}
+
 .footer-col ul li a:hover {
     color: var(--accent-color);
     padding-left: 5px;
@@ -454,6 +570,11 @@ body {
 .social-links a {
     color: #fff; font-size: 18px; transition: 0.3s;
 }
+
+[data-theme="dark"] .social-links a {
+    color: var(--primary-color);
+}
+
 .social-links a:hover { color: var(--accent-color); }
 
 .footer-bottom {
@@ -463,6 +584,13 @@ body {
     text-align: center;
     font-size: 12px;
     color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .footer-bottom {
+    background-color: #1a1a1a;
+    border-top-color: #333;
+    color: var(--text-light);
 }
 
 /* 7. MODAL (POPUP) */
@@ -477,7 +605,7 @@ body {
 }
 
 .modal-content {
-    background-color: var(--white);
+    background-color: var(--modal-bg);
     margin: 5% auto;
     width: 90%;
     max-width: 500px;
@@ -485,6 +613,11 @@ body {
     position: relative;
     padding: 30px;
     animation: slideDown 0.4s ease;
+    transition: background-color 0.3s ease;
+}
+
+[data-theme="dark"] .modal-content h2 {
+    color: var(--primary-color);
 }
 
 @keyframes slideDown {
@@ -505,16 +638,29 @@ body {
     position: absolute;
     top: 15px; right: 20px;
     font-size: 30px; cursor: pointer; color: #999;
+    transition: color 0.3s ease;
 }
+
+[data-theme="dark"] .close-btn {
+    color: var(--text-light);
+}
+
 .close-btn:hover { color: var(--danger-color); }
 
 .form-input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     box-sizing: border-box;
     margin-bottom: 15px;
+    background-color: var(--input-bg);
+    color: var(--primary-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.form-input::placeholder {
+    color: var(--text-light);
 }
 
 /* 8: Nút Lăn */
@@ -531,6 +677,12 @@ body {
     background: #fff; border: 1px solid #eee;
     padding: 10px; margin-bottom: 10px; border-radius: 8px;
     align-items: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .booking-item {
+    background: var(--card-bg);
+    border-color: var(--input-border);
 }
 .booking-item img {
     width: 80px; height: 80px; object-fit: cover; border-radius: 6px;
@@ -572,16 +724,18 @@ body {
     border-left: 4px solid var(--accent-color);
     padding-left: 15px;
     color: var(--primary-color);
+    transition: color 0.3s ease;
 }
 
 /* . Style Slider Right */
 .sidebar-box {
-    background: #fff;
-    border: 1px solid #eee;
+    background: var(--card-bg);
+    border: 1px solid var(--input-border);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .sidebar-box h3 {
@@ -589,17 +743,58 @@ body {
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+    transition: border-color 0.3s ease, color 0.3s ease;
 }
 
-.filter-group { margin-bottom: 15px; }
-.filter-group label { font-weight: bold; font-size: 13px; display: block; margin-bottom: 5px; }
+[data-theme="dark"] .sidebar-box h3 {
+    border-bottom-color: var(--input-border);
+    color: var(--primary-color);
+}
+
+.filter-group { 
+    margin-bottom: 15px; 
+}
+
+[data-theme="dark"] .checkbox-row {
+    color: var(--text-light);
+}
+.filter-group label { 
+    font-weight: bold; 
+    font-size: 13px; 
+    display: block; 
+    margin-bottom: 5px; 
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .filter-group label {
+    color: var(--primary-color);
+}
 .checkbox-row { font-size: 14px; margin-bottom: 5px; color: #555; }
 
 .btn-sidebar {
     width: 100%; padding: 8px; background: #333; color: white; border: none; cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+[data-theme="dark"] .btn-sidebar {
+    background: #444;
+}
+
+[data-theme="dark"] .btn-sidebar:hover {
+    background: #555;
 }
 .benefit-list { list-style: none; padding: 0; }
-.benefit-list li { font-size: 13px; margin-bottom: 8px; color: #555; }
+.benefit-list li { 
+    font-size: 13px; 
+    margin-bottom: 8px; 
+    color: #555; 
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .benefit-list li {
+    color: var(--text-light);
+}
+
 .benefit-list i { color: var(--accent-color); margin-right: 5px; }
 
 /* Slider Style */
@@ -607,6 +802,11 @@ body {
     background: #f4f4f4;
     padding: 50px 0;
     margin-bottom: 0;
+    transition: background-color 0.3s ease;
+}
+
+[data-theme="dark"] .slider-section {
+    background: #1f1f1f;
 }
 
 .scrolling-wrapper {
@@ -639,11 +839,12 @@ body {
 .auth-card {
     flex: 0 0 auto;
     width: 280px;
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: 10px;
     padding: 18px 18px 16px 18px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     border: 1px solid rgba(0,0,0,0.03);
+    transition: background-color 0.3s ease;
 }
 
 .auth-card + .auth-card {
@@ -656,6 +857,11 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .auth-card-title {
+    color: var(--primary-color);
 }
 
 .auth-card-title i {
@@ -666,6 +872,11 @@ body {
     font-size: 13px;
     color: #666;
     margin: 0 0 10px 0;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .auth-card-subtitle {
+    color: var(--text-light);
 }
 
 .auth-benefit-list {
@@ -674,6 +885,11 @@ body {
     margin: 5px 0 10px 0;
     font-size: 13px;
     color: #555;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .auth-benefit-list {
+    color: var(--text-light);
 }
 
 .auth-benefit-list li {
@@ -690,6 +906,11 @@ body {
     color: #888;
     text-align: center;
     margin-top: 8px;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .auth-hint {
+    color: var(--text-light);
 }
 /* 11: For moblie */
 /* Mobile */
@@ -862,6 +1083,11 @@ html, body {
     font-style: italic;
     margin: 0;
     line-height: 1.6;
+    transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .project-disclaimer p {
+    color: var(--text-light);
 }
 
 .project-disclaimer strong {

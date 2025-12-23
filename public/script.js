@@ -1,4 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 0: Dark Mode Toggle Functionality
+    function initDarkMode() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const html = document.documentElement;
+        html.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    }
+
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+        const toggleBtn = document.getElementById('theme-toggle-btn');
+        if (toggleBtn) {
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+        }
+    }
+
+    // Initialize dark mode on page load
+    initDarkMode();
+
+    // Make toggle function globally available
+    window.toggleDarkMode = toggleDarkMode;
+
     // 1: Cấu hình chung
     const CONFIG = {
         DEFAULT_IMG: 'https://images.unsplash.com/photo-1566073771259-6a8506099945',

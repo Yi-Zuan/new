@@ -3,7 +3,94 @@ window.currentPricePerNight = 0;
 window.currentDiscountPercent = 0; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+    // Dark Mode Toggle Functionality
+    function initDarkMode() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const html = document.documentElement;
+        html.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+    }
+
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+        const toggleBtn = document.getElementById('theme-toggle-btn');
+        if (toggleBtn) {
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+        }
+    }
+
+    // Initialize dark mode on page load
+    initDarkMode();
+
+    // Make toggle function globally available
+    window.toggleDarkMode = toggleDarkMode;
+
+    // Modal Functions
+    window.openModalById = function(id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = 'block';
+    };
+
+    window.closeModal = function(id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = 'none';
+    };
+
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    };
+
+    // Login function (if needed)
+    window.handleLogin = function() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-pass').value;
+        
+        if(!email || !password) {
+            alert("Vui lòng nhập email và mật khẩu!");
+            return;
+        }
+
+        fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        })
+        .then(res => res.json())
+        .then(d => {
+            if (d.success) {
+                alert('Chào mừng ' + d.user.full_name);
+                localStorage.setItem('user', JSON.stringify(d.user));
+                window.closeModal('login-modal');
+                if (document.getElementById('nav-login')) {
+                    document.getElementById('nav-login').innerHTML = `<i class="fa-solid fa-user"></i> ${d.user.full_name}`;
+                }
+            } else {
+                alert(d.message);
+            }
+        })
+        .catch(err => alert('Lỗi đăng nhập: ' + err));
+    };
+
     // ======================================================
     // 1. LẤY ID TỪ URL & TẢI DỮ LIỆU KHÁCH SẠN
     // ======================================================
