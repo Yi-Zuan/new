@@ -17,15 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsDiv: document.getElementById('results'),
         resultTitle: document.getElementById('result-title'),
         navLogin: document.getElementById('nav-login'),
-        scrollTopBtn: document.getElementById('scrollTopBtn') // Added reference if you use it
+        heroGreeting: document.getElementById('hero-greeting'),
+        scrollTopBtn: document.getElementById('scroll-top-btn')
     };
 
     let allHotelsData = [];
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 
     const savedUser = localStorage.getItem('user');
-    if (savedUser && dom.navLogin) {
+    if (savedUser) {
         const userObj = JSON.parse(savedUser);
-        dom.navLogin.innerHTML = `<i class="fa-solid fa-user"></i> ${userObj.full_name}`;
+        if (dom.navLogin) {
+            dom.navLogin.innerText = userObj.full_name || 'Tài khoản';
+        }
+        if (dom.heroGreeting && userObj.full_name) {
+            dom.heroGreeting.textContent = `Xin chào, ${userObj.full_name}! Sẵn sàng cho chuyến nghỉ dưỡng tiếp theo?`;
+        }
     }
 
     // 2: Các hàm tiện tích cơ bản
@@ -55,6 +62,24 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 4: Tìm kiếm và hiển thị
+    function isFavorite(hotelId) {
+        return favorites.includes(hotelId);
+    }
+
+    function toggleFavorite(hotelId) {
+        const index = favorites.indexOf(hotelId);
+        if (index === -1) {
+            favorites.push(hotelId);
+        } else {
+            favorites.splice(index, 1);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        // Re-render to update icons
+        renderHotels(allHotelsData);
+    }
+
+    window.toggleFavorite = toggleFavorite;
+
     function renderHotels(listHotel) {
         const mainGrid = document.getElementById('results');
         const slider = document.getElementById('recommend-slider');
@@ -73,12 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = hotel.image_url || CONFIG.DEFAULT_IMG;
             const rating = hotel.rating || (Math.random() * (5 - 3) + 3).toFixed(1); 
             
+            const favClass = isFavorite(hotel.hotel_id) ? 'fav-active' : '';
             const cardHTML = `
                 <div class="hotel-card">
                     <div style="overflow:hidden; height:200px;">
                         <img src="${img}" class="hotel-img" onerror="this.src='${CONFIG.DEFAULT_IMG}'">
                     </div>
                     <div class="hotel-info">
+                        <button class="fav-btn ${favClass}" onclick="toggleFavorite(${hotel.hotel_id}); event.stopPropagation();">
+                            <i class="fa${isFavorite(hotel.hotel_id) ? 's' : 'r'} fa-heart"></i>
+                        </button>
                         <h3>${hotel.name}</h3>
                         <p style="font-size:13px; color:#666"><i class="fa-solid fa-location-dot"></i> ${hotel.city}</p>
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px">
@@ -96,6 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function performSearch() {
         const keyword = dom.destInput ? dom.destInput.value.trim() : '';
+
+        // Lưu lại điểm đến cuối cùng để lần sau mở web vẫn thấy
+        if (dom.destInput) {
+            localStorage.setItem('lastDestination', keyword);
+        }
         let apiUrl = CONFIG.API.HOTELS;
 
         if (keyword) {
@@ -145,43 +179,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 5: Chức năng người dùng (Login, Register, Contact, Offers)
-    
-    // Define checkLoginState globally within scope so other functions can use it
-    window.checkLoginState = function() {
-        const userJson = localStorage.getItem('user');
-        const navBtn = document.getElementById('nav-login');
-        
-        if (userJson && navBtn) {
-            const user = JSON.parse(userJson);
-            navBtn.innerHTML = `<i class="fa-solid fa-user"></i> ${user.full_name}`; 
-        } else if (navBtn) {
-            navBtn.innerText = "Đăng nhập";
-        }
-    }
-
-    // Run check immediately
+// Hàm chạy ngay khi web tải xong để kiểm tra xem đã đăng nhập chưa
+document.addEventListener("DOMContentLoaded", function() {
     checkLoginState();
+});
 
-    // HÀM MỚI: Xử lý khi bấm nút trên Menu
-    window.handleAuthClick = function(event) {
-        event.preventDefault();
-        const user = localStorage.getItem('user');
+// Hàm kiểm tra trạng thái và đổi tên nút
+function checkLoginState() {
+    const userJson = localStorage.getItem('user');
+    const navBtn = document.getElementById('nav-login');
+    
+    if (userJson && navBtn) {
+        const user = JSON.parse(userJson);
+        navBtn.innerHTML = `<i class="fa-solid fa-user"></i> ${user.full_name}`; 
+    } else if (navBtn) {
+        navBtn.innerText = "Đăng nhập";
+    }
+}
 
-        if (user) {
-            window.openModalById('logout-modal');
-        } else {
-            window.openModalById('login-modal');
-        }
-    };
+// HÀM MỚI: Xử lý khi bấm nút trên Menu
+window.handleAuthClick = function(event) {
+    event.preventDefault();
+    const user = localStorage.getItem('user');
+
+    if (user) {
+        window.openModalById('logout-modal');
+    } else {
+        window.openModalById('login-modal');
+    }
+};
 
     window.confirmLogout = function() {
         localStorage.removeItem('user');
-        closeModal('logout-modal'); 
+        closeModal('logout-modal');
 
         checkLoginState();
 
-        const successModal = document.getElementById('logout-success-modal');
-        if (successModal) window.openModalById('logout-success-modal');
+        window.openModalById('logout-success-modal');
     };
 
     // Gợi ý nhỏ: tự động tắt thông báo sau vài giây (nếu muốn)
@@ -194,97 +228,98 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    window.handleLogin = function() {
-        const data = {
-            email: document.getElementById('login-email').value,
-            password: document.getElementById('login-pass').value
-        };
 
-        if(!data.email || !data.password) {
-            alert("Vui lòng nhập email và mật khẩu!");
-            return;
-        }
-
-        postData(CONFIG.API.LOGIN, data)
-            .then(d => {
-                if (d.success) {
-                    alert('Chào mừng ' + d.user.full_name);
-
-                    localStorage.setItem('user', JSON.stringify(d.user));
-                    
-                    window.closeModal('login-modal');
-                    
-                    checkLoginState(); 
-                } else {
-                    alert(d.message);
-                }
-            })
-            .catch(err => alert('Lỗi đăng nhập: ' + err));
+// Xử lý khi bấm nút đăng nhập
+window.handleLogin = function() {
+    const data = {
+        email: document.getElementById('login-email').value,
+        password: document.getElementById('login-pass').value
     };
 
+    if(!data.email || !data.password) {
+        alert("Vui lòng nhập email và mật khẩu!");
+        return;
+    }
 
-    // Xử lý Đăng Ký
-    window.handleRegister = function() {
-        const data = {
-            fullName: document.getElementById('reg-name').value,
-            email: document.getElementById('reg-email').value,
-            password: document.getElementById('reg-pass').value
-        };
-        
-        if(!data.fullName || !data.email || !data.password) {
-            alert("Vui lòng nhập đầy đủ thông tin!");
-            return;
-        }
+    postData(CONFIG.API.LOGIN, data)
+        .then(d => {
+            if (d.success) {
+                alert('Chào mừng ' + d.user.full_name);
 
-        postData(CONFIG.API.REGISTER, data)
-            .then(d => {
+                localStorage.setItem('user', JSON.stringify(d.user));
+                
+                window.closeModal('login-modal');
+                
+                checkLoginState(); 
+            } else {
                 alert(d.message);
-                if (d.success) window.closeModal('register-modal');
-            })
-            .catch(err => alert('Lỗi kết nối: ' + err));
-    };
+            }
+        })
+        .catch(err => alert('Lỗi đăng nhập: ' + err));
+};
 
-    // Xử lý Liên Hệ
-    window.handleContact = function() {
-        const data = {
-            fullName: document.getElementById('contact-name').value,
-            email: document.getElementById('contact-email').value,
-            message: document.getElementById('contact-msg').value
-        };
-        postData(CONFIG.API.CONTACT, data)
-            .then(d => { alert(d.message); window.closeModal('contact-modal'); })
-            .catch(err => alert('Lỗi gửi liên hệ.'));
+// Xử lý Đăng Ký
+window.handleRegister = function() {
+    const data = {
+        fullName: document.getElementById('reg-name').value,
+        email: document.getElementById('reg-email').value,
+        password: document.getElementById('reg-pass').value
     };
+    
+    if(!data.fullName || !data.email || !data.password) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
 
-    // Xử lý Ưu Đãi
-    window.openOffers = function() {
-        window.openModalById('offers-modal');
-        const list = document.getElementById('offers-list');
-        list.innerHTML = '<p style="text-align:center">Đang tải...</p>';
-        
-        fetch(CONFIG.API.OFFERS)
-            .then(res => res.json())
-            .then(data => {
-                list.innerHTML = '';
-                if(!data || data.length === 0) { list.innerHTML = '<p style="text-align:center">Hiện chưa có ưu đãi nào.</p>'; return; }
-                data.forEach(o => {
-                    const imgUrl = o.image_url || 'https://via.placeholder.com/300x120?text=No+Image';
-                    
-                    list.innerHTML += `
-                        <div class="hotel-card" style="padding:15px; border:1px dashed #d4af37; margin-bottom:10px;">
-                            <img src="${imgUrl}" style="width:100%; height:120px; object-fit:cover; border-radius:4px" onerror="this.src='https://via.placeholder.com/300x120'">
-                            <h3 style="margin-top:10px; font-size:18px">${o.title}</h3>
-                            <p style="font-size:14px; color:#555">${o.description}</p>
-                            <div style="margin-top:10px;">
-                                <strong style="background:#d4af37; color:white; padding:5px 10px; border-radius:4px;">CODE: ${o.discount_code}</strong>
-                            </div>
-                        </div>`;
-                });
-            })
-            .catch(() => list.innerHTML = '<p style="text-align:center; color:red">Lỗi tải ưu đãi.</p>');
+    postData(CONFIG.API.REGISTER, data)
+        .then(d => {
+            alert(d.message);
+            if (d.success) window.closeModal('register-modal');
+        })
+        .catch(err => alert('Lỗi kết nối: ' + err));
+};
+
+// Xử lý Liên Hệ
+window.handleContact = function() {
+    const data = {
+        fullName: document.getElementById('contact-name').value,
+        email: document.getElementById('contact-email').value,
+        message: document.getElementById('contact-msg').value
     };
+    postData(CONFIG.API.CONTACT, data)
+        .then(d => { alert(d.message); window.closeModal('contact-modal'); })
+        .catch(err => alert('Lỗi gửi liên hệ.'));
+};
 
-    // 6. Lịch Sử Đặt Phòng
+// Xử lý Ưu Đãi
+window.openOffers = function() {
+    window.openModalById('offers-modal');
+    const list = document.getElementById('offers-list');
+    list.innerHTML = '<p style="text-align:center">Đang tải...</p>';
+    
+    fetch(CONFIG.API.OFFERS)
+        .then(res => res.json())
+        .then(data => {
+            list.innerHTML = '';
+            if(!data || data.length === 0) { list.innerHTML = '<p style="text-align:center">Hiện chưa có ưu đãi nào.</p>'; return; }
+            data.forEach(o => {
+                const imgUrl = o.image_url || 'https://via.placeholder.com/300x120?text=No+Image';
+                
+                list.innerHTML += `
+                    <div class="hotel-card" style="padding:15px; border:1px dashed #d4af37; margin-bottom:10px;">
+                        <img src="${imgUrl}" style="width:100%; height:120px; object-fit:cover; border-radius:4px" onerror="this.src='https://via.placeholder.com/300x120'">
+                        <h3 style="margin-top:10px; font-size:18px">${o.title}</h3>
+                        <p style="font-size:14px; color:#555">${o.description}</p>
+                        <div style="margin-top:10px;">
+                            <strong style="background:#d4af37; color:white; padding:5px 10px; border-radius:4px;">CODE: ${o.discount_code}</strong>
+                        </div>
+                    </div>`;
+            });
+        })
+        .catch(() => list.innerHTML = '<p style="text-align:center; color:red">Lỗi tải ưu đãi.</p>');
+};
+
+    // 6. Lịch Sử Đặt Phòng (SỬA LẠI PHẦN NÀY ĐỂ HIỆN GIÁ ĐÚNG)
     window.openHistoryModal = function() {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(m => m.style.display = 'none');
@@ -304,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fetch(`/api/user-bookings?phone=${phone}`)
             .then(res => {
-                if (!res.ok) throw new Error('Lỗi phản hồi từ server');
+                if (!res.ok) throw new Error('Lỗi phản hồi từ server'); // Kiểm tra lỗi mạng
                 return res.json();
             })
             .then(data => {
@@ -320,6 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const created = new Date(item.created_at).toLocaleDateString('vi-VN');
                     const img = item.image_url || CONFIG.DEFAULT_IMG;
                     
+                    // Ưu tiên hiển thị total_price (giá thực tế), nếu không có thì lấy price_per_night (giá gốc)
                     let displayPrice = item.total_price ? item.total_price : item.price_per_night;
                     displayPrice = displayPrice ? Number(displayPrice).toLocaleString() : '---';
 
