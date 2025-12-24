@@ -22,7 +22,7 @@ const dbConnection = mysql.createPool({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     ssl: { rejectUnauthorized: false },
-    waitForConnections: true, // Giữ nguyên cấu hình Pool chuẩn
+    waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
@@ -93,7 +93,6 @@ app.post('/api/contact', (req, res) => {
 
 app.post('/api/bookings', (req, res) => {
     const { hotelId, name, phone, dateStart, dateEnd, totalPrice } = req.body;
-    // Đảm bảo cột total_price đã có trong DB
     const sql = 'INSERT INTO bookings (hotel_id, user_name, user_phone, check_in_date, check_out_date, total_price) VALUES (?, ?, ?, ?, ?, ?)';
     dbConnection.query(sql, [hotelId, name, phone, dateStart, dateEnd, totalPrice], (err, result) => {
         if (err) return res.status(500).json({ success: false, message: 'Lỗi đặt phòng' });
@@ -108,7 +107,6 @@ app.get('/api/offers', (req, res) => {
     });
 });
 
-// --- SỬA LẠI ĐOẠN API LỊCH SỬ NÀY ---
 app.get('/api/user-bookings', (req, res) => {
     const phone = req.query.phone;
     if (!phone) return res.json([]); 
@@ -128,7 +126,7 @@ app.get('/api/user-bookings', (req, res) => {
 
     dbConnection.query(sql, [phone], (err, results) => {
         if (err) {
-            console.error("Lỗi lấy lịch sử:", err); // Log lỗi ra terminal để dễ sửa
+            console.error("Lỗi lấy lịch sử:", err);
             return res.status(500).json({ error: 'Lỗi Database' });
         }
         res.json(results);

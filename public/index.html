@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotels & Resorts</title>
     <link rel="icon" type="jpg" href="logo.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <nav class="navbar">
@@ -22,10 +26,12 @@
                 <li><a href="#" onclick="openHistoryModal()">Lịch sử</a></li>
                 <li><a href="/" onclick="event.preventDefault(); window.location.href='/'">Khách sạn</a></li>
                 <li><a href="#" onclick="event.preventDefault(); window.openOffers()">Ưu đãi</a></li>
-                <li><a href="#" onclick="event.preventDefault(); window.openModalById('register-modal')">Hội viên</a></li>
+                <li><a href="#" onclick="event.preventDefault(); window.openModalById('register-modal')">Hội viên</a>
+                </li>
                 <li><a href="#" onclick="event.preventDefault(); window.openModalById('contact-modal')">Liên hệ</a></li>
                 <li>
-                    <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleDarkMode()" title="Chuyển đổi chế độ sáng/tối">
+                    <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleDarkMode()"
+                        title="Chuyển đổi chế độ sáng/tối">
                         <i class="fa-solid fa-moon"></i>
                     </button>
                 </li>
@@ -49,7 +55,7 @@
 
     <div id="floating-search-bar" class="floating-search">
         <form id="booking-form" class="search-inner" onsubmit="return false;">
-            
+
             <div class="search-item">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <div class="search-input-wrapper">
@@ -62,7 +68,8 @@
                 <i class="fa-regular fa-calendar search-icon"></i>
                 <div class="search-input-wrapper">
                     <label>Ngày đi - về</label>
-                    <input type="text" id="check-in" placeholder="Thêm ngày" onfocus="(this.type='date')" onblur="(this.type='text')">
+                    <input type="text" id="check-in" placeholder="Thêm ngày" onfocus="(this.type='date')"
+                        onblur="(this.type='text')">
                 </div>
             </div>
 
@@ -80,25 +87,26 @@
 
     <main class="container result-container">
         <div class="container main-layout">
-        
+
             <div class="content-left">
                 <h2 class="section-title">Khách sạn nổi bật</h2>
                 <div id="results" class="hotel-grid">
-                    </div>
+                </div>
             </div>
-    
+
             <aside class="content-right">
                 <div class="sidebar-box">
                     <h3><i class="fa-solid fa-filter"></i> Lọc kết quả</h3>
-                    
+
                     <div class="filter-group">
                         <label>Mức giá tối đa</label>
-                        <input type="range" id="price-range" min="0" max="10000000" step="500000" value="10000000" oninput="updateFilterLabel()">
+                        <input type="range" id="price-range" min="0" max="10000000" step="500000" value="10000000"
+                            oninput="updateFilterLabel()">
                         <p id="price-label" style="font-size:13px; color:#d82b45; font-weight:bold; margin-top:5px">
                             10.000.000 VNĐ
                         </p>
                     </div>
-    
+
                     <div class="filter-group">
                         <label>Hạng sao</label>
                         <div class="checkbox-row">
@@ -108,10 +116,10 @@
                             <input type="checkbox" class="star-check" value="4"> 4 sao (Premium)
                         </div>
                     </div>
-    
+
                     <button class="btn-sidebar" onclick="applyFilters()">Áp dụng ngay</button>
                 </div>
-                
+
                 <div class="sidebar-box" style="background: #fdfbf0; border-color: #d4af37;">
                     <h3><i class="fa-solid fa-star"></i> Tại sao chọn dịch vụ của chúng tôi?</h3>
                     <ul class="benefit-list">
@@ -122,34 +130,83 @@
                 </div>
             </aside>
         </div>
-    
+
+        <section class="lifestyle-section">
+            <div class="container">
+                <h2 class="section-title">Khám phá theo phong cách sống</h2>
+                <p class="lifestyle-subtitle">Tìm khách sạn phù hợp với phong cách du lịch của bạn</p>
+
+                <div class="lifestyle-grid">
+                    <div class="lifestyle-card" onclick="filterByLifestyle('romantic')">
+                        <div class="lifestyle-icon">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <h3>Lãng mạn</h3>
+                        <p>Dành cho cặp đôi</p>
+                        <div class="lifestyle-features">
+                            <span><i class="fa-solid fa-spa"></i> Spa thư giãn</span>
+                            <span><i class="fa-solid fa-champagne-glasses"></i> Không gian riêng tư</span>
+                            <span><i class="fa-solid fa-heart"></i> View lãng mạn</span>
+                        </div>
+                    </div>
+
+                    <div class="lifestyle-card" onclick="filterByLifestyle('family')">
+                        <div class="lifestyle-icon">
+                            <i class="fa-solid fa-people-roof"></i>
+                        </div>
+                        <h3>Gia đình</h3>
+                        <p>Tiện nghi cho cả nhà</p>
+                        <div class="lifestyle-features">
+                            <span><i class="fa-solid fa-child"></i> Khu vui chơi trẻ em</span>
+                            <span><i class="fa-solid fa-utensils"></i> Nhà hàng đa dạng</span>
+                            <span><i class="fa-solid fa-door-open"></i> Phòng rộng rãi</span>
+                        </div>
+                    </div>
+
+                    <div class="lifestyle-card" onclick="filterByLifestyle('nature')">
+                        <div class="lifestyle-icon">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <h3>Thiên nhiên</h3>
+                        <p>Yêu thích không gian xanh</p>
+                        <div class="lifestyle-features">
+                            <span><i class="fa-solid fa-tree"></i> Không gian xanh</span>
+                            <span><i class="fa-solid fa-mountain"></i> Gần thiên nhiên</span>
+                            <span><i class="fa-solid fa-recycle"></i> Thân thiện môi trường</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="slider-section">
             <div class="container">
                 <h2 class="section-title">Gợi ý cho bạn</h2>
                 <div class="scrolling-wrapper" id="recommend-slider">
-                    </div>
+                </div>
             </div>
         </section>
     </main>
 
-        <div id="register-modal" class="modal">
+    <div id="register-modal" class="modal">
         <div class="modal-content" style="max-width: 320px; padding: 30px;">
             <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
             <div class="modal-info">
                 <h2 class="modal-title" style="text-align: center; margin-bottom: 20px;">Đăng Ký Hội Viên</h2>
-                
+
                 <input type="text" id="reg-name" placeholder="Họ tên" class="form-input">
                 <input type="email" id="reg-email" placeholder="Email" class="form-input">
-                
+
                 <div class="password-wrapper" style="position: relative; margin-top: 10px;">
-                    <input type="password" id="reg-pass" placeholder="Mật khẩu" class="form-input" style="width: 100%; padding-right: 40px;">
-                    
-                    <i class="fa-regular fa-eye-slash" 
-                       onclick="togglePassword(this)"
-                       style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;">
+                    <input type="password" id="reg-pass" placeholder="Mật khẩu" class="form-input"
+                        style="width: 100%; padding-right: 40px;">
+
+                    <i class="fa-regular fa-eye-slash" onclick="togglePassword(this)"
+                        style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;">
                     </i>
                 </div>
-                <button class="btn-book" onclick="handleRegister()" style="width: 100%; margin-top: 20px;">ĐĂNG KÝ NGAY</button>
+                <button class="btn-book" onclick="handleRegister()" style="width: 100%; margin-top: 20px;">ĐĂNG KÝ
+                    NGAY</button>
             </div>
         </div>
     </div>
@@ -170,7 +227,8 @@
                         <i class="fa-regular fa-eye-slash" onclick="togglePassword(this)"></i>
                     </div>
 
-                    <button class="btn-book" onclick="handleLogin()" style="width: 100%; margin-top: 10px;">ĐĂNG NHẬP</button>
+                    <button class="btn-book" onclick="handleLogin()" style="width: 100%; margin-top: 10px;">ĐĂNG
+                        NHẬP</button>
                 </section>
 
                 <section class="auth-card">
@@ -184,7 +242,7 @@
                         <li><i class="fa-solid fa-check"></i> Lưu thông tin để đặt phòng 1 chạm</li>
                     </ul>
                     <button class="btn-book" style="width: 100%; margin-top: 10px;"
-                            onclick="closeModal('login-modal'); openModalById('register-modal');">
+                        onclick="closeModal('login-modal'); openModalById('register-modal');">
                         ĐĂNG KÝ HỘI VIÊN
                     </button>
                 </section>
@@ -223,13 +281,18 @@
         <div class="modal-content" style="max-width: 600px;">
             <span class="close-btn" onclick="closeModal('history-modal')">&times;</span>
             <div class="modal-info">
-                <h2 style="text-align:center; margin-bottom:20px; font-family:'Playfair Display', serif;">Đơn Phòng Của Bạn</h2>
-    
-                <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:20px">
-                    <input type="text" id="history-phone-input" class="form-input" placeholder="Nhập số điện thoại khi đặt..." style="margin:0">
-                    <button class="btn-book" onclick="viewMyBookings()" style="width:auto; margin:0; padding:0 25px; background:#d4af37; color:white; border:none;">TRA CỨU</button>
+                <h2 style="text-align:center; margin-bottom:20px; font-family:'Playfair Display', serif;">Đơn Phòng Của
+                    Bạn</h2>
+
+                <div
+                    style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:20px">
+                    <input type="text" id="history-phone-input" class="form-input"
+                        placeholder="Nhập số điện thoại khi đặt..." style="margin:0">
+                    <button class="btn-book" onclick="viewMyBookings()"
+                        style="width:auto; margin:0; padding:0 25px; background:#d4af37; color:white; border:none;">TRA
+                        CỨU</button>
                 </div>
-    
+
                 <div id="booking-history-list" style="max-height: 400px; overflow-y: auto;">
                     <p style="text-align:center; color:#666">Vui lòng nhập SĐT để xem lịch sử.</p>
                 </div>
@@ -247,7 +310,8 @@
                 </p>
                 <div style="display:flex; gap:10px;">
                     <button class="btn-book" style="flex:1;" onclick="confirmLogout()">ĐĂNG XUẤT</button>
-                    <button class="btn-book" style="flex:1; border-color:#999; color:#333;" onclick="closeModal('logout-modal')">
+                    <button class="btn-book" style="flex:1; border-color:#999; color:#333;"
+                        onclick="closeModal('logout-modal')">
                         HỦY
                     </button>
                 </div>
@@ -259,7 +323,8 @@
         <div class="container footer-grid">
             <div class="footer-col">
                 <h3><span class="logo-sub" style="color:#aaa">HOTELS</span></h3>
-                <p>Trải nghiệm dịch vụ đẳng cấp quốc tế tại những điểm đến tuyệt đẹp nhất Việt Nam. Chúng tôi cam kết mang lại kỳ nghỉ đáng nhớ cho bạn và gia đình.</p>
+                <p>Trải nghiệm dịch vụ đẳng cấp quốc tế tại những điểm đến tuyệt đẹp nhất Việt Nam. Chúng tôi cam kết
+                    mang lại kỳ nghỉ đáng nhớ cho bạn và gia đình.</p>
             </div>
 
             <div class="footer-col">
@@ -287,7 +352,7 @@
                 <p><i class="fa-solid fa-location-dot"></i> Ha69CS1</p>
                 <p><i class="fa-solid fa-phone"></i>0965247101</p>
                 <p><i class="fa-solid fa-envelope"></i> huycan01020304@gmail.com</p>
-                
+
                 <div class="social-links">
                     <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -311,13 +376,13 @@
 
         <div class="container">
             <div class="footer-top">
-               </div>
+            </div>
 
             <div class="project-disclaimer">
                 <p>
-                    <i class="fa-solid fa-circle-info"></i> 
-                    <strong>DISCLAIMER:</strong> This is a personal learning project. 
-                    Hotel names are used for demonstration purposes only. 
+                    <i class="fa-solid fa-circle-info"></i>
+                    <strong>DISCLAIMER:</strong> This is a personal learning project.
+                    Hotel names are used for demonstration purposes only.
                     Not affiliated with Meliá Hotels International.
                 </p>
             </div>
@@ -337,4 +402,5 @@
     </footer>
     <script src="script.js"></script>
 </body>
+
 </html>

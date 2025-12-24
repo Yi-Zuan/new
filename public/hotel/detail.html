@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết khách sạn</title>
     <link rel="icon" type="jpg" href="../hotel/favicons.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="../style.css"> <link rel="stylesheet" href="../hotel/detail.css"> </head>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../hotel/detail.css">
+</head>
+
 <body>
 
     <nav class="navbar">
@@ -17,7 +23,8 @@
                 <li><a href="/">Trang chủ</a></li>
                 <li><a href="/">Khách sạn</a></li>
                 <li>
-                    <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleDarkMode()" title="Chuyển đổi chế độ sáng/tối">
+                    <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleDarkMode()"
+                        title="Chuyển đổi chế độ sáng/tối">
                         <i class="fa-solid fa-moon"></i>
                     </button>
                 </li>
@@ -31,7 +38,7 @@
     </div>
 
     <div class="container main-detail">
-        
+
         <div class="detail-left">
             <div class="hotel-header">
                 <h1 id="hotel-name">Đang tải tên khách sạn...</h1>
@@ -43,9 +50,11 @@
                     <img id="hotel-img" src="" alt="Ảnh chính" onerror="this.src='https://via.placeholder.com/800x600'">
                 </div>
                 <div class="gallery-sub">
-                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=500&q=60" alt="Ảnh phụ 1">
+                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=500&q=60"
+                        alt="Ảnh phụ 1">
                     <div class="more-photos">
-                        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=500&q=60" alt="Ảnh phụ 2">
+                        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=500&q=60"
+                            alt="Ảnh phụ 2">
                         <div class="overlay">+5 ảnh</div>
                     </div>
                 </div>
@@ -58,24 +67,108 @@
 
             <div class="section">
                 <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Tiện nghi nổi bật</h3>
-                <div id="hotel-amenities" class="amenities-list">
+                <div id="hotel-amenities" class="amenities-grid">
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-location-dot"></i> Vị trí khách sạn</h3>
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.096825745846!2d105.78255631476295!3d21.028810785999108!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab4bd70dc38b%3A0x3beca8f9c6b9a4e7!2sHanoi%2C%20Vietnam!5e0!3m2!1sen!2s!4v1234567890"
+                        width="100%" height="350" style="border:0; border-radius: 12px;" allowfullscreen=""
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <p class="map-caption"><i class="fa-solid fa-map-pin"></i> Vị trí thuận tiện, gần các điểm tham quan
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-star"></i> Đánh giá từ khách hàng</h3>
+                <div class="rating-summary">
+                    <div class="rating-score">
+                        <div class="score-number">4.8</div>
+                        <div class="score-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <div class="score-text">Xuất sắc (248 đánh giá)</div>
                     </div>
+                    <div class="rating-breakdown">
+                        <div class="rating-item">
+                            <span>Sạch sẽ</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 100%"></div>
+                            </div>
+                            <span class="rating-value">5.0</span>
+                        </div>
+                        <div class="rating-item">
+                            <span>Phục vụ</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 96%"></div>
+                            </div>
+                            <span class="rating-value">4.8</span>
+                        </div>
+                        <div class="rating-item">
+                            <span>Vị trí</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 94%"></div>
+                            </div>
+                            <span class="rating-value">4.7</span>
+                        </div>
+                        <div class="rating-item">
+                            <span>Tiện nghi</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 92%"></div>
+                            </div>
+                            <span class="rating-value">4.6</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reviews-container" class="reviews-list">
+                    <!-- Reviews will be loaded dynamically -->
+                </div>
             </div>
         </div>
 
         <div class="detail-right">
             <div class="booking-card">
+                <!-- Booking Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-steps">
+                        <div class="progress-step active" data-step="1">
+                            <div class="step-circle">1</div>
+                            <div class="step-label">Thông tin</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step" data-step="2">
+                            <div class="step-circle">2</div>
+                            <div class="step-label">Thanh toán</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step" data-step="3">
+                            <div class="step-circle">3</div>
+                            <div class="step-label">Hoàn tất</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="price-header">
                     <p>Giá chỉ từ</p>
                     <h2 id="hotel-price">...</h2>
                     <span>/ đêm</span>
                 </div>
-                
+
                 <hr class="divider">
 
                 <div class="booking-form">
                     <input type="hidden" id="current-hotel-id">
-                    
+
                     <div class="form-group">
                         <label>Thông tin người đặt</label>
                         <input type="text" id="book-name" placeholder="Họ và tên">
@@ -94,24 +187,42 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label style="font-weight: bold; font-size: 13px; margin-bottom: 5px; display: block;">Mã ưu đãi (4 Mùa)</label>
-                        
+                        <label style="font-weight: bold; font-size: 13px; margin-bottom: 5px; display: block;">Mã ưu đãi
+                            (4 Mùa)</label>
+
                         <div style="display: flex; gap: 8px;">
-                            <input type="text" id="coupon-code" placeholder="VD: SUMMER20" 
-                                   style="text-transform: uppercase; flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                            
-                            <button type="button" onclick="applyCoupon()" 
-                                    style="background: #212121; color: white; border: none; padding: 0 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            <input type="text" id="coupon-code" placeholder="VD: SUMMER20"
+                                style="text-transform: uppercase; flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+
+                            <button type="button" onclick="applyCoupon()"
+                                style="background: #212121; color: white; border: none; padding: 0 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
                                 Áp dụng
                             </button>
                         </div>
-                        
+
                         <p id="coupon-msg" style="font-size: 12px; margin-top: 5px; min-height: 18px; color: #666;"></p>
                     </div>
 
                     <div class="total-preview">
                         <span>Tạm tính:</span>
                         <span id="total-price" style="font-weight:bold; color:#d82b45">0 VND</span>
+                    </div>
+
+                    <!-- Cancellation Policy -->
+                    <div class="cancellation-policy">
+                        <h4><i class="fa-solid fa-info-circle"></i> Chính sách hoàn hủy</h4>
+                        <div class="policy-item">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span><strong>Hủy trước 7 ngày:</strong> Hoàn 100% tiền</span>
+                        </div>
+                        <div class="policy-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span><strong>Hủy 3-7 ngày:</strong> Hoàn 50% tiền</span>
+                        </div>
+                        <div class="policy-item">
+                            <i class="fa-solid fa-xmark-circle"></i>
+                            <span><strong>Hủy trong 3 ngày:</strong> Không hoàn tiền</span>
+                        </div>
                     </div>
 
                     <button class="btn-confirm" onclick="submitBooking()">XÁC NHẬN ĐẶT PHÒNG</button>
@@ -133,4 +244,5 @@
 
     <script src="../hotel/detail.js"></script>
 </body>
+
 </html>
