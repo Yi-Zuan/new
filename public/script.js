@@ -460,35 +460,91 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dom.searchBtn) dom.searchBtn.addEventListener('click', (e) => { e.preventDefault(); performSearch(); });
     performSearch();
 
-    // Filter
+    // Lifestyle Filter Function - Using actual database cities
     window.filterByLifestyle = function (lifestyle) {
-        let keyword = '';
-
         switch (lifestyle) {
             case 'romantic':
-                keyword = 'Resort';
-                alert(' Đang tìm khách sạn lãng mạn cho cặp đôi...');
+                alert('🌹 Đang tìm khách sạn lãng mạn cho cặp đôi...');
+
+                // Fetch all hotels and filter by rating and romantic amenities
+                fetch(CONFIG.API.HOTELS)
+                    .then(res => res.json())
+                    .then(data => {
+                        allHotelsData = data;
+                        const filtered = data.filter(h => {
+                            const rating = h.rating || 4.0;
+                            const hasRomanticAmenities = h.amenities && (
+                                h.amenities.toLowerCase().includes('spa') ||
+                                h.amenities.toLowerCase().includes('hồ bơi') ||
+                                h.amenities.toLowerCase().includes('pool') ||
+                                h.amenities.toLowerCase().includes('view')
+                            );
+                            // High-end hotels in romantic cities
+                            const romanticCities = ['Đà Nẵng', 'Nha Trang', 'Vũng Tàu'];
+                            const inRomanticCity = romanticCities.some(city =>
+                                h.city && h.city.includes(city)
+                            );
+                            return rating >= 4.5 || hasRomanticAmenities || inRomanticCity;
+                        });
+                        renderHotels(filtered.length > 0 ? filtered : data);
+                        scrollToResults();
+                    })
+                    .catch(err => {
+                        console.error('Error fetching hotels:', err);
+                        performSearch();
+                    });
                 break;
+
             case 'family':
-                keyword = 'Hotel';
-                alert(' Đang tìm khách sạn thích hợp cho gia đình...');
+                alert('👨‍👩‍👧‍👦 Đang tìm khách sạn thích hợp cho gia đình...');
+
+                // Fetch all hotels and filter for family-friendly
+                fetch(CONFIG.API.HOTELS)
+                    .then(res => res.json())
+                    .then(data => {
+                        allHotelsData = data;
+                        const filtered = data.filter(h => {
+                            const hasBreakfast = h.amenities && h.amenities.toLowerCase().includes('ăn sáng');
+                            const hasParking = h.amenities && (
+                                h.amenities.toLowerCase().includes('bãi đỗ') ||
+                                h.amenities.toLowerCase().includes('parking')
+                            );
+                            const affordablePrice = h.price_per_night <= 3000000;
+                            // Cities good for families
+                            const familyCities = ['Hà Nội', 'TP Hồ Chí Minh', 'Đà Nẵng'];
+                            const inFamilyCity = familyCities.some(city =>
+                                h.city && h.city.includes(city)
+                            );
+                            return hasBreakfast || hasParking || affordablePrice || inFamilyCity;
+                        });
+                        renderHotels(filtered.length > 0 ? filtered : data);
+                        scrollToResults();
+                    })
+                    .catch(err => {
+                        console.error('Error fetching hotels:', err);
+                        performSearch();
+                    });
                 break;
+
             case 'nature':
-                keyword = 'Phu Quoc';
-                alert(' Đang tìm khách sạn gần thiên nhiên...');
+                alert('🌿 Đang tìm khách sạn gần thiên nhiên...');
+
+                // Search for beach and nature destinations
+                if (dom.destInput) {
+                    dom.destInput.value = 'Đà Nẵng'; // Beach city
+                }
+                performSearch();
+                scrollToResults();
                 break;
-        }
-
-        if (dom.destInput) {
-            dom.destInput.value = keyword;
-        }
-
-        performSearch();
-
-        // results
-        const resultsSection = document.getElementById('results');
-        if (resultsSection) {
-            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
+
+    function scrollToResults() {
+        const resultsSection = document.getElementById('results');
+        if (resultsSection) {
+            setTimeout(() => {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }
 });
