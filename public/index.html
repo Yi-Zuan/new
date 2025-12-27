@@ -85,6 +85,54 @@
         </form>
     </div>
 
+    <section class="lifestyle-section">
+        <div class="container">
+            <h2 class="section-title">Khám phá theo phong cách sống</h2>
+            <p class="lifestyle-subtitle">Tìm khách sạn phù hợp với phong cách du lịch của bạn</p>
+
+            <div class="lifestyle-grid">
+                <div class="lifestyle-card" onclick="filterByLifestyle('romantic')">
+                    <div class="lifestyle-icon">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h3>Lãng mạn</h3>
+                    <p>Dành cho cặp đôi</p>
+                    <div class="lifestyle-features">
+                        <span><i class="fa-solid fa-spa"></i> Spa thư giãn</span>
+                        <span><i class="fa-solid fa-champagne-glasses"></i> Không gian riêng tư</span>
+                        <span><i class="fa-solid fa-heart"></i> View lãng mạn</span>
+                    </div>
+                </div>
+
+                <div class="lifestyle-card" onclick="filterByLifestyle('family')">
+                    <div class="lifestyle-icon">
+                        <i class="fa-solid fa-people-roof"></i>
+                    </div>
+                    <h3>Gia đình</h3>
+                    <p>Tiện nghi cho cả nhà</p>
+                    <div class="lifestyle-features">
+                        <span><i class="fa-solid fa-child"></i> Khu vui chơi trẻ em</span>
+                        <span><i class="fa-solid fa-utensils"></i> Nhà hàng đa dạng</span>
+                        <span><i class="fa-solid fa-door-open"></i> Phòng rộng rãi</span>
+                    </div>
+                </div>
+
+                <div class="lifestyle-card" onclick="filterByLifestyle('nature')">
+                    <div class="lifestyle-icon">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3>Thiên nhiên</h3>
+                    <p>Yêu thích không gian xanh</p>
+                    <div class="lifestyle-features">
+                        <span><i class="fa-solid fa-tree"></i> Không gian xanh</span>
+                        <span><i class="fa-solid fa-mountain"></i> Gần thiên nhiên</span>
+                        <span><i class="fa-solid fa-recycle"></i> Thân thiện môi trường</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <main class="container result-container">
         <div class="container main-layout">
 
@@ -130,54 +178,6 @@
                 </div>
             </aside>
         </div>
-
-        <section class="lifestyle-section">
-            <div class="container">
-                <h2 class="section-title">Khám phá theo phong cách sống</h2>
-                <p class="lifestyle-subtitle">Tìm khách sạn phù hợp với phong cách du lịch của bạn</p>
-
-                <div class="lifestyle-grid">
-                    <div class="lifestyle-card" onclick="filterByLifestyle('romantic')">
-                        <div class="lifestyle-icon">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
-                        <h3>Lãng mạn</h3>
-                        <p>Dành cho cặp đôi</p>
-                        <div class="lifestyle-features">
-                            <span><i class="fa-solid fa-spa"></i> Spa thư giãn</span>
-                            <span><i class="fa-solid fa-champagne-glasses"></i> Không gian riêng tư</span>
-                            <span><i class="fa-solid fa-heart"></i> View lãng mạn</span>
-                        </div>
-                    </div>
-
-                    <div class="lifestyle-card" onclick="filterByLifestyle('family')">
-                        <div class="lifestyle-icon">
-                            <i class="fa-solid fa-people-roof"></i>
-                        </div>
-                        <h3>Gia đình</h3>
-                        <p>Tiện nghi cho cả nhà</p>
-                        <div class="lifestyle-features">
-                            <span><i class="fa-solid fa-child"></i> Khu vui chơi trẻ em</span>
-                            <span><i class="fa-solid fa-utensils"></i> Nhà hàng đa dạng</span>
-                            <span><i class="fa-solid fa-door-open"></i> Phòng rộng rãi</span>
-                        </div>
-                    </div>
-
-                    <div class="lifestyle-card" onclick="filterByLifestyle('nature')">
-                        <div class="lifestyle-icon">
-                            <i class="fa-solid fa-leaf"></i>
-                        </div>
-                        <h3>Thiên nhiên</h3>
-                        <p>Yêu thích không gian xanh</p>
-                        <div class="lifestyle-features">
-                            <span><i class="fa-solid fa-tree"></i> Không gian xanh</span>
-                            <span><i class="fa-solid fa-mountain"></i> Gần thiên nhiên</span>
-                            <span><i class="fa-solid fa-recycle"></i> Thân thiện môi trường</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <section class="slider-section">
             <div class="container">

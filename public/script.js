@@ -464,8 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.filterByLifestyle = function (lifestyle) {
         switch (lifestyle) {
             case 'romantic':
-                alert('🌹 Đang tìm khách sạn lãng mạn cho cặp đôi...');
-
                 // Fetch all hotels and filter by rating and romantic amenities
                 fetch(CONFIG.API.HOTELS)
                     .then(res => res.json())
@@ -496,8 +494,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
 
             case 'family':
-                alert('👨‍👩‍👧‍👦 Đang tìm khách sạn thích hợp cho gia đình...');
-
                 // Fetch all hotels and filter for family-friendly
                 fetch(CONFIG.API.HOTELS)
                     .then(res => res.json())
@@ -527,8 +523,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
 
             case 'nature':
-                alert('🌿 Đang tìm khách sạn gần thiên nhiên...');
-
                 // Search for beach and nature destinations
                 if (dom.destInput) {
                     dom.destInput.value = 'Đà Nẵng'; // Beach city
