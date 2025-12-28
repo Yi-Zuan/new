@@ -43,6 +43,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make toggle function globally available
     window.toggleDarkMode = toggleDarkMode;
 
+    // Check and update login state on page load
+    function checkLoginState() {
+        const userJson = localStorage.getItem('user');
+        const navBtn = document.getElementById('nav-login');
+
+        if (userJson && navBtn) {
+            const user = JSON.parse(userJson);
+            navBtn.innerHTML = `<i class="fa-solid fa-user"></i> ${user.full_name}`;
+        } else if (navBtn) {
+            navBtn.innerText = "Đăng nhập";
+        }
+    }
+
+    // Call checkLoginState on page load
+    checkLoginState();
+
+    // Handle auth button click
+    window.handleAuthClick = function (event) {
+        event.preventDefault();
+        const user = localStorage.getItem('user');
+
+        if (user) {
+            window.openModalById('logout-modal');
+        } else {
+            window.openModalById('login-modal');
+        }
+    };
+
+    window.confirmLogout = function () {
+        localStorage.removeItem('user');
+        closeModal('logout-modal');
+        checkLoginState();
+        alert('Đã đăng xuất thành công!');
+    };
+
     // Modal Functions
     window.openModalById = function (id) {
         const modal = document.getElementById(id);

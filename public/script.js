@@ -354,11 +354,27 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(() => list.innerHTML = '<p style="text-align:center; color:red">Lỗi tải ưu đãi.</p>');
     };
 
-    // 6. Lịch Sử Đặt Phòng (SỬA LẠI PHẦN NÀY ĐỂ HIỆN GIÁ ĐÚNG)
+    // 6. Lịch Sử Đặt Phòng (REQUIRE LOGIN)
     window.openHistoryModal = function () {
+        // Check if user is logged in
+        const savedUser = localStorage.getItem('user');
+        if (!savedUser) {
+            alert('Vui lòng đăng nhập để xem lịch sử đặt phòng!');
+            window.openModalById('login-modal');
+            return;
+        }
+
+        // Close all other modals
         const modals = document.querySelectorAll('.modal');
         modals.forEach(m => m.style.display = 'none');
         window.openModalById('history-modal');
+
+        // Auto-fill phone number if user data has it
+        const user = JSON.parse(savedUser);
+        const phoneInput = document.getElementById('history-phone-input');
+        if (phoneInput && user.phone) {
+            phoneInput.value = user.phone;
+        }
     }
 
     window.viewMyBookings = function () {
