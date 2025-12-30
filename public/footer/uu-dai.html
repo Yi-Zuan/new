@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Ưu đãi độc quyền</title>
+    <link rel = "icon" href = "../logo.jpg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="video-intro-overlay">
+        <video autoplay muted playsinline>
+            <source src="../video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <nav class="navbar" style="background: white; position: sticky; top:0; z-index: 100;">
+        <div class="container nav-container">
+            <div class="logo"><a href="../index.html" style="color:black">BOOKING LUXURY</a></div>
+            <ul class="nav-links"><li><a href="../index.html" style="color:black">Trang chủ</a></li></ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 style="text-align: center; margin: 60px 0; font-family: 'Playfair Display'; font-size: 3.5rem;">Ưu Đãi Đặc Biệt</h1>
+
+        <div class="offer-item" style="display:flex; margin-bottom: 100px; background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--card-shadow);">
+            <img src="https://images.unsplash.com/photo-1544124499-58912cbddaad" style="width:50%; object-fit: cover;">
+            <div style="padding: 60px; width: 50%;">
+                <span style="color:var(--accent-color); font-weight: bold; letter-spacing: 2px;">GIẢM GIÁ 30%</span>
+                <h2 style="font-size: 2.5rem; margin: 20px 0;">Kỳ Nghỉ Hè Thiên Đường</h2>
+                <p style="color: #666; margin-bottom: 30px;">Dành cho các thành viên đặt phòng sớm tại hệ thống nghỉ dưỡng ven biển.</p>
+                <a href="#chi-tiet-uu-dai" class="btn-primary" style="text-decoration:none">XEM CHI TIẾT ƯU ĐÃI</a>
+            </div>
+        </div>
+
+        <div id="chi-tiet-uu-dai" class="detail-section">
+            <div class="detail-grid">
+                <div>
+                    <h3 style="font-size: 2rem; color: var(--accent-color); margin-bottom: 25px;">Điều khoản & Đặc quyền</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 15px;"><i class="fa-solid fa-check" style="color:green; margin-right: 10px;"></i> Miễn phí bữa sáng Buffet cao cấp hàng ngày.</li>
+                        <li style="margin-bottom: 15px;"><i class="fa-solid fa-check" style="color:green; margin-right: 10px;"></i> Tặng 01 liệu trình Spa 60 phút cho 02 người.</li>
+                        <li style="margin-bottom: 15px;"><i class="fa-solid fa-check" style="color:green; margin-right: 10px;"></i> Đưa đón sân bay bằng xe hạng sang.</li>
+                        <li style="margin-bottom: 15px;"><i class="fa-solid fa-check" style="color:green; margin-right: 10px;"></i> Giảm 20% các dịch vụ tại quầy Bar và Nhà hàng.</li>
+                    </ul>
+                </div>
+                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d" class="detail-image">
+            </div>
+        </div>
+    </div>
+    <script>
+        // Hiệu ứng cuộn mượt
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

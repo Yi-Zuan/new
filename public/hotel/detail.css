@@ -913,7 +913,8 @@ body {
     margin-bottom: 50px;
 }
 
-.footer-col h3, .footer-col h4 {
+.footer-col h3,
+.footer-col h4 {
     color: var(--white);
     margin-bottom: 25px;
 }

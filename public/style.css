@@ -1,1244 +1,1493 @@
     /* 1: Theme */
-   :root {
-    --primary-color: #1a1a1a; 
-    --accent-color: #d4af37; 
-    --accent-hover: #b8860b;  
-    --danger-color: #d82b45;  
-    --text-light: #555555;
-    --bg-light: #f9f9f9;  
-    --white: #ffffff;
-    --card-shadow: 0 15px 40px rgba(0,0,0,0.08);
-    --navbar-bg: rgba(255, 255, 255, 0.95);
-    --navbar-shadow: rgba(0,0,0,0.05);
-    --card-bg: #ffffff;
-    --input-bg: #ffffff;
-    --input-border: #ddd;
-    --modal-bg: #ffffff;
-    --footer-bg: #000000;
-    --footer-text: #b0b0b0;
-    --search-bg: #ffffff;
-}
-
-/* Dark Mode Theme */
-[data-theme="dark"] {
-    --primary-color: #f0f0f0;
-    --accent-color: #d4af37;
-    --accent-hover: #f0c850;
-    --danger-color: #ff4757;
-    --text-light: #d0d0d0;
-    --bg-light: #1a1a1a;
-    --white: #2a2a2a;
-    --card-shadow: 0 15px 40px rgba(0,0,0,0.5);
-    --navbar-bg: rgba(26, 26, 26, 0.98);
-    --navbar-shadow: rgba(0,0,0,0.4);
-    --card-bg: #2a2a2a;
-    --input-bg: #333333;
-    --input-border: #555555;
-    --modal-bg: #2a2a2a;
-    --footer-bg: #1a1a1a;
-    --footer-text: #b0b0b0;
-    --search-bg: #333333;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-light);
-    color: var(--primary-color);
-    line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/*2. NAVBAR */
-.navbar {
-    background: var(--navbar-bg);
-    backdrop-filter: blur(10px); /* Kính mờ */
-    box-shadow: 0 2px 20px var(--navbar-shadow);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--primary-color);
-    letter-spacing: 0.5px;
-}
-
-.logo-sub {
-    font-size: 12px;
-    font-family: 'Poppins', sans-serif;
-    color: var(--accent-color);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-left: 5px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--primary-color);
-    font-weight: 500;
-    position: relative;
-    transition: color 0.3s;
-}
-
-.nav-links a:hover { color: var(--accent-color); }
-
-/* Dark Mode Toggle Button */
-.theme-toggle {
-    background: transparent;
-    border: 2px solid var(--accent-color);
-    color: var(--accent-color);
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    margin-left: 10px;
-}
-
-.theme-toggle:hover {
-    background: var(--accent-color);
-    color: var(--white);
-    transform: scale(1.05);
-}
-
-.theme-toggle i {
-    font-size: 18px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    align-items: center;
-}
-
-.password-wrapper {
-    position: relative;
-    width: 100%;       
-    margin-bottom: 15px; 
-}
-
-.password-wrapper .form-input {
-    width: 100%;
-    padding-right: 45px; 
-    box-sizing: border-box; 
-}
-
-.password-wrapper i {
-    position: absolute;  
-    right: 15px;        
-    top: 50%;          
-    transform: translateY(-50%); 
-    cursor: pointer;     
-    color: #888;         
-    z-index: 2;     
-    font-size: 16px;
-}
-
-.password-wrapper i:hover {
-    color: #d4af37;
-}
-
-/* 3. Hero Section (Video)*/
-.hero {
-    height: 600px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--white);
-    background-color: #000;
-    overflow: hidden;
-}
-
-.hero-video {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: 0.8;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
-    z-index: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    animation: fadeInUp 1s ease-out;
-}
-
-.hero-content h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 52px;
-    margin-bottom: 15px;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.7);
-}
-
-.hero-content p {
-    font-size: 20px;
-    font-weight: 300;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 4. Search Box */
-
-/* Khung Thanh Tìm Kiếm */
-.floating-search {
-    position: fixed;
-    bottom: 20px; 
-    left: 50%;
-    transform: translateX(-50%); 
-    width: 95%;
-    max-width: 1100px;
-    z-index: 999;
-    
-    animation: flyUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-/* Hiệu Ứng Bay Lên */
-@keyframes flyUp {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 100px);
+    :root {
+        --primary-color: #1a1a1a;
+        --accent-color: #d4af37;
+        --accent-hover: #b8860b;
+        --danger-color: #d82b45;
+        --text-light: #555555;
+        --bg-light: #f9f9f9;
+        --white: #ffffff;
+        --card-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        --navbar-bg: rgba(255, 255, 255, 0.95);
+        --navbar-shadow: rgba(0, 0, 0, 0.05);
+        --card-bg: #ffffff;
+        --input-bg: #ffffff;
+        --input-border: #ddd;
+        --modal-bg: #ffffff;
+        --footer-bg: #000000;
+        --footer-text: #b0b0b0;
+        --search-bg: #ffffff;
     }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
+
+    /* Dark Mode Theme */
+    [data-theme="dark"] {
+        --primary-color: #f0f0f0;
+        --accent-color: #d4af37;
+        --accent-hover: #f0c850;
+        --danger-color: #ff4757;
+        --text-light: #d0d0d0;
+        --bg-light: #1a1a1a;
+        --white: #2a2a2a;
+        --card-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        --navbar-bg: rgba(26, 26, 26, 0.98);
+        --navbar-shadow: rgba(0, 0, 0, 0.4);
+        --card-bg: #2a2a2a;
+        --input-bg: #333333;
+        --input-border: #555555;
+        --modal-bg: #2a2a2a;
+        --footer-bg: #1a1a1a;
+        --footer-text: #b0b0b0;
+        --search-bg: #333333;
     }
-}
 
-/* Giao Diện Bên Trong */
-.search-inner {
-    background: var(--search-bg);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-    transition: background-color 0.3s ease;
-}
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-light);
+        color: var(--primary-color);
+        line-height: 1.6;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-/* Từng Ô Một */
-.search-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    gap: 15px;
-}
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
 
-.border-left {
-    border-left: 1px solid #eee;
-}
+    /*2. NAVBAR */
+    .navbar {
+        background: var(--navbar-bg);
+        backdrop-filter: blur(10px);
+        /* Kính mờ */
+        box-shadow: 0 2px 20px var(--navbar-shadow);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.search-icon {
-    font-size: 20px;
-    color: #666;
-    transition: color 0.3s ease;
-}
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-[data-theme="dark"] .search-icon {
-    color: #b0b0b0;
-}
+    .logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--primary-color);
+        letter-spacing: 0.5px;
+    }
 
-.search-input-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
+    .logo-sub {
+        font-size: 12px;
+        font-family: 'Poppins', sans-serif;
+        color: var(--accent-color);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-left: 5px;
+    }
 
-.search-input-wrapper label {
-    font-size: 12px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 2px;
-    transition: color 0.3s ease;
-}
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+    }
 
-[data-theme="dark"] .search-input-wrapper label {
-    color: var(--primary-color);
-}
+    .nav-links a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 500;
+        position: relative;
+        transition: color 0.3s;
+    }
 
-.search-input-wrapper input {
-    border: none;
-    outline: none;
-    font-size: 15px;
-    color: #555;
-    width: 100%;
-    background: transparent;
-    padding: 0;
-    transition: color 0.3s ease;
-}
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
 
-[data-theme="dark"] .search-input-wrapper input {
-    color: var(--primary-color);
-}
+    /* Dark Mode Toggle Button */
+    .theme-toggle {
+        background: transparent;
+        border: 2px solid var(--accent-color);
+        color: var(--accent-color);
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        margin-left: 10px;
+    }
 
-[data-theme="dark"] .search-input-wrapper input::placeholder {
-    color: #888;
-}
+    .theme-toggle:hover {
+        background: var(--accent-color);
+        color: var(--white);
+        transform: scale(1.05);
+    }
 
-/* Nút Bấm */
-#search-button {
-    background-color: #666;
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 14px;
-    white-space: nowrap;
-}
+    .theme-toggle i {
+        font-size: 18px;
+    }
 
-#search-button:hover {
-    background-color: #000;
-}
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
 
-[data-theme="dark"] #search-button {
-    background-color: #555;
-}
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+        margin-bottom: 15px;
+    }
 
-[data-theme="dark"] #search-button:hover {
-    background-color: var(--accent-color);
-    color: var(--white);
-}
+    .password-wrapper .form-input {
+        width: 100%;
+        padding-right: 45px;
+        box-sizing: border-box;
+    }
 
-/* Ẩn Thanh Tìm Kiếm */
-.floating-search.hidden-bar {
-    transform: translate(-50%, 150%); 
-    opacity: 0;
-}
+    .password-wrapper i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+        z-index: 2;
+        font-size: 16px;
+    }
 
-@media (max-width: 768px) {
+    .password-wrapper i:hover {
+        color: #d4af37;
+    }
+
+    /* 3. Hero Section (Video)*/
+    .hero {
+        height: 600px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--white);
+        background-color: #000;
+        overflow: hidden;
+    }
+
+    .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.8;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-content h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 52px;
+        margin-bottom: 15px;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-content p {
+        font-size: 20px;
+        font-weight: 300;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 4. Search Box */
+
+    /* Khung Thanh Tìm Kiếm */
+    .floating-search {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        max-width: 1100px;
+        z-index: 999;
+
+        animation: flyUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    /* Hiệu Ứng Bay Lên */
+    @keyframes flyUp {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 100px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+
+    /* Giao Diện Bên Trong */
     .search-inner {
+        background: var(--search-bg);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 15px;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.3s ease;
+    }
+
+    /* Từng Ô Một */
+    .search-item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        gap: 15px;
+    }
+
+    .border-left {
+        border-left: 1px solid #eee;
+    }
+
+    .search-icon {
+        font-size: 20px;
+        color: #666;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .search-icon {
+        color: #b0b0b0;
+    }
+
+    .search-input-wrapper {
+        display: flex;
         flex-direction: column;
+        width: 100%;
+    }
+
+    .search-input-wrapper label {
+        font-size: 12px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 2px;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .search-input-wrapper label {
+        color: var(--primary-color);
+    }
+
+    .search-input-wrapper input {
+        border: none;
+        outline: none;
+        font-size: 15px;
+        color: #555;
+        width: 100%;
+        background: transparent;
+        padding: 0;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .search-input-wrapper input {
+        color: var(--primary-color);
+    }
+
+    [data-theme="dark"] .search-input-wrapper input::placeholder {
+        color: #888;
+    }
+
+    /* Nút Bấm */
+    #search-button {
+        background-color: #666;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    #search-button:hover {
+        background-color: #000;
+    }
+
+    [data-theme="dark"] #search-button {
+        background-color: #555;
+    }
+
+    [data-theme="dark"] #search-button:hover {
+        background-color: var(--accent-color);
+        color: var(--white);
+    }
+
+    /* Ẩn Thanh Tìm Kiếm */
+    .floating-search.hidden-bar {
+        transform: translate(-50%, 150%);
+        opacity: 0;
+    }
+
+    @media (max-width: 768px) {
+        .search-inner {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-item {
+            width: 100%;
+            border-left: none;
+            border-bottom: 1px solid #eee;
+        }
+
+        #search-button {
+            width: 100%;
+        }
+    }
+
+    /* 5. Hotel Lists */
+    .result-container h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 32px;
+        margin-bottom: 40px;
+        position: relative;
+        display: inline-block;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .result-container h2 {
+        color: var(--primary-color);
+    }
+
+    .result-container h2::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--accent-color);
+        margin-top: 10px;
+    }
+
+    .hotel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 40px;
+        margin-bottom: 60px;
+    }
+
+    .hotel-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s ease;
+        border: 1px solid transparent;
+    }
+
+    .hotel-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+        border-color: rgba(212, 175, 55, 0.4);
+    }
+
+    .hotel-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .hotel-card:hover .hotel-img {
+        transform: scale(1.08);
+    }
+
+    .hotel-info {
+        padding: 25px;
+    }
+
+    .hotel-info h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        color: var(--primary-color);
+        font-family: 'Playfair Display', serif;
+        transition: color 0.3s ease;
+    }
+
+    .fav-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        border: none;
+        background: rgba(255, 255, 255, 0.9);
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        color: #888;
+        transition: background 0.2s, color 0.2s, transform 0.1s;
+    }
+
+    .fav-btn i {
+        pointer-events: none;
+    }
+
+    .fav-btn:hover {
+        transform: translateY(-1px);
+        color: var(--danger-color);
+    }
+
+    .fav-btn.fav-active {
+        background: #fff0f3;
+        color: var(--danger-color);
+    }
+
+    .hotel-info p {
+        color: var(--text-light);
+        font-size: 15px;
+        transition: color 0.3s ease;
+    }
+
+    .btn-book {
+        display: block;
+        margin-top: 20px;
+        padding: 12px;
+        border: 1px solid var(--primary-color);
+        background: transparent;
+        color: var(--primary-color);
+        text-align: center;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+        border-radius: 4px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+
+    .btn-book:hover {
+        background: var(--primary-color);
+        color: var(--white);
+    }
+
+    /* 6: Footer */
+    .main-footer {
+        background-color: var(--footer-bg);
+        color: var(--footer-text);
+        padding-top: 80px;
+        margin-top: 80px;
+        font-size: 14px;
+        border-top: 4px solid var(--accent-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 50px;
+        padding-bottom: 50px;
+    }
+
+    .footer-col h3 {
+        color: #fff;
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        margin-bottom: 20px;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .footer-col h3 {
+        color: var(--primary-color);
+    }
+
+    .footer-col h4 {
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 25px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        padding-bottom: 10px;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .footer-col h4 {
+        color: var(--primary-color);
+    }
+
+    .footer-col h4::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 30px;
+        height: 2px;
+        background: var(--accent-color);
+    }
+
+    .footer-col ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-col ul li {
+        margin-bottom: 12px;
+    }
+
+    .footer-col ul li a {
+        color: #888;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    [data-theme="dark"] .footer-col ul li a {
+        color: var(--text-light);
+    }
+
+    .footer-col ul li a:hover {
+        color: var(--accent-color);
+        padding-left: 5px;
+    }
+
+    .footer-col p {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
         gap: 10px;
     }
-    .search-item { width: 100%; border-left: none; border-bottom: 1px solid #eee; }
-    #search-button { width: 100%; }
-}
 
-/* 5. Hotel Lists */
-.result-container h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    margin-bottom: 40px;
-    position: relative;
-    display: inline-block;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .result-container h2 {
-    color: var(--primary-color);
-}
-
-.result-container h2::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: var(--accent-color);
-    margin-top: 10px;
-}
-
-.hotel-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 40px;
-    margin-bottom: 60px;
-}
-
-.hotel-card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--card-shadow);
-    transition: all 0.4s ease;
-    border: 1px solid transparent;
-}
-
-.hotel-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.12);
-    border-color: rgba(212, 175, 55, 0.4);
-}
-
-.hotel-img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-}
-
-.hotel-card:hover .hotel-img {
-    transform: scale(1.08);
-}
-
-.hotel-info { padding: 25px; }
-
-.hotel-info h3 {
-    margin: 0 0 10px;
-    font-size: 20px;
-    color: var(--primary-color);
-    font-family: 'Playfair Display', serif;
-    transition: color 0.3s ease;
-}
-
-.fav-btn {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    border: none;
-    background: rgba(255,255,255,0.9);
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    color: #888;
-    transition: background 0.2s, color 0.2s, transform 0.1s;
-}
-
-.fav-btn i {
-    pointer-events: none;
-}
-
-.fav-btn:hover {
-    transform: translateY(-1px);
-    color: var(--danger-color);
-}
-
-.fav-btn.fav-active {
-    background: #fff0f3;
-    color: var(--danger-color);
-}
-
-.hotel-info p {
-    color: var(--text-light);
-    font-size: 15px;
-    transition: color 0.3s ease;
-}
-
-.btn-book {
-    display: block;
-    margin-top: 20px;
-    padding: 12px;
-    border: 1px solid var(--primary-color);
-    background: transparent;
-    color: var(--primary-color);
-    text-align: center;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-    border-radius: 4px;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 13px;
-}
-
-.btn-book:hover {
-    background: var(--primary-color);
-    color: var(--white);
-}
-
-/* 6: Footer */
-.main-footer {
-    background-color: var(--footer-bg);
-    color: var(--footer-text);
-    padding-top: 80px;
-    margin-top: 80px;
-    font-size: 14px;
-    border-top: 4px solid var(--accent-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 50px;
-    padding-bottom: 50px;
-}
-
-.footer-col h3 {
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    margin-bottom: 20px;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .footer-col h3 {
-    color: var(--primary-color);
-}
-
-.footer-col h4 {
-    color: #fff;
-    font-size: 16px;
-    margin-bottom: 25px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    padding-bottom: 10px;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .footer-col h4 {
-    color: var(--primary-color);
-}
-
-.footer-col h4::after {
-    content: '';
-    position: absolute;
-    left: 0; bottom: 0;
-    width: 30px; height: 2px;
-    background: var(--accent-color);
-}
-
-.footer-col ul { list-style: none; padding: 0; }
-.footer-col ul li { margin-bottom: 12px; }
-
-.footer-col ul li a {
-    color: #888;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-[data-theme="dark"] .footer-col ul li a {
-    color: var(--text-light);
-}
-
-.footer-col ul li a:hover {
-    color: var(--accent-color);
-    padding-left: 5px;
-}
-
-.footer-col p {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.footer-col i { color: var(--accent-color); width: 20px; }
-
-.social-links { display: flex; gap: 15px; margin-top: 20px; }
-.social-links a {
-    color: #fff; font-size: 18px; transition: 0.3s;
-}
-
-[data-theme="dark"] .social-links a {
-    color: var(--primary-color);
-}
-
-.social-links a:hover { color: var(--accent-color); }
-
-.footer-bottom {
-    background-color: #0a0a0a;
-    padding: 20px;
-    border-top: 1px solid #222;
-    text-align: center;
-    font-size: 12px;
-    color: #555;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-[data-theme="dark"] .footer-bottom {
-    background-color: #1a1a1a;
-    border-top-color: #333;
-    color: var(--text-light);
-}
-
-/* 7. MODAL (POPUP) */
-.modal {
-    display: none; 
-    position: fixed;
-    z-index: 2000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    backdrop-filter: blur(5px);
-}
-
-.modal-content {
-    background-color: var(--modal-bg);
-    margin: 5% auto;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 12px;
-    position: relative;
-    padding: 30px;
-    animation: slideDown 0.4s ease;
-    transition: background-color 0.3s ease;
-}
-
-[data-theme="dark"] .modal-content h2 {
-    color: var(--primary-color);
-}
-
-@keyframes slideDown {
-    from {transform: translateY(-50px); opacity: 0;}
-    to {transform: translateY(0); opacity: 1;}
-}
-
-#offers-list {
-    max-height: 70vh;
-    overflow-y: auto;
-    padding: 10px 10px 10px 10px;
-}
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-.close-btn {
-    position: absolute;
-    top: 15px; right: 20px;
-    font-size: 30px; cursor: pointer; color: #999;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .close-btn {
-    color: var(--text-light);
-}
-
-.close-btn:hover { color: var(--danger-color); }
-
-.form-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    background-color: var(--input-bg);
-    color: var(--primary-color);
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-
-.form-input::placeholder {
-    color: var(--text-light);
-}
-
-/* 8: Nút Lăn */
-#scrollTopBtn {
-    display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99;
-    border: none; background-color: var(--accent-color); color: white;
-    cursor: pointer; padding: 15px; border-radius: 50%; font-size: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-/* 9: Lịch Sử Đặt Phòng */
-.booking-item {
-    display: flex; gap: 15px;
-    background: #fff; border: 1px solid #eee;
-    padding: 10px; margin-bottom: 10px; border-radius: 8px;
-    align-items: center;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-[data-theme="dark"] .booking-item {
-    background: var(--card-bg);
-    border-color: var(--input-border);
-}
-.booking-item img {
-    width: 80px; height: 80px; object-fit: cover; border-radius: 6px;
-}
-.status-badge {
-    font-size: 11px; padding: 3px 8px; border-radius: 10px;
-    background: #e6fffa; color: #00b894; font-weight: bold;
-}
-
-
-/* 10. Bố Cục 2 Cột và Slider*/
-/* Chia Cột */
-.main-layout {
-    display: flex;
-    gap: 30px;
-    margin-top: 40px;
-    margin-bottom: 60px;
-    align-items: flex-start;
-}
-
-/* Cột Slider Trái */
-.content-left {
-    flex: 3; 
-}
-
-/* Cột Slider Phải*/
-.content-right {
-    flex: 1;
-    min-width: 280px;
-    position: sticky;
-    top: 100px;
-}
-
-/* Tiêu Đề Mục */
-.section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    margin-bottom: 25px;
-    border-left: 4px solid var(--accent-color);
-    padding-left: 15px;
-    color: var(--primary-color);
-    transition: color 0.3s ease;
-}
-
-/* . Style Slider Right */
-.sidebar-box {
-    background: var(--card-bg);
-    border: 1px solid var(--input-border);
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.sidebar-box h3 {
-    font-size: 16px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    transition: border-color 0.3s ease, color 0.3s ease;
-}
-
-[data-theme="dark"] .sidebar-box h3 {
-    border-bottom-color: var(--input-border);
-    color: var(--primary-color);
-}
-
-.filter-group { 
-    margin-bottom: 15px; 
-}
-
-[data-theme="dark"] .checkbox-row {
-    color: var(--text-light);
-}
-.filter-group label { 
-    font-weight: bold; 
-    font-size: 13px; 
-    display: block; 
-    margin-bottom: 5px; 
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .filter-group label {
-    color: var(--primary-color);
-}
-.checkbox-row { font-size: 14px; margin-bottom: 5px; color: #555; }
-
-.btn-sidebar {
-    width: 100%; padding: 8px; background: #333; color: white; border: none; cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-[data-theme="dark"] .btn-sidebar {
-    background: #444;
-}
-
-[data-theme="dark"] .btn-sidebar:hover {
-    background: #555;
-}
-.benefit-list { list-style: none; padding: 0; }
-.benefit-list li { 
-    font-size: 13px; 
-    margin-bottom: 8px; 
-    color: #555; 
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .benefit-list li {
-    color: var(--text-light);
-}
-
-.benefit-list i { color: var(--accent-color); margin-right: 5px; }
-
-/* Slider Style */
-.slider-section {
-    background: #f4f4f4;
-    padding: 50px 0;
-    margin-bottom: 0;
-    transition: background-color 0.3s ease;
-}
-
-[data-theme="dark"] .slider-section {
-    background: #1f1f1f;
-}
-
-.scrolling-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 20px;
-    padding-bottom: 20px;
-    
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin; 
-}
-
-/* Thẻ Slider */
-.scrolling-wrapper .hotel-card {
-    flex: 0 0 auto;
-    width: 300px;
-}
-
-
-/* Auth scrolling wrapper (login / benefits) */
-.auth-modal {
-    max-width: 540px;
-}
-
-.auth-scrolling-wrapper {
-    padding: 10px 0 5px 0;
-}
-
-.auth-card {
-    flex: 0 0 auto;
-    width: 280px;
-    background: var(--card-bg);
-    border-radius: 10px;
-    padding: 18px 18px 16px 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    border: 1px solid rgba(0,0,0,0.03);
-    transition: background-color 0.3s ease;
-}
-
-.auth-card + .auth-card {
-    margin-right: 5px;
-}
-
-.auth-card-title {
-    font-size: 18px;
-    margin: 0 0 6px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .auth-card-title {
-    color: var(--primary-color);
-}
-
-.auth-card-title i {
-    color: var(--accent-color);
-}
-
-.auth-card-subtitle {
-    font-size: 13px;
-    color: #666;
-    margin: 0 0 10px 0;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .auth-card-subtitle {
-    color: var(--text-light);
-}
-
-.auth-benefit-list {
-    list-style: none;
-    padding: 0;
-    margin: 5px 0 10px 0;
-    font-size: 13px;
-    color: #555;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .auth-benefit-list {
-    color: var(--text-light);
-}
-
-.auth-benefit-list li {
-    margin-bottom: 4px;
-}
-
-.auth-benefit-list i {
-    color: var(--accent-color);
-    margin-right: 6px;
-}
-
-.auth-hint {
-    font-size: 11px;
-    color: #888;
-    text-align: center;
-    margin-top: 8px;
-    transition: color 0.3s ease;
-}
-
-[data-theme="dark"] .auth-hint {
-    color: var(--text-light);
-}
-/* 11: For moblie */
-/* Mobile */
-@media (max-width: 1024px) {
-    .search-box {
-        flex-direction: column;
-        align-items: stretch;
+    .footer-col i {
+        color: var(--accent-color);
+        width: 20px;
     }
-    
-    .input-group {
-        min-width: 100%;
-    }
-    
-    #search-button {
-        width: 100%;
-    }
-    
-    .hotel-grid {
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 20px;
-    }
-}
 
-@media (max-width: 768px) {
-    /* Navbar gọn lại thành menu hamburger (nếu sau này bạn thêm) */
-    .nav-links {
+    .social-links {
+        display: flex;
         gap: 15px;
-        font-size: 14px;
+        margin-top: 20px;
     }
-    
-    .logo {
-        font-size: 20px;
-    }
-    
-    /* Hero text nhỏ lại */
-    .hero-content h1 {
-        font-size: 36px;
-    }
-    .hero-content p {
-        font-size: 16px;
-    }
-    
-    /* Search box trên mobile */
-    .search-section {
-        margin-top: -30px;
-        padding: 0 15px;
-    }
-    
-    .search-box {
-        padding: 20px;
-        gap: 15px;
-    }
-    
-    /* Modal chi tiết khách sạn & ưu đãi */
-    .modal-content {
-        width: 92%;
-        margin: 10% auto;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-    
-    .modal-img {
-        height: 250px;
-    }
-    
-    .modal-info {
-        padding: 20px;
-    }
-    
-    /* Ưu đãi đặc biệt – scroll mượt trên mobile */
-    */
-    #offers-list {
-        max-height: 65vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch; /* scroll mượt trên iOS */
-    }
-}
 
-@media (max-width: 480px) {
-    .hero {
-        height: 420px;
+    .social-links a {
+        color: #fff;
+        font-size: 18px;
+        transition: 0.3s;
     }
-    
-    .hero-content h1 {
-        font-size: 28px;
-        line-height: 1.2;
+
+    [data-theme="dark"] .social-links a {
+        color: var(--primary-color);
     }
-    
-    .hero-content p {
-        font-size: 15px;
+
+    .social-links a:hover {
+        color: var(--accent-color);
     }
-    
-    /* Form đăng nhập / đăng ký / liên hệ */
-    .modal-content {
-        width: 95%;
-        margin: 8% auto;
-    }
-    
-    .form-input {
-        padding: 14px;
-        font-size: 16px; /* tránh zoom trên iPhone */
-    }
-    
-    /* Nút đặt phòng trong modal chi tiết */
-    .modal-info .btn-book {
-        padding: 14px;
-        font-size: 16px;
-    }
-    
-    /* Card khách sạn trên điện thoại */
-    .hotel-card {
-        margin: 0 auto;
-    }
-    
-    .hotel-info {
-        padding: 15px;
-    }
-    
-    .hotel-name {
-        font-size: 17px;
-    }
-    
-    .btn-book {
-        padding: 12px;
-        font-size: 15px;
-    }
-    
-    /* Tiêu đề kết quả tìm kiếm */
-    #result-title {
-        font-size: 24px;
+
+    .footer-bottom {
+        background-color: #0a0a0a;
+        padding: 20px;
+        border-top: 1px solid #222;
         text-align: center;
-        width: 100%;
+        font-size: 12px;
+        color: #555;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
-    
-    /* Footer nhỏ lại  */
-    footer {
-        padding: 25px 15px;
+
+    [data-theme="dark"] .footer-bottom {
+        background-color: #1a1a1a;
+        border-top-color: #333;
+        color: var(--text-light);
+    }
+
+    /* --- FOOTER STYLING MỚI --- */
+    .footer-top {
+        padding: 60px 0;
+        background-color: #111;
+        /* Màu nền tối cho footer */
+        color: #fff;
+        border-bottom: 1px solid #333;
+    }
+
+    .footer-content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-heading {
+        color: var(--accent-color);
+        /* Màu vàng kim */
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 20px;
+        font-size: 18px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .footer-desc {
+        color: #aaa;
+        line-height: 1.6;
         font-size: 14px;
     }
-}
 
-/* Fix for ios */
-@supports (-webkit-touch-callout: none) {
-    .hero {
-        height: 500px;
-        height: 100vh;
-        height: calc(100vh - 0px);
+    .footer-links,
+    .footer-contact {
+        list-style: none;
+        padding: 0;
     }
-}
 
-html, body {
-    width: 100%;
-    overflow-x: hidden;                
-    -webkit-overflow-scrolling: touch;
-}
+    .footer-links li,
+    .footer-contact li {
+        margin-bottom: 12px;
+    }
 
-/* FOR DISCLA */
-   .project-disclaimer {
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 30px;
-    border-top: 1px solid #333; 
-    border-bottom: 1px solid #333;
-    background-color: #000;
-}
+    .footer-links a {
+        color: #bbb;
+        text-decoration: none;
+        transition: 0.3s;
+        font-size: 15px;
+    }
 
-.project-disclaimer p {
-    color: #777;
-    font-size: 13px;
-    font-style: italic;
-    margin: 0;
-    line-height: 1.6;
-    transition: color 0.3s ease;
-}
+    .footer-links a:hover {
+        color: var(--accent-color);
+        padding-left: 5px;
+        /* Hiệu ứng đẩy chữ sang phải */
+    }
 
-[data-theme="dark"] .project-disclaimer p {
-    color: var(--text-light);
-}
+    .footer-contact li {
+        color: #bbb;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+    }
 
-.project-disclaimer strong {
-    color: #d82b45;
-    font-weight: bold;
-    font-style: normal;
-}
+    .social-icons {
+        display: flex;
+        gap: 15px;
+    }
 
-.project-disclaimer i {
-    color: #d4af37;
-    margin-right: 5px;
-}
+    .social-icons a {
+        width: 35px;
+        height: 35px;
+        background: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+    }
 
-.lifestyle-section {
-    padding: 80px 0;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.03), rgba(212, 175, 55, 0.08));
-    margin-top: 60px;
-}
+    .social-icons a:hover {
+        background: var(--accent-color);
+        color: #000;
+    }
 
-.lifestyle-subtitle {
-    text-align: center;
-    color: var(--text-light);
-    font-size: 16px;
-    margin-top: -15px;
-    margin-bottom: 50px;
-}
 
-.lifestyle-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
+    /* 7. MODAL (POPUP) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+    }
 
-.lifestyle-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 40px 30px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    border: 2px solid transparent;
-    box-shadow: var(--card-shadow);
-    position: relative;
-    overflow: hidden;
-}
+    .modal-content {
+        background-color: var(--modal-bg);
+        margin: 5% auto;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 12px;
+        position: relative;
+        padding: 30px;
+        animation: slideDown 0.4s ease;
+        transition: background-color 0.3s ease;
+    }
 
-.lifestyle-card::before {
-    content: '';
-    position: absolute;
+    [data-theme="dark"] .modal-content h2 {
+        color: var(--primary-color);
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    #offers-list {
+        max-height: 70vh;
+        overflow-y: auto;
+        padding: 10px 10px 10px 10px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #999;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .close-btn {
+        color: var(--text-light);
+    }
+
+    .close-btn:hover {
+        color: var(--danger-color);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--input-border);
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        background-color: var(--input-bg);
+        color: var(--primary-color);
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .form-input::placeholder {
+        color: var(--text-light);
+    }
+
+    /* 8: Nút Lăn */
+    #scrollTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 99;
+        border: none;
+        background-color: var(--accent-color);
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 50%;
+        font-size: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 9: Lịch Sử Đặt Phòng */
+    .booking-item {
+        display: flex;
+        gap: 15px;
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        align-items: center;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .booking-item {
+        background: var(--card-bg);
+        border-color: var(--input-border);
+    }
+
+    .booking-item img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 10px;
+        background: #e6fffa;
+        color: #00b894;
+        font-weight: bold;
+    }
+
+
+    /* 10. Bố Cục 2 Cột và Slider*/
+    /* Chia Cột */
+    .main-layout {
+        display: flex;
+        gap: 30px;
+        margin-top: 40px;
+        margin-bottom: 60px;
+        align-items: flex-start;
+    }
+
+    /* Cột Slider Trái */
+    .content-left {
+        flex: 3;
+    }
+
+    /* Cột Slider Phải*/
+    .content-right {
+        flex: 1;
+        min-width: 280px;
+        position: sticky;
+        top: 100px;
+    }
+
+    /* Tiêu Đề Mục */
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 28px;
+        margin-bottom: 25px;
+        border-left: 4px solid var(--accent-color);
+        padding-left: 15px;
+        color: var(--primary-color);
+        transition: color 0.3s ease;
+    }
+
+    /* . Style Slider Right */
+    .sidebar-box {
+        background: var(--card-bg);
+        border: 1px solid var(--input-border);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .sidebar-box h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        transition: border-color 0.3s ease, color 0.3s ease;
+    }
+
+    [data-theme="dark"] .sidebar-box h3 {
+        border-bottom-color: var(--input-border);
+        color: var(--primary-color);
+    }
+
+    .filter-group {
+        margin-bottom: 15px;
+    }
+
+    [data-theme="dark"] .checkbox-row {
+        color: var(--text-light);
+    }
+
+    .filter-group label {
+        font-weight: bold;
+        font-size: 13px;
+        display: block;
+        margin-bottom: 5px;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .filter-group label {
+        color: var(--primary-color);
+    }
+
+    .checkbox-row {
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    .btn-sidebar {
+        width: 100%;
+        padding: 8px;
+        background: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .btn-sidebar {
+        background: #444;
+    }
+
+    [data-theme="dark"] .btn-sidebar:hover {
+        background: #555;
+    }
+
+    .benefit-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .benefit-list li {
+        font-size: 13px;
+        margin-bottom: 8px;
+        color: #555;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .benefit-list li {
+        color: var(--text-light);
+    }
+
+    .benefit-list i {
+        color: var(--accent-color);
+        margin-right: 5px;
+    }
+
+    /* Slider Style */
+    .slider-section {
+        background: #f4f4f4;
+        padding: 50px 0;
+        margin-bottom: 0;
+        transition: background-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .slider-section {
+        background: #1f1f1f;
+    }
+
+    .scrolling-wrapper {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 20px;
+        padding-bottom: 20px;
+
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    /* Thẻ Slider */
+    .scrolling-wrapper .hotel-card {
+        flex: 0 0 auto;
+        width: 300px;
+    }
+
+
+    /* Auth scrolling wrapper (login / benefits) */
+    .auth-modal {
+        max-width: 540px;
+    }
+
+    .auth-scrolling-wrapper {
+        padding: 10px 0 5px 0;
+    }
+
+    .auth-card {
+        flex: 0 0 auto;
+        width: 280px;
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 18px 18px 16px 18px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        transition: background-color 0.3s ease;
+    }
+
+    .auth-card+.auth-card {
+        margin-right: 5px;
+    }
+
+    .auth-card-title {
+        font-size: 18px;
+        margin: 0 0 6px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .auth-card-title {
+        color: var(--primary-color);
+    }
+
+    .auth-card-title i {
+        color: var(--accent-color);
+    }
+
+    .auth-card-subtitle {
+        font-size: 13px;
+        color: #666;
+        margin: 0 0 10px 0;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .auth-card-subtitle {
+        color: var(--text-light);
+    }
+
+    .auth-benefit-list {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 10px 0;
+        font-size: 13px;
+        color: #555;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .auth-benefit-list {
+        color: var(--text-light);
+    }
+
+    .auth-benefit-list li {
+        margin-bottom: 4px;
+    }
+
+    .auth-benefit-list i {
+        color: var(--accent-color);
+        margin-right: 6px;
+    }
+
+    .auth-hint {
+        font-size: 11px;
+        color: #888;
+        text-align: center;
+        margin-top: 8px;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .auth-hint {
+        color: var(--text-light);
+    }
+
+    /* 11: For moblie */
+    /* Mobile */
+    @media (max-width: 1024px) {
+        .search-box {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .input-group {
+            min-width: 100%;
+        }
+
+        #search-button {
+            width: 100%;
+        }
+
+        .hotel-grid {
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        /* Navbar gọn lại thành menu hamburger (nếu sau này bạn thêm) */
+        .nav-links {
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .logo {
+            font-size: 20px;
+        }
+
+        /* Hero text nhỏ lại */
+        .hero-content h1 {
+            font-size: 36px;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+        }
+
+        /* Search box trên mobile */
+        .search-section {
+            margin-top: -30px;
+            padding: 0 15px;
+        }
+
+        .search-box {
+            padding: 20px;
+            gap: 15px;
+        }
+
+        /* Modal chi tiết khách sạn & ưu đãi */
+        .modal-content {
+            width: 92%;
+            margin: 10% auto;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-img {
+            height: 250px;
+        }
+
+        .modal-info {
+            padding: 20px;
+        }
+
+        /* Ưu đãi đặc biệt – scroll mượt trên mobile */
+        */ #offers-list {
+            max-height: 65vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            /* scroll mượt trên iOS */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero {
+            height: 420px;
+        }
+
+        .hero-content h1 {
+            font-size: 28px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 15px;
+        }
+
+        /* Form đăng nhập / đăng ký / liên hệ */
+        .modal-content {
+            width: 95%;
+            margin: 8% auto;
+        }
+
+        .form-input {
+            padding: 14px;
+            font-size: 16px;
+            /* tránh zoom trên iPhone */
+        }
+
+        /* Nút đặt phòng trong modal chi tiết */
+        .modal-info .btn-book {
+            padding: 14px;
+            font-size: 16px;
+        }
+
+        /* Card khách sạn trên điện thoại */
+        .hotel-card {
+            margin: 0 auto;
+        }
+
+        .hotel-info {
+            padding: 15px;
+        }
+
+        .hotel-name {
+            font-size: 17px;
+        }
+
+        .btn-book {
+            padding: 12px;
+            font-size: 15px;
+        }
+
+        /* Tiêu đề kết quả tìm kiếm */
+        #result-title {
+            font-size: 24px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Footer nhỏ lại  */
+        footer {
+            padding: 25px 15px;
+            font-size: 14px;
+        }
+    }
+
+    /* Fix for ios */
+    @supports (-webkit-touch-callout: none) {
+        .hero {
+            height: 500px;
+            height: 100vh;
+            height: calc(100vh - 0px);
+        }
+    }
+
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* FOR DISCLA */
+    .project-disclaimer {
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 30px;
+        border-top: 1px solid #333;
+        border-bottom: 1px solid #333;
+        background-color: #000;
+    }
+
+    .project-disclaimer p {
+        color: #777;
+        font-size: 13px;
+        font-style: italic;
+        margin: 0;
+        line-height: 1.6;
+        transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .project-disclaimer p {
+        color: var(--text-light);
+    }
+
+    .project-disclaimer strong {
+        color: #d82b45;
+        font-weight: bold;
+        font-style: normal;
+    }
+
+    .project-disclaimer i {
+        color: #d4af37;
+        margin-right: 5px;
+    }
+
+    .lifestyle-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.03), rgba(212, 175, 55, 0.08));
+        margin-top: 60px;
+    }
+
+    .lifestyle-subtitle {
+        text-align: center;
+        color: var(--text-light);
+        font-size: 16px;
+        margin-top: -15px;
+        margin-bottom: 50px;
+    }
+
+    .lifestyle-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .lifestyle-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border: 2px solid transparent;
+        box-shadow: var(--card-shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .lifestyle-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 0;
+    }
+
+    .lifestyle-card:hover::before {
+        opacity: 1;
+    }
+
+    .lifestyle-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        border-color: var(--accent-color);
+        box-shadow: 0 25px 60px rgba(212, 175, 55, 0.25);
+    }
+
+    .lifestyle-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 25px;
+        background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s ease;
+    }
+
+    .lifestyle-card:hover .lifestyle-icon {
+        transform: rotate(360deg) scale(1.1);
+        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+    }
+
+    .lifestyle-icon i {
+        font-size: 48px;
+        color: white;
+    }
+
+    .lifestyle-card h3 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        color: var(--primary-color);
+        position: relative;
+        z-index: 1;
+    }
+
+    .lifestyle-card p {
+        font-size: 15px;
+        color: var(--text-light);
+        margin: 0 0 25px 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .lifestyle-features {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .lifestyle-features span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--text-light);
+        padding: 8px 15px;
+        background: var(--bg-light);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .lifestyle-card:hover .lifestyle-features span {
+        background: rgba(212, 175, 55, 0.1);
+        color: var(--primary-color);
+    }
+
+    .lifestyle-features i {
+        color: var(--accent-color);
+        font-size: 16px;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        /* Tạo hiệu ứng cuộn mượt khi nhấn link nội bộ */
+    }
+
+    @media (max-width: 768px) {
+        .lifestyle-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .lifestyle-section {
+            padding: 50px 0;
+        }
+    }
+.video-intro-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 0;
-}
-
-.lifestyle-card:hover::before {
-    opacity: 1;
-}
-
-.lifestyle-card:hover {
-    transform: translateY(-15px) scale(1.02);
-    border-color: var(--accent-color);
-    box-shadow: 0 25px 60px rgba(212, 175, 55, 0.25);
-}
-
-.lifestyle-icon {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 25px;
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    border-radius: 50%;
+    background: black;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    z-index: 1;
-    transition: all 0.4s ease;
+    animation: fadeOutVideo 1s forwards;
+    pointer-events: none;
 }
 
-.lifestyle-card:hover .lifestyle-icon {
-    transform: rotate(360deg) scale(1.1);
-    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+.video-intro-overlay video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.lifestyle-icon i {
-    font-size: 48px;
-    color: white;
+@keyframes fadeOutVideo {
+    0% { opacity: 1; visibility: visible; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
 }
 
-.lifestyle-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0 0 10px 0;
-    color: var(--primary-color);
-    position: relative;
-    z-index: 1;
+.detail-section {
+    padding: 80px 0;
+    background: var(--white);
+    line-height: 1.8;
 }
 
-.lifestyle-card p {
-    font-size: 15px;
-    color: var(--text-light);
-    margin: 0 0 25px 0;
-    position: relative;
-    z-index: 1;
-}
-
-.lifestyle-features {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-    position: relative;
-    z-index: 1;
-}
-
-.lifestyle-features span {
-    display: flex;
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 14px;
-    color: var(--text-light);
-    padding: 8px 15px;
-    background: var(--bg-light);
-    border-radius: 20px;
-    transition: all 0.3s ease;
 }
 
-.lifestyle-card:hover .lifestyle-features span {
-    background: rgba(212, 175, 55, 0.1);
-    color: var(--primary-color);
-}
-
-.lifestyle-features i {
-    color: var(--accent-color);
-    font-size: 16px;
-}
-
-@media (max-width: 768px) {
-    .lifestyle-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .lifestyle-section {
-        padding: 50px 0;
-    }
+.detail-image {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
 }

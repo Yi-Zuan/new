@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hội viên Luxury</title>
+    <link rel = "icon" href = "../logo.jpg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="background: #f4f4f4;">
+    <div class="video-intro-overlay">
+        <video autoplay muted playsinline>
+            <source src="../video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="container" style="padding: 100px 20px;">
+        <div style="background: white; border-radius: 30px; overflow: hidden; display: flex; box-shadow: var(--card-shadow);">
+            <div style="width: 40%; background: #1a1a1a; color: white; padding: 60px;">
+                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--accent-color);">Đặc Quyền Thẻ Vàng</h2>
+                <p style="margin: 30px 0; opacity: 0.8;">Chỉ dành cho những khách hàng thân thiết có trên 10 đêm nghỉ/năm.</p>
+                <div style="font-size: 0.9rem; line-height: 2;">
+                    <p>✓ Nâng hạng phòng miễn phí</p>
+                    <p>✓ Trả phòng muộn đến 16:00</p>
+                    <p>✓ Quà tặng sinh nhật cá nhân hóa</p>
+                </div>
+            </div>
+            <div style="width: 60%; padding: 60px;" id="form-nang-hang">
+                <h3>Đăng Ký Nâng Hạng Thẻ</h3>
+                <form style="margin-top: 30px; display: grid; gap: 20px;">
+                    <input type="text" placeholder="Họ và tên chủ thẻ" style="padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+                    <input type="email" placeholder="Email đăng ký" style="padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+                    <select style="padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+                        <option>Bạn đang ở hạng thẻ nào?</option>
+                        <option>Thẻ Bạc</option>
+                        <option>Thẻ Thành Viên Mới</option>
+                    </select>
+                    <button class="btn-primary" type="button" onclick="alert('Yêu cầu đã được gửi! Chúng tôi sẽ phản hồi trong 24h.')">GỬI YÊU CẦU NÂNG HẠNG</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
