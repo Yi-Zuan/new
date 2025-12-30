@@ -1,9 +1,9 @@
-// --- KHAI BÁO BIẾN TOÀN CỤC ---
+// Khai báo biến
 window.currentPricePerNight = 0;
 window.currentDiscountPercent = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Dark Mode Toggle Functionality
+    // Dark-Mode
     function initDarkMode() {
         const savedTheme = localStorage.getItem('theme') || 'light';
         const html = document.documentElement;
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize dark mode on page load
+    // Initialize dark mode
     initDarkMode();
 
     // Make toggle function globally available
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call checkLoginState on page load
     checkLoginState();
 
-    // Handle auth button click
+    // Auth button click
     window.handleAuthClick = function (event) {
         event.preventDefault();
         const user = localStorage.getItem('user');
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Login function (if needed)
+    // Login function
     window.handleLogin = function () {
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-pass').value;
@@ -126,14 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => alert('Lỗi đăng nhập: ' + err));
     };
 
-    // ======================================================
-    // 1. LẤY ID TỪ URL & TẢI DỮ LIỆU KHÁCH SẠN
-    // ======================================================
+    // 1. Lấy ID từ url và data
     const params = new URLSearchParams(window.location.search);
     const hotelId = params.get('id');
     const DEFAULT_IMG = 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
 
-    // Nếu không có ID trên URL thì quay về trang chủ
+    // Check if ID available
     if (!hotelId) {
         alert("Không tìm thấy khách sạn!");
         window.location.href = "/";
@@ -155,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (document.getElementById('hotel-img')) document.getElementById('hotel-img').src = hotel.image_url || DEFAULT_IMG;
             if (document.getElementById('current-hotel-id')) document.getElementById('current-hotel-id').value = hotel.hotel_id;
 
-            // Enhanced Amenities Display with Icons
+            // Enhanced Display with Icon
             const amenityIconMap = {
                 'wifi': 'fa-wifi',
                 'hồ bơi': 'fa-swimming-pool',
@@ -214,28 +212,26 @@ document.addEventListener('DOMContentLoaded', () => {
             // Load sample reviews
             loadSampleReviews();
 
-            // [QUAN TRỌNG] Lưu giá vào biến toàn cục để tính toán sau
+            // Save Price
             window.currentPricePerNight = priceNum;
         })
         .catch(err => console.error("Lỗi tải khách sạn:", err));
 
 
-    // ======================================================
-    // 2. LOGIC TÍNH TIỀN & MÃ GIẢM GIÁ
-    // ======================================================
+    // 2. Prices Logic
     const startInput = document.getElementById('book-start');
     const endInput = document.getElementById('book-end');
     const totalSpan = document.getElementById('total-price');
     const couponMsg = document.getElementById('coupon-msg');
 
-    // HÀM TÍNH TỔNG TIỀN
+    // Sum Function
     window.calculateTotal = function () {
         if (!startInput || !endInput) return;
 
         const d1 = new Date(startInput.value);
         const d2 = new Date(endInput.value);
 
-        // Chỉ tính khi có đủ ngày và ngày đi lớn hơn ngày đến
+        // Check Destination
         if (d1 && d2 && d2 > d1 && window.currentPricePerNight) {
 
             // Tính số đêm
@@ -275,12 +271,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Gắn sự kiện thay đổi ngày
+    // Thay đổi ngày
     if (startInput) startInput.addEventListener('change', calculateTotal);
     if (endInput) endInput.addEventListener('change', calculateTotal);
 
 
-    // HÀM ÁP DỤNG MÃ (GỌI TỪ NÚT BẤM)
+    // Offer
     window.applyCoupon = function () {
         const codeInput = document.getElementById('coupon-code');
         const code = codeInput.value.trim();
@@ -314,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     couponMsg.style.color = 'red';
                     couponMsg.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${data.message}`;
                 }
-                // Luôn tính lại tiền sau khi kiểm tra
                 calculateTotal();
             })
             .catch(err => {
@@ -324,9 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // ======================================================
-    // 3. XỬ LÝ ĐẶT PHÒNG
-    // ======================================================
+    // 3. Booking
     window.submitBooking = function () {
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
@@ -335,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Tính lại giá lần cuối để gửi lên server
+        // Recalculated
         const d1 = new Date(startInput.value);
         const d2 = new Date(endInput.value);
         if (!d1 || !d2 || d1 >= d2) {
@@ -358,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
             phone: document.getElementById('book-phone').value,
             dateStart: document.getElementById('book-start').value,
             dateEnd: document.getElementById('book-end').value,
-            totalPrice: finalTotal // Gửi giá đã giảm lên server
+            totalPrice: finalTotal
         };
 
         if (!data.name || !data.phone) {
@@ -379,9 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => alert("Lỗi kết nối server: " + err));
     }
 
-    // ======================================================
-    // 4. LOAD SAMPLE REVIEWS
-    // ======================================================
+    // 4. Reviews
     function loadSampleReviews() {
         const sampleReviews = [
             {

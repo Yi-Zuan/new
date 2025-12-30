@@ -214,12 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 5: Chức năng người dùng (Login, Register, Contact, Offers)
+
     // Hàm chạy ngay khi web tải xong để kiểm tra xem đã đăng nhập chưa
     document.addEventListener("DOMContentLoaded", function () {
         checkLoginState();
     });
 
-    // Hàm kiểm tra trạng thái và đổi tên nút
+    // Check Button Status and change
     function checkLoginState() {
         const userJson = localStorage.getItem('user');
         const navBtn = document.getElementById('nav-login');
@@ -232,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // HÀM MỚI: Xử lý khi bấm nút trên Menu
+    // Button Check
     window.handleAuthClick = function (event) {
         event.preventDefault();
         const user = localStorage.getItem('user');
@@ -253,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.openModalById('logout-success-modal');
     };
 
-    // Tự động tắt thông báo đăng xuất thành công
+    // Tắt thông sau khi log out
     const successModal = document.getElementById('logout-success-modal');
     if (successModal) {
         successModal.addEventListener('click', (e) => {
@@ -264,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Xử lý khi bấm nút đăng nhập
+    // Loggin Button
     window.handleLogin = function () {
         const data = {
             email: document.getElementById('login-email').value,
@@ -293,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => alert('Lỗi đăng nhập: ' + err));
     };
 
-    // Xử lý Đăng Ký
+    // Register Button
     window.handleRegister = function () {
         const data = {
             fullName: document.getElementById('reg-name').value,
@@ -314,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => alert('Lỗi kết nối: ' + err));
     };
 
-    // Xử lý Liên Hệ
+    // Contact Button
     window.handleContact = function () {
         const data = {
             fullName: document.getElementById('contact-name').value,
@@ -326,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => alert('Lỗi gửi liên hệ.'));
     };
 
-    // Xử lý Ưu Đãi
+    // Offer Button
     window.openOffers = function () {
         window.openModalById('offers-modal');
         const list = document.getElementById('offers-list');
@@ -354,9 +355,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(() => list.innerHTML = '<p style="text-align:center; color:red">Lỗi tải ưu đãi.</p>');
     };
 
-    // 6. Lịch Sử Đặt Phòng (REQUIRE LOGIN)
+    // 6. Lịch sử đặt phòng
     window.openHistoryModal = function () {
-        // Check if user is logged in
+        // check if users is logged in
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
             alert('Vui lòng đăng nhập để xem lịch sử đặt phòng!');
@@ -364,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Close all other modals
+        // Close others modals
         const modals = document.querySelectorAll('.modal');
         modals.forEach(m => m.style.display = 'none');
         window.openModalById('history-modal');
@@ -451,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Khôi phục điểm đến đã tìm lần trước (nếu có)
+    // Backup the previous destination
     const lastDestination = localStorage.getItem('lastDestination');
     if (dom.destInput && lastDestination) {
         dom.destInput.value = lastDestination;
@@ -476,11 +477,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dom.searchBtn) dom.searchBtn.addEventListener('click', (e) => { e.preventDefault(); performSearch(); });
     performSearch();
 
-    // Lifestyle Filter Function - Using actual database cities
+    // Life Style
     window.filterByLifestyle = function (lifestyle) {
         switch (lifestyle) {
             case 'romantic':
-                // Fetch all hotels and filter by rating and romantic amenities
+                // fetch all hotels
                 fetch(CONFIG.API.HOTELS)
                     .then(res => res.json())
                     .then(data => {
@@ -493,7 +494,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 h.amenities.toLowerCase().includes('pool') ||
                                 h.amenities.toLowerCase().includes('view')
                             );
-                            // High-end hotels in romantic cities
                             const romanticCities = ['Đà Nẵng', 'Nha Trang', 'Vũng Tàu'];
                             const inRomanticCity = romanticCities.some(city =>
                                 h.city && h.city.includes(city)
@@ -510,7 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
 
             case 'family':
-                // Fetch all hotels and filter for family-friendly
                 fetch(CONFIG.API.HOTELS)
                     .then(res => res.json())
                     .then(data => {
@@ -539,9 +538,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
 
             case 'nature':
-                // Search for beach and nature destinations
                 if (dom.destInput) {
-                    dom.destInput.value = 'Đà Nẵng'; // Beach city
+                    dom.destInput.value = 'Đà Nẵng';
                 }
                 performSearch();
                 scrollToResults();

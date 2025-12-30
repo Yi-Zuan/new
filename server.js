@@ -36,7 +36,7 @@ dbConnection.getConnection((err, connection) => {
     }
 });
 
-// --- CÁC API KHÁC GIỮ NGUYÊN ---
+// API
 app.get('/api/hotels', (req, res) => {
     const city = req.query.city;
     let sql = 'SELECT * FROM hotels';
