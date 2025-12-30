@@ -1,6 +1,7 @@
 // Khai báo biến
 window.currentPricePerNight = 0;
 window.currentDiscountPercent = 0;
+window.roomSurcharge = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Dark-Mode
@@ -147,6 +148,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (document.getElementById('hotel-address')) document.getElementById('hotel-address').innerText = hotel.address || hotel.city;
             if (document.getElementById('hotel-desc')) document.getElementById('hotel-desc').innerText = hotel.description || 'Chưa có mô tả chi tiết.';
 
+            // Update Map Source if city exists
+            if (hotel.city) {
+                const mapIframe = document.querySelector('.map-container iframe');
+                if (mapIframe) {
+                    const encodedCity = encodeURIComponent(hotel.city + ', Vietnam');
+                    mapIframe.src = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodedCity}`;
+                    // Note: In a real app, you'd use a real API key. For demo, we'll keep the static embed if key is missing or use the city name in the query.
+                    mapIframe.src = `https://www.google.com/maps?q=${encodedCity}&output=embed`;
+                }
+            }
+
             // Format Giá Tiền & Ảnh
             const priceNum = Number(hotel.price_per_night);
             if (document.getElementById('hotel-price')) document.getElementById('hotel-price').innerText = priceNum.toLocaleString('vi-VN') + ' VND';
@@ -238,8 +250,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const diffTime = Math.abs(d2 - d1);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            // Tính tiền gốc
-            let originalTotal = diffDays * window.currentPricePerNight;
+            // Tính tiền gốc (bao gồm phụ phí phòng)
+            let priceWithSurcharge = window.currentPricePerNight + (window.roomSurcharge || 0);
+            let originalTotal = diffDays * priceWithSurcharge;
+
+            // Update progress bar
+            updateProgressBar(1);
+            if (document.getElementById('book-name').value && document.getElementById('book-phone').value) {
+                updateProgressBar(2);
+            }
 
             // Tính tiền giảm
             let discountAmount = 0;
@@ -431,5 +450,129 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+    // --- New Features Logic ---
+
+    // 5. Booking Progress Bar
+    function updateProgressBar(step) {
+        const steps = document.querySelectorAll('.progress-step');
+        const lines = document.querySelectorAll('.progress-line');
+
+        steps.forEach((s, idx) => {
+            const stepNum = parseInt(s.dataset.step);
+            if (stepNum <= step) {
+                s.classList.add('active');
+                if (stepNum < step && idx < lines.length) {
+                    // This logic depends on the HTML structure
+                }
+            } else {
+                s.classList.remove('active');
+            }
+        });
+    }
+
+    // Monitor input for progress
+    const bookInputs = ['book-name', 'book-phone'];
+    bookInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', () => {
+            if (startInput.value && endInput.value) {
+                if (document.getElementById('book-name').value && document.getElementById('book-phone').value) {
+                    updateProgressBar(2);
+                } else {
+                    updateProgressBar(1);
+                }
+            }
+        });
+    });
+
+    // 6. Room Selection
+    window.selectRoom = function (element, surcharge) {
+        // Update UI
+        document.querySelectorAll('.room-card').forEach(card => card.classList.remove('active'));
+        element.classList.add('active');
+
+        // Update Data
+        window.roomSurcharge = surcharge;
+        calculateTotal();
+    };
+
+    // 7. Share & Save
+    window.shareHotel = function () {
+        if (navigator.share) {
+            navigator.share({
+                title: document.getElementById('hotel-name').innerText,
+                text: 'Xem khách sạn tuyệt vời này trên Booking Luxury Hotels!',
+                url: window.location.href,
+            }).catch(console.error);
+        } else {
+            // Fallback: Copy to clipboard
+            const dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            alert('Đã sao chép liên kết vào bộ nhớ tạm!');
+        }
+    };
+
+    window.toggleSaveHotel = function () {
+        const btn = document.querySelector('.header-actions .btn-action:last-child');
+        const icon = btn.querySelector('i');
+
+        if (icon.classList.contains('fa-regular')) {
+            icon.classList.replace('fa-regular', 'fa-solid');
+            btn.classList.add('saved');
+            btn.innerHTML = '<i class="fa-solid fa-heart"></i> Đã lưu';
+            alert('Đã lưu khách sạn vào danh sách yêu thích!');
+        } else {
+            icon.classList.replace('fa-solid', 'fa-regular');
+            btn.classList.remove('saved');
+            btn.innerHTML = '<i class="fa-regular fa-heart"></i> Lưu lại';
+        }
+    };
+
+    // 8. FAQ Toggle
+    window.toggleFAQ = function (element) {
+        const item = element.parentElement;
+        const isActive = item.classList.contains('active');
+
+        // Close all other FAQs
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+        if (!isActive) {
+            item.classList.add('active');
+        }
+    };
+
+    // 9. Gallery Lightbox (Simple)
+    document.querySelectorAll('.gallery-grid img').forEach(img => {
+        img.addEventListener('click', () => {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+            modal.style.cursor = 'zoom-out';
+
+            const fullImg = document.createElement('img');
+            fullImg.src = img.src;
+            fullImg.style.maxWidth = '90%';
+            fullImg.style.maxHeight = '90%';
+            fullImg.style.borderRadius = '8px';
+
+            modal.appendChild(fullImg);
+            document.body.appendChild(modal);
+
+            modal.onclick = () => document.body.removeChild(modal);
+        });
+    });
 
 });

@@ -41,8 +41,19 @@
 
         <div class="detail-left">
             <div class="hotel-header">
-                <h1 id="hotel-name">Đang tải tên khách sạn...</h1>
-                <p class="location"><i class="fa-solid fa-location-dot"></i> <span id="hotel-address">...</span></p>
+                <div class="header-main">
+                    <div>
+                        <h1 id="hotel-name">Đang tải tên khách sạn...</h1>
+                        <p class="location"><i class="fa-solid fa-location-dot"></i> <span id="hotel-address">...</span>
+                        </p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-action" onclick="shareHotel()"><i class="fa-solid fa-share-nodes"></i>
+                            Chia sẻ</button>
+                        <button class="btn-action" onclick="toggleSaveHotel()"><i class="fa-regular fa-heart"></i> Lưu
+                            lại</button>
+                    </div>
+                </div>
             </div>
 
             <div class="gallery-grid">
@@ -68,6 +79,33 @@
             <div class="section">
                 <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Tiện nghi nổi bật</h3>
                 <div id="hotel-amenities" class="amenities-grid">
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-bed"></i> Chọn loại phòng</h3>
+                <div class="room-grid">
+                    <div class="room-card active" onclick="selectRoom(this, 0)">
+                        <div class="room-info">
+                            <h4>Phòng Tiêu Chuẩn (Deluxe)</h4>
+                            <p>1 giường đôi, wifi miễn phí, có cửa sổ</p>
+                        </div>
+                        <div class="room-price">+ 0 VND</div>
+                    </div>
+                    <div class="room-card" onclick="selectRoom(this, 500000)">
+                        <div class="room-info">
+                            <h4>Phòng Cao Cấp (Premium)</h4>
+                            <p>Giường King, ban công hướng biển, bữa sáng</p>
+                        </div>
+                        <div class="room-price">+ 500.000 VND</div>
+                    </div>
+                    <div class="room-card" onclick="selectRoom(this, 1500000)">
+                        <div class="room-info">
+                            <h4>Phòng Suite Hoàng Gia</h4>
+                            <p>Phòng khách riêng, quản gia, Jacuzzi</p>
+                        </div>
+                        <div class="room-price">+ 1.500.000 VND</div>
+                    </div>
                 </div>
             </div>
 
@@ -132,6 +170,32 @@
 
                 <div id="reviews-container" class="reviews-list">
                     <!-- Reviews will be loaded dynamically -->
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-circle-question"></i> Câu hỏi thường gặp</h3>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Giờ nhận phòng và trả phòng là khi nào?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Giờ nhận phòng tiêu chuẩn là 14:00 và giờ trả phòng là 12:00. Tùy thuộc vào tình trạng
+                                phòng trống, khách sạn có thể hỗ trợ nhận phòng sớm hoặc trả phòng muộn.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Khách sạn có bãi đỗ xe không?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Có, khách sạn cung cấp bãi đỗ xe miễn phí cho khách lưu trú. Chúng tôi cũng có dịch vụ đỗ
+                                xe hộ (valet parking).</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -260,6 +324,71 @@
             </div>
         </div>
     </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h3><span class="logo-sub" style="color:#aaa">HOTELS</span></h3>
+                <p>Trải nghiệm dịch vụ đẳng cấp quốc tế tại những điểm đến tuyệt đẹp nhất Việt Nam. Chúng tôi cam kết
+                    mang lại kỳ nghỉ đáng nhớ cho bạn và gia đình.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Về dịch vụ của chúng tôi</h4>
+                <ul>
+                    <li><a href="#">Câu chuyện thương hiệu</a></li>
+                    <li><a href="#">Cơ hội nghề nghiệp</a></li>
+                    <li><a href="#">Tin tức & Báo chí</a></li>
+                    <li><a href="#">Phát triển bền vững</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Hỗ trợ khách hàng</h4>
+                <ul>
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Quy chế hoạt động</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Liên hệ</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Ha69CS1</p>
+                <p><i class="fa-solid fa-phone"></i> 0965247101</p>
+                <p><i class="fa-solid fa-envelope"></i> huycan01020304@gmail.com</p>
+
+                <div class="social-links">
+                    <a href="https://www.facebook.com/leduocha123?locale=vi_VN" target="_blank"><i
+                            class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/ah.cdou_/" target="_blank"><i
+                            class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@wowowowowowowoow4" target="_blank"><i
+                            class="fa-brands fa-tiktok"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="project-disclaimer">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <strong>DISCLAIMER:</strong> This is a personal learning project.
+                    Hotel names are used for demonstration purposes only.
+                </p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Booking Hotels International. Thiết kế bởi nhóm bài tập lớn.</p>
+                <div class="payment-icons">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="../hotel/detail.js"></script>
 </body>
