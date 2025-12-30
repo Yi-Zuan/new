@@ -29,9 +29,9 @@ const dbConnection = mysql.createPool({
 
 dbConnection.getConnection((err, connection) => {
     if (err) {
-        console.error('❌ Lỗi kết nối Pool:', err.message);
+        console.error(' Lỗi kết nối ', err.message);
     } else {
-        console.log('✅ Kết nối Database ổn định (Pool mode).');
+        console.log('Kết nối Database thành công');
         connection.release();
     }
 });
